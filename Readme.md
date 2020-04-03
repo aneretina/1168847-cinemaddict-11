@@ -1,7 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Neretina Anna](https://up.htmlacademy.ru/ecmascript/11/user/1168847).
-* Наставник: `Неизвестно`.
+* Наставник: [Мязитов Артем](https://htmlacademy.ru/profile/axema).
 
 ---
 
