@@ -8,13 +8,13 @@ const body = document.querySelector(`body`);
 
 import {createProfileTemplate} from "./components/profile.js";
 import {createMenuTemplate} from "./components/menu.js";
-import {createSortingTemplate} from "./components/sorting.js";
+import {createSortingTemplate} from "./components/menu.js";
 import {createFilmTemplate} from "./components/film.js";
-import {createFilmListTemplate} from "./components/film-list.js";
-import {createFilmCardTemplate} from "./components/film-card.js";
-import {createTopRatedTemplate} from "./components/top-rated.js";
-import {createMostCommentedTemplate} from "./components/most-commented.js";
-import {createShowButtonTemplate} from "./components/show-button.js";
+import {createFilmListTemplate} from "./components/film.js";
+import {createFilmCardTemplate} from "./components/filmCard.js/index.js";
+import {createTopRatedTemplate} from "./components/topRated.js/index.js";
+import {createMostCommentedTemplate} from "./components/mostCommented.js/index.js";
+import {createShowButtonTemplate} from "./components/film.js";
 import {createStatisticsTemplate} from "./components/statistics.js";
 import {createPopupTemplate} from "./components/popup.js";
 
