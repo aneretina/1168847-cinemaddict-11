@@ -1,16 +1,14 @@
 
 import {createProfileTemplate} from "./components/profile.js";
 import {createMenuTemplate} from "./components/menu.js";
-import {createSortingTemplate} from "./components/sorting.js";
 import {createFilmTemplate} from "./components/film.js";
 import {createFilmCardTemplate} from "./components/filmCard.js";
 import {createTopRatedTemplate} from "./components/topRated.js";
 import {createMostCommentedTemplate} from "./components/mostCommented.js";
 import {createStatisticsTemplate} from "./components/statistics.js";
 import {createPopupTemplate} from "./components/popup.js";
-
-const FILM_CARDS = 5;
-const EXTRA_FILM_CARDS = 2;
+import {EXTRA_FILM_CARDS, NUMBER_OF_CARDS} from "./const.js";
+import {generatedFilms} from "./mock/generateFilmCards";
 
 const header = document.querySelector(`.header`);
 const main = document.querySelector(`.main`);
@@ -23,7 +21,6 @@ const render = (container, template, place) => {
 // Отрисовка верхней части: header + main
 render(header, createProfileTemplate(), `beforeend`);
 render(main, createMenuTemplate(), `beforeend`);
-render(main, createSortingTemplate(), `beforeend`);
 render(main, createFilmTemplate(), `beforeend`);
 
 // Отрисовка главных блоков
@@ -37,9 +34,9 @@ render(films, createMostCommentedTemplate(), `beforeend`);
 const filmsList = films.querySelector(`.films-list`);
 const filmsListContainer = filmsList.querySelector(`.films-list__container`);
 
-for (let i = 0; i < FILM_CARDS; i++) {
-  render(filmsListContainer, createFilmCardTemplate(), `beforeend`);
-}
+generatedFilms.slice(0, NUMBER_OF_CARDS)
+  .forEach((film) => render(filmsListContainer, createFilmCardTemplate(film), `beforeend`));
+
 
 // Отрисовка доп карточек (topRated и mostCommented)
 const filmListExtraContainer = main.querySelectorAll(`.films-list--extra`);
