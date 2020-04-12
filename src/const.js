@@ -3,6 +3,20 @@ export const FILM_CARDS = 5;
 export const EXTRA_FILM_CARDS = 2;
 export const NUMBER_OF_CARDS = 20;
 
+export const EMOJIS = [
+  `angry`,
+  `puke`,
+  `sleeping`,
+  `smile`
+];
+
+export const MENU_OPTIONS = [
+  `All`,
+  `Watchlist`,
+  `History`,
+  `Favourites`
+];
+
 export const FILM_TITLES = [
   `The Dance of Life`,
   `The Man with the Golden Arm`,
@@ -13,13 +27,13 @@ export const FILM_TITLES = [
 ];
 
 export const POSTERS = [
-  `made-for-each-other.png`,
-  `popeye-meets-sinbad.png`,
-  `sagebrush-trail.jpg`,
-  `santa-claus-conquers-the-martians.jpg`,
-  `the-dance-of-life.jpg`,
-  `the-great-flamarion.jpg`,
-  `the-man-with-the-golden-arm.jpg`,
+  `images/posters/made-for-each-other.png`,
+  `images/posters/popeye-meets-sinbad.png`,
+  `images/posters/sagebrush-trail.jpg`,
+  `images/posters/santa-claus-conquers-the-martians.jpg`,
+  `images/posters/the-dance-of-life.jpg`,
+  `images/posters/the-great-flamarion.jpg`,
+  `images/posters/the-man-with-the-golden-arm.jpg`,
 ];
 
 export const DESCRIPTIONS = [
@@ -46,10 +60,10 @@ export const GENRES = [
 ];
 
 export const COMMENTS_EMOJIS = [
-  `angry.png`,
-  `puke.png`,
-  `sleeping.png`,
-  `smile.png`,
+  `images/emoji/angry.png`,
+  `images/emoji/puke.png`,
+  `images/emoji/sleeping.png`,
+  `images/emoji/smile.png`,
 ];
 
 export const COMMENTS_AUTHORS = [
