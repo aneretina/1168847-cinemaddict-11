@@ -30,12 +30,7 @@ export const createPopupTemplate = (film) => {
           <div class="film-details__close">
             <button class="film-details__close-btn" type="button">close</button>
           </div>
-          <div class="film-details__info-wrap">
-            <div class="film-details__poster">
-              <img class="film-details__poster-img" src="./images/posters/the-great-flamarion.jpg" alt="">
-    
-              <p class="film-details__age">18+</p>
-            </div>
+
     
             <div class="film-details__info-wrap">
             <div class="film-details__poster">

@@ -7,13 +7,13 @@ import {createTopRatedTemplate} from "./components/topRated.js";
 import {createMostCommentedTemplate} from "./components/mostCommented.js";
 import {createStatisticsTemplate} from "./components/statistics.js";
 import {createPopupTemplate} from "./components/popUp.js";
-import {EXTRA_FILM_CARDS, NUMBER_OF_CARDS} from "./const.js";
+import {EXTRA_FILM_CARDS, FILM_CARDS, NUMBER_OF_CARDS, FILM_CARDS_BY_BUTTON, FILM_COMMENTS} from "./const.js";
 import {generatedFilms} from "./mock/generateFilmCards";
 import {generateComments} from "./mock/generateComments";
 import {generateMenu} from "./mock/generateMenu";
 
-let showingFilmsCount = NUMBER_OF_CARDS;
-const FILM_CARDS_BY_BUTTON = 5;
+let showingFilmsCount = FILM_CARDS;
+
 
 const firstCard = generatedFilms[0];
 const menu = generateMenu();
@@ -33,8 +33,9 @@ render(main, createFilmTemplate(), `beforeend`);
 
 // Отрисовка карточек фильмов
 const films = main.querySelector(`.films`);
-const filmsList = main.querySelector(`.films-list`);
+const filmsList = films.querySelector(`.films-list`);
 const filmsListContainer = filmsList.querySelector(`.films-list__container`);
+
 
 generatedFilms.slice(0, NUMBER_OF_CARDS)
   .forEach((film) => render(filmsListContainer, createFilmCardTemplate(film), `beforeend`));
@@ -91,4 +92,4 @@ popUpCloseButton.addEventListener(`click`, () => {
   popUp.remove();
 });
 
-render(commentsListContainer, generateComments(4), `beforeend`);
+render(commentsListContainer, generateComments(FILM_COMMENTS), `beforeend`);
