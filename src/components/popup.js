@@ -1,5 +1,6 @@
 
 import {EMOJIS} from "../const.js";
+import {createCommentsTemplate} from "../components/comment.js";
 
 const createEmojiMarkup = (emojis) => {
   return emojis
@@ -15,14 +16,25 @@ const createEmojiMarkup = (emojis) => {
 
 const createEmojis = createEmojiMarkup(EMOJIS);
 
+export const createControlsTemplate = (control, isActive) => {
+  const {addToWatchList, markAsWatched, favourite} = control;
+  return (
+    `<input type="checkbox" class="film-details__control-input visually-hidden" id="" name="watchlist" ${addToWatchList} ${isActive ? `active` : ``}>
+    <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
+
+    <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${markAsWatched} ${isActive ? `active` : ``}>
+    <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
+
+    <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${favourite} ${isActive ? `active` : ``}>
+    <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>`
+  );
+};
+
+
 export const createPopupTemplate = (film) => {
-  const {poster, title, description, rating, duration, genre} = film;
-  const originalTitle = `The Great Flamarion`;
-  const director = `Anthony Mann`;
-  const writers = `Anne Wigton, Heinz Herald, Richard Weil`;
-  const actors = `Erich von Stroheim, Mary Beth Hughes, Dan Duryea`;
-  const releaseDate = `30 March 1945`;
-  const country = `USA`;
+  const {poster, title, description, rating, duration, genre, comments, originalTitle, director, writers, actors, releaseDate, country} = film;
+  const createComments = createCommentsTemplate(comments);
+  const controls = createControlsTemplate(film);
   return (
     `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
@@ -34,7 +46,7 @@ export const createPopupTemplate = (film) => {
     
             <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src=${poster} alt="">
+              <img class="film-details__poster-img" src=${poster} alt="${title}">
     
               <p class="film-details__age">18+</p>
             </div>
@@ -91,23 +103,16 @@ export const createPopupTemplate = (film) => {
           </div>
     
           <section class="film-details__controls">
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
-            <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
-    
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
-            <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
-    
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
-            <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
+            ${controls}
           </section>
         </div>
     
         <div class="form-details__bottom-container">
           <section class="film-details__comments-wrap">
-            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
+            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
              <ul class="film-details__comments-list">
-               
+             ${createComments}
               </ul>
 
             <div class="film-details__new-comment">

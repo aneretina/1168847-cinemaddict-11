@@ -1,7 +1,6 @@
 
 import {COMMENTS_EMOJIS, COMMENTS_TEXTS, COMMENTS_AUTHORS} from "../const.js";
-import {getRandomItem, getRandomDate} from "../utils.js";
-import {createCommentsTemplate} from "../components/comment.js";
+import {getRandomItem, getRandomDate, getRandomNumber} from "../utils.js";
 
 const generateComment = () => {
   return {
@@ -12,9 +11,9 @@ const generateComment = () => {
   };
 };
 
-export const generateComments = (count) => {
-  let comments = new Array(count)
+export const generateComments = () => {
+  return new Array(getRandomNumber(1, 5))
         .fill(``)
         .map(generateComment);
-  return comments.map((it) => createCommentsTemplate(it)).join(`\n`);
 };
+

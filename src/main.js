@@ -7,9 +7,8 @@ import {createTopRatedTemplate} from "./components/topRated.js";
 import {createMostCommentedTemplate} from "./components/mostCommented.js";
 import {createStatisticsTemplate} from "./components/statistics.js";
 import {createPopupTemplate} from "./components/popUp.js";
-import {EXTRA_FILM_CARDS, FILM_CARDS, NUMBER_OF_CARDS, FILM_CARDS_BY_BUTTON, FILM_COMMENTS} from "./const.js";
+import {EXTRA_FILM_CARDS, FILM_CARDS, FILM_CARDS_BY_BUTTON} from "./const.js";
 import {generatedFilms} from "./mock/generateFilmCards";
-import {generateComments} from "./mock/generateComments";
 import {generateMenu} from "./mock/generateMenu";
 
 let showingFilmsCount = FILM_CARDS;
@@ -37,7 +36,7 @@ const filmsList = films.querySelector(`.films-list`);
 const filmsListContainer = filmsList.querySelector(`.films-list__container`);
 
 
-generatedFilms.slice(0, NUMBER_OF_CARDS)
+generatedFilms.slice(0, showingFilmsCount)
   .forEach((film) => render(filmsListContainer, createFilmCardTemplate(film), `beforeend`));
 
 
@@ -46,9 +45,9 @@ const showMoreBtn = main.querySelector(`.films-list__show-more`);
 
 showMoreBtn.addEventListener(`click`, () => {
   const prevFilmsCount = showingFilmsCount;
-  showingFilmsCount = prevFilmsCount + FILM_CARDS_BY_BUTTON;
+  showingFilmsCount = showingFilmsCount + FILM_CARDS_BY_BUTTON;
 
-  generatedFilms.slice(prevFilmsCount, showingFilmsCount).forEach((card) => render(filmsList, createFilmCardTemplate(card), `beforeend`));
+  generatedFilms.slice(prevFilmsCount, showingFilmsCount).forEach((film) => render(filmsListContainer, createFilmCardTemplate(film), `beforeend`));
 
   if (showingFilmsCount >= generatedFilms.length) {
     showMoreBtn.remove();
@@ -57,7 +56,7 @@ showMoreBtn.addEventListener(`click`, () => {
 
 // Отрисовка доп карточек (topRated и mostCommented)
 
-const mostCommentedFilms = generatedFilms.slice().sort((a, b) => a.comments > b.comments.length ? -1 : 1);
+const mostCommentedFilms = generatedFilms.slice().sort((a, b) => a.comments.length >= b.comments.length ? -1 : 1);
 const topRatedFilms = generatedFilms.slice().sort((a, b) => a.rating > b.rating ? -1 : 1);
 
 render(films, createTopRatedTemplate(), `beforeend`);
@@ -85,11 +84,10 @@ render(footerStatistics, createStatisticsTemplate(), `beforeend`);
 render(body, createPopupTemplate(firstCard), `beforeend`);
 
 const popUp = document.querySelector(`.film-details`);
-const commentsListContainer = popUp.querySelector(`.film-details__comments-list`);
+// const commentsListContainer = popUp.querySelector(`.film-details__comments-list`);
 const popUpCloseButton = popUp.querySelector(`.film-details__close-btn`);
 
 popUpCloseButton.addEventListener(`click`, () => {
   popUp.remove();
 });
 
-render(commentsListContainer, generateComments(FILM_COMMENTS), `beforeend`);
