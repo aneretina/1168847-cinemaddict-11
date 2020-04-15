@@ -1,14 +1,14 @@
 
-const createMenuMarkup = (menu, isActive) => {
-  const {menuOption, count} = menu;
+const createMenuMarkup = (menuOption, isActive) => {
+  const {name, count} = menuOption;
 
   return (
-    `<a href="#${menuOption}" class="main-navigation__item ${isActive ? `main-navigation__item--active` : ``}">${menuOption} ${isActive ? `movies` : ``} ${!isActive ? `<span class="main-navigation__item-count">${count}</span>` : ``}</a>`
+    `<a href="#${name}" class="main-navigation__item ${isActive ? `main-navigation__item--active` : ``}">${name} ${isActive ? `movies` : ``} ${!isActive ? `<span class="main-navigation__item-count">${count}</span>` : ``}</a>`
   );
 };
 
-export const createMenuTemplate = (menuItems) => {
-  const menuMarkup = menuItems.map((it, i) => createMenuMarkup(it, i === 0)).join(`\n`);
+export const createMenuTemplate = (menuOptions) => {
+  const menuMarkup = menuOptions.map((it, i) => createMenuMarkup(it, i === 0)).join(`\n`);
   return (
     `<nav class="main-navigation">
       <div class="main-navigation__items">

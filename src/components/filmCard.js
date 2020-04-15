@@ -1,10 +1,10 @@
 
-export const createControlsTemplate = (control, isActive) => {
-  const {addToWatchList, markAsWatched, favourite} = control;
+export const createControlsTemplate = (control) => {
+  const {addToWatchList, markAsWatched, favorite} = control;
   return (
-    `<button class="film-card__controls-item button film-card__controls-item--${addToWatchList} ${isActive ? `active` : ``}">Add to watchlist</button>
-     <button class="film-card__controls-item button film-card__controls-item--${markAsWatched} ${isActive ? `active` : ``}">Mark as watched</button>
-     <button class="film-card__controls-item button film-card__controls-item--${favourite} ${isActive ? `active` : ``}">Mark as favorite</button>`
+    `<button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${addToWatchList ? `active` : ``}">Add to watchlist</button>
+     <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${markAsWatched ? `active` : ``}">Mark as watched</button>
+     <button class="film-card__controls-item button film-card__controls-item--favorite ${favorite ? `active` : ``}">Mark as favorite</button>`
   );
 };
 

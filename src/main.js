@@ -6,7 +6,7 @@ import {createFilmCardTemplate} from "./components/filmCard.js";
 import {createTopRatedTemplate} from "./components/topRated.js";
 import {createMostCommentedTemplate} from "./components/mostCommented.js";
 import {createStatisticsTemplate} from "./components/statistics.js";
-import {createPopupTemplate} from "./components/popUp.js";
+import {createPopupTemplate} from "./components/popup.js";
 import {EXTRA_FILM_CARDS, FILM_CARDS, FILM_CARDS_BY_BUTTON} from "./const.js";
 import {generatedFilms} from "./mock/generateFilmCards";
 import {generateMenu} from "./mock/generateMenu";
@@ -15,7 +15,7 @@ let showingFilmsCount = FILM_CARDS;
 
 
 const firstCard = generatedFilms[0];
-const menu = generateMenu();
+const menu = generateMenu(generatedFilms);
 
 const header = document.querySelector(`.header`);
 const main = document.querySelector(`.main`);

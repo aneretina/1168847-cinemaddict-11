@@ -22,7 +22,7 @@ export const MENU_OPTIONS = [
   `All`,
   `Watchlist`,
   `History`,
-  `Favourites`
+  `Favorites`
 ];
 
 export const FILM_TITLES = [

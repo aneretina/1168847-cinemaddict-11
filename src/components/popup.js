@@ -1,6 +1,6 @@
 
 import {EMOJIS} from "../const.js";
-import {createCommentsTemplate} from "../components/comment.js";
+import {createCommentsTemplate} from "./comment.js";
 
 const createEmojiMarkup = (emojis) => {
   return emojis
@@ -16,17 +16,17 @@ const createEmojiMarkup = (emojis) => {
 
 const createEmojis = createEmojiMarkup(EMOJIS);
 
-export const createControlsTemplate = (control, isActive) => {
-  const {addToWatchList, markAsWatched, favourite} = control;
+export const createControlsTemplate = (control) => {
+  const {addToWatchList, markAsWatched, favorite} = control;
   return (
-    `<input type="checkbox" class="film-details__control-input visually-hidden" id="" name="watchlist" ${addToWatchList} ${isActive ? `active` : ``}>
-    <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
+    `<input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+    <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist ${addToWatchList ? `active` : ``}">Add to watchlist</label>
 
-    <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${markAsWatched} ${isActive ? `active` : ``}>
-    <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
+    <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+    <label for="watched" class="film-details__control-label film-details__control-label--watched ${markAsWatched ? `active` : ``}">Already watched</label>
 
-    <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${favourite} ${isActive ? `active` : ``}>
-    <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>`
+    <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+    <label for="favorite" class="film-details__control-label film-details__control-label--favorite ${favorite ? `active` : ``}">Add to favorites</label>`
   );
 };
 

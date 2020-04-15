@@ -20,7 +20,7 @@ export const generateFilm = () => {
     comments: generateComments(),
     addToWatchList: (Math.floor(Math.random() * 2) === 0),
     markAsWatched: (Math.floor(Math.random() * 2) === 0),
-    favourite: (Math.floor(Math.random() * 2) === 0)
+    favorite: (Math.floor(Math.random() * 2) === 0)
   };
 };
 
