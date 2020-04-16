@@ -1,4 +1,4 @@
-import {FILM_TITLES, POSTERS, DESCRIPTIONS, GENRES, NUMBER_OF_CARDS, ORIGINAL_TITLE, DIRECTOR, WRITERS, ACTORS, RELEASE_DATE, COUNTRY} from "../const.js";
+import {FILM_TITLES, POSTERS, DESCRIPTIONS, GENRES, TOTAL_NUMBER_OF_CARDS, ORIGINAL_TITLE, DIRECTOR, WRITERS, ACTORS, RELEASE_DATE, COUNTRY} from "../const.js";
 import {getRandomItem, getRandomNumber, getRandomDuration} from "../utils.js";
 import {generateComments} from "./generateComments.js";
 
@@ -18,9 +18,9 @@ export const generateFilm = () => {
     rating: Math.floor(Math.random() * 10),
     duration: getRandomDuration(115),
     comments: generateComments(),
-    addToWatchList: (Math.floor(Math.random() * 2) === 0),
-    markAsWatched: (Math.floor(Math.random() * 2) === 0),
-    favorite: (Math.floor(Math.random() * 2) === 0)
+    addedToWatchList: (Math.floor(Math.random() * 2) === 0),
+    markedAsWatched: (Math.floor(Math.random() * 2) === 0),
+    isFavorite: (Math.floor(Math.random() * 2) === 0)
   };
 };
 
@@ -30,5 +30,5 @@ const generateFilms = (count) => {
       .map(generateFilm);
 };
 
-export const generatedFilms = generateFilms(NUMBER_OF_CARDS);
+export const generatedFilms = generateFilms(TOTAL_NUMBER_OF_CARDS);
 

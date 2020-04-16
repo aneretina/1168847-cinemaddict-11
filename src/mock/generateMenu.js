@@ -4,13 +4,13 @@ export const generateMenu = (generatedFilms) => {
   let filteredFilms = [0, 0, 0, 0];
 
   generatedFilms.forEach((film) => {
-    if (film.addToWatchList) {
+    if (film.addedToWatchList) {
       filteredFilms[1]++;
     }
-    if (film.markAsWatched) {
+    if (film.markedAsWatched) {
       filteredFilms[2]++;
     }
-    if (film.favorite) {
+    if (film.isFavorite) {
       filteredFilms[3]++;
     }
   });

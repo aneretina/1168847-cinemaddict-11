@@ -17,16 +17,16 @@ const createEmojiMarkup = (emojis) => {
 const createEmojis = createEmojiMarkup(EMOJIS);
 
 export const createControlsTemplate = (control) => {
-  const {addToWatchList, markAsWatched, favorite} = control;
+  const {addedToWatchList, markedAsWatched, isFavorite} = control;
   return (
     `<input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
-    <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist ${addToWatchList ? `active` : ``}">Add to watchlist</label>
+    <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist ${addedToWatchList ? `active` : ``}">Add to watchlist</label>
 
     <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
-    <label for="watched" class="film-details__control-label film-details__control-label--watched ${markAsWatched ? `active` : ``}">Already watched</label>
+    <label for="watched" class="film-details__control-label film-details__control-label--watched ${markedAsWatched ? `active` : ``}">Already watched</label>
 
     <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
-    <label for="favorite" class="film-details__control-label film-details__control-label--favorite ${favorite ? `active` : ``}">Add to favorites</label>`
+    <label for="favorite" class="film-details__control-label film-details__control-label--favorite ${isFavorite ? `active` : ``}">Add to favorites</label>`
   );
 };
 

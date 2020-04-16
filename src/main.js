@@ -7,11 +7,11 @@ import {createTopRatedTemplate} from "./components/topRated.js";
 import {createMostCommentedTemplate} from "./components/mostCommented.js";
 import {createStatisticsTemplate} from "./components/statistics.js";
 import {createPopupTemplate} from "./components/popup.js";
-import {EXTRA_FILM_CARDS, FILM_CARDS, FILM_CARDS_BY_BUTTON} from "./const.js";
+import {EXTRA_FILM_CARDS, FILM_CARDS_PER_ROW, FILM_CARDS_BY_BUTTON} from "./const.js";
 import {generatedFilms} from "./mock/generateFilmCards";
 import {generateMenu} from "./mock/generateMenu";
 
-let showingFilmsCount = FILM_CARDS;
+let showingFilmsCount = FILM_CARDS_PER_ROW;
 
 
 const firstCard = generatedFilms[0];
