@@ -1,5 +1,6 @@
+import {createElement} from "../utils.js";
 
-export const createCommentsTemplate = (comments) => {
+const createCommentsTemplate = (comments) => {
   return comments
     .map((comment) => {
       return (
@@ -19,3 +20,27 @@ export const createCommentsTemplate = (comments) => {
       );
     }).join(`\n`);
 };
+
+export default class Comments {
+  constructor(comments) {
+    this._comments = comments;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createCommentsTemplate(this._comments);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

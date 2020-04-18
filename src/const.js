@@ -11,6 +11,13 @@ export const ACTORS = `Erich von Stroheim, Mary Beth Hughes, Dan Duryea`;
 export const RELEASE_DATE = `30 March 1945`;
 export const COUNTRY = `USA`;
 
+export const ESC_KEY = `Escape`;
+
+export const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`
+};
+
 export const EMOJIS = [
   `angry`,
   `puke`,

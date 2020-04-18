@@ -1,6 +1,7 @@
+import {createElement} from "../utils.js";
 
 import {EMOJIS} from "../const.js";
-import {createCommentsTemplate} from "./comment.js";
+import CommentsComponent from "./comment.js";
 
 const createEmojiMarkup = (emojis) => {
   return emojis
@@ -16,7 +17,7 @@ const createEmojiMarkup = (emojis) => {
 
 const createEmojis = createEmojiMarkup(EMOJIS);
 
-export const createControlsTemplate = (control) => {
+const createControlsTemplate = (control) => {
   const {addedToWatchList, markedAsWatched, isFavorite} = control;
   return (
     `<input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
@@ -31,9 +32,9 @@ export const createControlsTemplate = (control) => {
 };
 
 
-export const createPopupTemplate = (film) => {
+const createPopupTemplate = (film) => {
   const {poster, title, description, rating, duration, genre, comments, originalTitle, director, writers, actors, releaseDate, country} = film;
-  const createComments = createCommentsTemplate(comments);
+  const createComments = new CommentsComponent();
   const controls = createControlsTemplate(film);
   return (
     `<section class="film-details">
@@ -132,3 +133,26 @@ export const createPopupTemplate = (film) => {
     </section>`
   );
 };
+
+export default class Popup {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createPopupTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
