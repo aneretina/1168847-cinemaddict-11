@@ -1,7 +1,27 @@
 import {createElement} from "../utils.js";
 
 import {EMOJIS} from "../const.js";
-import CommentsComponent from "./comment.js";
+
+const createCommentsTemplate = (comments) => {
+  return comments
+    .map((comment) => {
+      return (
+        `<li class="film-details__comment">
+      <span class="film-details__comment-emoji">
+      <img src=${comment.emoji} width="55" height="55" alt="emoji-smile">
+    </span>
+    <div>
+      <p class="film-details__comment-text">${comment.text}</p>
+      <p class="film-details__comment-info">
+        <span class="film-details__comment-author">${comment.author}</span>
+        <span class="film-details__comment-day">${comment.date}</span>
+        <button class="film-details__comment-delete">Delete</button>
+      </p>
+    </div>
+  </li>`
+      );
+    }).join(`\n`);
+};
 
 const createEmojiMarkup = (emojis) => {
   return emojis
@@ -34,7 +54,7 @@ const createControlsTemplate = (control) => {
 
 const createPopupTemplate = (film) => {
   const {poster, title, description, rating, duration, genre, comments, originalTitle, director, writers, actors, releaseDate, country} = film;
-  const createComments = new CommentsComponent();
+  const createComments = createCommentsTemplate(comments);
   const controls = createControlsTemplate(film);
   return (
     `<section class="film-details">
