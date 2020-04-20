@@ -9,11 +9,11 @@ const createMenuMarkup = (menuOption, isActive) => {
 };
 
 const createMenuTemplate = (menuOptions) => {
-  const menuMarkup = menuOptions.map((it, i) => createMenuMarkup(it, i === 0)).join(`\n`);
+  const menuMarkupItem = menuOptions.map((it, i) => createMenuMarkup(it, i === 0)).join(`\n`);
   return (
     `<nav class="main-navigation">
       <div class="main-navigation__items">
-      ${menuMarkup}
+      ${menuMarkupItem}
       </div>
      <a href="#stats" class="main-navigation__additional">Stats</a>
     </nav>
