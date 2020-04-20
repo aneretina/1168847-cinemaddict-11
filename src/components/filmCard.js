@@ -1,5 +1,6 @@
+import {createElement} from "../utils.js";
 
-export const createControlsTemplate = (control) => {
+const createControlsTemplate = (control) => {
   const {addToWatchList, markAsWatched, favorite} = control;
   return (
     `<button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${addToWatchList ? `active` : ``}">Add to watchlist</button>
@@ -8,7 +9,7 @@ export const createControlsTemplate = (control) => {
   );
 };
 
-export const createFilmCardTemplate = (film) => {
+const createFilmCardTemplate = (film) => {
   const {title, poster, description, comments, rating, year, duration, genre} = film;
   const controls = createControlsTemplate(film);
   return (
@@ -29,3 +30,26 @@ export const createFilmCardTemplate = (film) => {
       </article>`
   );
 };
+
+export default class FilmCard {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmCardTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

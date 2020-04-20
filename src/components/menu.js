@@ -1,3 +1,4 @@
+import {createElement} from "../utils.js";
 
 const createMenuMarkup = (menuOption, isActive) => {
   const {name, count} = menuOption;
@@ -7,12 +8,12 @@ const createMenuMarkup = (menuOption, isActive) => {
   );
 };
 
-export const createMenuTemplate = (menuOptions) => {
-  const menuMarkup = menuOptions.map((it, i) => createMenuMarkup(it, i === 0)).join(`\n`);
+const createMenuTemplate = (menuOptions) => {
+  const menuMarkupItem = menuOptions.map((it, i) => createMenuMarkup(it, i === 0)).join(`\n`);
   return (
     `<nav class="main-navigation">
       <div class="main-navigation__items">
-      ${menuMarkup}
+      ${menuMarkupItem}
       </div>
      <a href="#stats" class="main-navigation__additional">Stats</a>
     </nav>
@@ -23,3 +24,27 @@ export const createMenuTemplate = (menuOptions) => {
     </ul>`
   );
 };
+
+
+export default class Menu {
+  constructor(menuOptions) {
+    this._menuOptions = menuOptions;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createMenuTemplate(this._menuOptions);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
