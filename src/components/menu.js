@@ -1,6 +1,6 @@
 import {createElement} from "../utils.js";
 
-const createMenuMarkup = (menuOption, isActive) => {
+const createMenuMarkupItem = (menuOption, isActive) => {
   const {name, count} = menuOption;
 
   return (
@@ -9,7 +9,7 @@ const createMenuMarkup = (menuOption, isActive) => {
 };
 
 const createMenuTemplate = (menuOptions) => {
-  const menuMarkupItem = menuOptions.map((it, i) => createMenuMarkup(it, i === 0)).join(`\n`);
+  const menuMarkupItem = menuOptions.map((it, i) => createMenuMarkupItem(it, i === 0)).join(`\n`);
   return (
     `<nav class="main-navigation">
       <div class="main-navigation__items">

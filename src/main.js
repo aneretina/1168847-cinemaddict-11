@@ -6,6 +6,7 @@ import FilmCardComponent from "./components/filmCard.js";
 import TopRatedComponent from "./components/topRated.js";
 import MostCommentedComponent from "./components/mostCommented.js";
 import StatisticsComponent from "./components/statistics.js";
+import NoFilmsComponent from "./components/noFilms.js";
 import PopupComponent from "./components/popup.js";
 import {EXTRA_FILM_CARDS, FILM_CARDS_PER_ROW, FILM_CARDS_BY_BUTTON, RenderPosition, ESC_KEY} from "./const.js";
 import {generatedFilms} from "./mock/generateFilmCards";
@@ -73,6 +74,11 @@ const renderFilmCollections = (container, films) => {
 
   films.slice(0, showingFilmsCount)
   .forEach((film) => renderFilm(filmsListContainer, film, RenderPosition.BEFOREEND));
+
+  if (generatedFilms.length === 0) {
+    render(filmComponent.getElement(), new NoFilmsComponent().getElement(), RenderPosition.BEFOREEND);
+    return;
+  }
 
   const mostCommentedFilms = generatedFilms.slice().sort((a, b) => a.comments.length >= b.comments.length ? -1 : 1);
   const topRatedFilms = generatedFilms.slice().sort((a, b) => a.rating > b.rating ? -1 : 1);
