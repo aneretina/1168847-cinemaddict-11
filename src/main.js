@@ -20,9 +20,6 @@ const body = document.querySelector(`body`);
 const footer = document.querySelector(`.footer`);
 const footerStatistics = footer.querySelector(`.footer__statistics`);
 
-const filmComponent = new FilmComponent();
-const showMoreBtn = filmComponent.getElement().querySelector(`.films-list__show-more`);
-
 const renderFilm = (container, film, position) => {
   const popupComponent = new PopupComponent(film);
   const popupElement = popupComponent.getElement();
@@ -61,21 +58,19 @@ const renderFilm = (container, film, position) => {
   });
 };
 
+const renderNoFilmList = (container) => {
+  render(main, container.getElement(), RenderPosition.BEFOREEND);
+};
 
 const renderFilmCollections = (container, films) => {
   const topRatedComponent = new TopRatedComponent();
   const mostCommentedComponent = new MostCommentedComponent();
-  const filmsList = container.getElement().querySelector(`.films-list`);
   const filmsListContainer = container.getElement().querySelector(`.films-list__container`);
+  const showMoreBtn = filmComponent.getElement().querySelector(`.films-list__show-more`);
   const topRatedFilmsContainer = topRatedComponent.getElement().querySelector(`.films-list__container`);
   const mostCommentedFilmsContainer = mostCommentedComponent.getElement().querySelector(`.films-list__container`);
 
   render(main, filmComponent.getElement(), RenderPosition.BEFOREEND);
-
-  if (generatedFilms.length === 0) {
-    render(filmsList, new FilmComponent(`There are no movies in our database`, true).getElement(), RenderPosition.AFTERBEGIN);
-    return;
-  }
 
   films.slice(0, showingFilmsCount)
   .forEach((film) => renderFilm(filmsListContainer, film, RenderPosition.BEFOREEND));
@@ -91,7 +86,6 @@ const renderFilmCollections = (container, films) => {
   mostCommentedFilms.slice(0, EXTRA_FILM_CARDS)
   .forEach((film) => renderFilm(mostCommentedFilmsContainer, film, RenderPosition.BEFOREEND));
 
-
   showMoreBtn.addEventListener(`click`, () => {
     const prevFilmsCount = showingFilmsCount;
     showingFilmsCount = showingFilmsCount + FILM_CARDS_BY_BUTTON;
@@ -104,10 +98,19 @@ const renderFilmCollections = (container, films) => {
   });
 };
 
+let filmComponent;
+
 const menu = generateMenu(generatedFilms);
 
 render(header, new ProfileComponent().getElement(), RenderPosition.BEFOREEND);
 render(main, new MenuComponent(menu).getElement(), RenderPosition.BEFOREEND);
 render(footerStatistics, new StatisticsComponent().getElement(), RenderPosition.BEFOREEND);
 
-renderFilmCollections(filmComponent, generatedFilms);
+if (generatedFilms.length === 0) {
+  filmComponent = new FilmComponent(`There are no movies in our database`, true);
+  renderNoFilmList(filmComponent);
+} else {
+  filmComponent = new FilmComponent(`All movies. Upcoming`, false);
+  renderFilmCollections(filmComponent, generatedFilms);
+}
+

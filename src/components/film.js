@@ -6,7 +6,7 @@ const createFilmTemplate = (title, isTitleVisible) => {
       <section class="films-list">
         <h2 class="films-list__title ${isTitleVisible ? `` : `visually-hidden`}">${title}</h2>
         <div class="films-list__container"></div>
-        <button class="films-list__show-more">Show more</button>
+        <button class="films-list__show-more ${isTitleVisible ? `visually-hidden` : ``}">Show more</button>
       </section>
     </section>`
   );
