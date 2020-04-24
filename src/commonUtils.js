@@ -1,4 +1,4 @@
-import {MINUTES_IN_HOUR, RenderPosition} from "./const.js";
+export const MINUTES_IN_HOUR = 60;
 
 export const getRandomNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
@@ -20,21 +20,4 @@ export const getRandomDate = (start, end) => {
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 };
 
-export const render = (container, element, place) => {
-  switch (place) {
-    case RenderPosition.AFTERBEGIN:
-      container.prepend(element);
-      break;
-    case RenderPosition.BEFOREEND:
-      container.append(element);
-      break;
-  }
-};
-
-export const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-
-  return newElement.firstChild;
-};
 

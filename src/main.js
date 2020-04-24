@@ -7,10 +7,10 @@ import TopRatedComponent from "./components/topRated.js";
 import MostCommentedComponent from "./components/mostCommented.js";
 import StatisticsComponent from "./components/statistics.js";
 import PopupComponent from "./components/popup.js";
-import {EXTRA_FILM_CARDS, FILM_CARDS_PER_ROW, FILM_CARDS_BY_BUTTON, RenderPosition, ESC_KEY} from "./const.js";
+import {EXTRA_FILM_CARDS, FILM_CARDS_PER_ROW, FILM_CARDS_BY_BUTTON, ESC_KEY} from "./const.js";
 import {generatedFilms} from "./mock/generateFilmCards";
 import {generateMenu} from "./mock/generateMenu";
-import {render} from "./utils.js";
+import {render, RenderPosition, replace, remove} from "./renderUtils";
 
 let showingFilmsCount = FILM_CARDS_PER_ROW;
 
@@ -49,7 +49,7 @@ const renderFilm = (container, film, position) => {
   };
 
   const filmCardComponent = new FilmCardComponent(film);
-  render(container, filmCardComponent.getElement(), position);
+  render(container, filmCardComponent, position);
 
   popupShowElements.forEach((element) => {
     filmCardComponent.getElement()
@@ -59,7 +59,7 @@ const renderFilm = (container, film, position) => {
 };
 
 const renderNoFilmList = (container) => {
-  render(main, container.getElement(), RenderPosition.BEFOREEND);
+  render(main, container, RenderPosition.BEFOREEND);
 };
 
 const renderFilmCollections = (container, films) => {
@@ -70,15 +70,15 @@ const renderFilmCollections = (container, films) => {
   const topRatedFilmsContainer = topRatedComponent.getElement().querySelector(`.films-list__container`);
   const mostCommentedFilmsContainer = mostCommentedComponent.getElement().querySelector(`.films-list__container`);
 
-  render(main, filmComponent.getElement(), RenderPosition.BEFOREEND);
+  render(main, filmComponent, RenderPosition.BEFOREEND);
 
   films.slice(0, showingFilmsCount)
   .forEach((film) => renderFilm(filmsListContainer, film, RenderPosition.BEFOREEND));
 
   const mostCommentedFilms = generatedFilms.slice().sort((a, b) => a.comments.length >= b.comments.length ? -1 : 1);
   const topRatedFilms = generatedFilms.slice().sort((a, b) => a.rating > b.rating ? -1 : 1);
-  render(filmComponent.getElement(), topRatedComponent.getElement(), RenderPosition.BEFOREEND);
-  render(filmComponent.getElement(), mostCommentedComponent.getElement(), RenderPosition.BEFOREEND);
+  render(filmComponent.getElement(), topRatedComponent, RenderPosition.BEFOREEND);
+  render(filmComponent.getElement(), mostCommentedComponent, RenderPosition.BEFOREEND);
 
   topRatedFilms.slice(0, EXTRA_FILM_CARDS)
    .forEach((film) => renderFilm(topRatedFilmsContainer, film, RenderPosition.BEFOREEND));
@@ -102,9 +102,9 @@ let filmComponent;
 
 const menu = generateMenu(generatedFilms);
 
-render(header, new ProfileComponent().getElement(), RenderPosition.BEFOREEND);
-render(main, new MenuComponent(menu).getElement(), RenderPosition.BEFOREEND);
-render(footerStatistics, new StatisticsComponent().getElement(), RenderPosition.BEFOREEND);
+render(header, new ProfileComponent(), RenderPosition.BEFOREEND);
+render(main, new MenuComponent(menu), RenderPosition.BEFOREEND);
+render(footerStatistics, new StatisticsComponent(), RenderPosition.BEFOREEND);
 
 if (generatedFilms.length === 0) {
   filmComponent = new FilmComponent(`There are no movies in our database`, true);

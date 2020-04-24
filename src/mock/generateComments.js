@@ -1,6 +1,6 @@
 
 import {COMMENTS_EMOJIS, COMMENTS_TEXTS, COMMENTS_AUTHORS} from "../const.js";
-import {getRandomItem, getRandomDate, getRandomNumber} from "../utils.js";
+import {getRandomItem, getRandomDate, getRandomNumber} from "../commonUtils";
 
 const generateComment = () => {
   return {

@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import AbstractComponent from "./abstractComponent.js";
 
 const createFilmTemplate = (title, isTitleVisible) => {
   return (
@@ -12,26 +12,18 @@ const createFilmTemplate = (title, isTitleVisible) => {
   );
 };
 
-export default class Film {
+export default class Film extends AbstractComponent {
   constructor(title, isTitleVisible) {
+    super();
     this._title = title;
     this._isTitleVisible = isTitleVisible;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmTemplate(this._title, this._isTitleVisible);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setClickHandler(handler) {
+    this.addEventListener(`click`, handler);
   }
 }

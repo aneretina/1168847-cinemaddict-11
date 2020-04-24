@@ -1,5 +1,5 @@
 import {FILM_TITLES, POSTERS, DESCRIPTIONS, GENRES, TOTAL_NUMBER_OF_CARDS, ORIGINAL_TITLE, DIRECTOR, WRITERS, ACTORS, RELEASE_DATE, COUNTRY} from "../const.js";
-import {getRandomItem, getRandomNumber, getRandomDuration} from "../utils.js";
+import {getRandomItem, getRandomNumber, getRandomDuration} from "../commonUtils.js";
 import {generateComments} from "./generateComments.js";
 
 export const generateFilm = () => {
