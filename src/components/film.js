@@ -17,14 +17,15 @@ export default class Film extends AbstractComponent {
     super();
     this._title = title;
     this._isTitleVisible = isTitleVisible;
+    this._showMoreButton = this.getElement().querySelector(`.films-list__show-more`);
   }
 
   setClickShowMoreBtnHandler(handler) {
-    this.getElement().querySelector(`.films-list__show-more`).addEventListener(`click`, handler);
+    this._showMoreButton.addEventListener(`click`, handler);
   }
 
   removeShowMoreBtn() {
-    this.getElement().querySelector(`.films-list__show-more`).remove();
+    this._showMoreButton.remove();
   }
 
   getTemplate() {

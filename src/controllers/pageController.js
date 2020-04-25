@@ -72,7 +72,7 @@ const renderFilmCollections = (container, films) => {
     films.slice(prevFilmsCount, showingFilmsCount).forEach((film) => renderFilm(filmsListContainer, film, RenderPosition.BEFOREEND));
 
     if (showingFilmsCount >= generatedFilms.length) {
-      filmComponent.removeShowMoreButton();
+      filmComponent.removeShowMoreBtn();
     }
   });
 };
