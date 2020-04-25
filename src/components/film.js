@@ -19,11 +19,15 @@ export default class Film extends AbstractComponent {
     this._isTitleVisible = isTitleVisible;
   }
 
-  getTemplate() {
-    return createFilmTemplate(this._title, this._isTitleVisible);
+  setClickShowMoreBtnHandler(handler) {
+    this.getElement().querySelector(`.films-list__show-more`).addEventListener(`click`, handler);
   }
 
-  setClickHandler(handler) {
-    this.addEventListener(`click`, handler);
+  removeShowMoreBtn() {
+    this.getElement().querySelector(`.films-list__show-more`).remove();
+  }
+
+  getTemplate() {
+    return createFilmTemplate(this._title, this._isTitleVisible);
   }
 }

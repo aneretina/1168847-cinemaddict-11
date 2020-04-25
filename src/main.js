@@ -10,7 +10,7 @@ import PopupComponent from "./components/popup.js";
 import {EXTRA_FILM_CARDS, FILM_CARDS_PER_ROW, FILM_CARDS_BY_BUTTON, ESC_KEY} from "./const.js";
 import {generatedFilms} from "./mock/generateFilmCards";
 import {generateMenu} from "./mock/generateMenu";
-import {render, RenderPosition, replace, remove} from "./renderUtils";
+import {render, RenderPosition} from "./renderUtils";
 
 let showingFilmsCount = FILM_CARDS_PER_ROW;
 
@@ -23,12 +23,10 @@ const footerStatistics = footer.querySelector(`.footer__statistics`);
 const renderFilm = (container, film, position) => {
   const popupComponent = new PopupComponent(film);
   const popupElement = popupComponent.getElement();
-  const popupShowElements = [`.film-card__poster`, `.film-card__title`, `.film-card__comments`];
-  const popupCloseBtn = popupElement.querySelector(`.film-details__close-btn`);
 
   const renderPopup = () => {
     body.appendChild(popupElement);
-    popupCloseBtn.addEventListener(`click`, () => {
+    popupComponent.setClickPopupCloseBtnHandler(() => {
       closePopup();
     });
     document.addEventListener(`keydown`, onEscKeyDown);
@@ -36,7 +34,7 @@ const renderFilm = (container, film, position) => {
 
   const closePopup = () => {
     body.removeChild(popupElement);
-    popupCloseBtn.removeEventListener(`click`, () => {
+    popupComponent.removeClickPopupCloseBtnHandler(() => {
       closePopup();
     });
     document.removeEventListener(`keydown`, onEscKeyDown);
@@ -51,10 +49,8 @@ const renderFilm = (container, film, position) => {
   const filmCardComponent = new FilmCardComponent(film);
   render(container, filmCardComponent, position);
 
-  popupShowElements.forEach((element) => {
-    filmCardComponent.getElement()
-    .querySelector(element)
-    .addEventListener(`click`, renderPopup);
+  filmCardComponent.setClickPopupShowElementsHandler(() => {
+    renderPopup();
   });
 };
 
@@ -66,7 +62,6 @@ const renderFilmCollections = (container, films) => {
   const topRatedComponent = new TopRatedComponent();
   const mostCommentedComponent = new MostCommentedComponent();
   const filmsListContainer = container.getElement().querySelector(`.films-list__container`);
-  const showMoreBtn = filmComponent.getElement().querySelector(`.films-list__show-more`);
   const topRatedFilmsContainer = topRatedComponent.getElement().querySelector(`.films-list__container`);
   const mostCommentedFilmsContainer = mostCommentedComponent.getElement().querySelector(`.films-list__container`);
 
@@ -86,14 +81,14 @@ const renderFilmCollections = (container, films) => {
   mostCommentedFilms.slice(0, EXTRA_FILM_CARDS)
   .forEach((film) => renderFilm(mostCommentedFilmsContainer, film, RenderPosition.BEFOREEND));
 
-  showMoreBtn.addEventListener(`click`, () => {
+  filmComponent.setClickShowMoreBtnHandler(() => {
     const prevFilmsCount = showingFilmsCount;
     showingFilmsCount = showingFilmsCount + FILM_CARDS_BY_BUTTON;
 
     films.slice(prevFilmsCount, showingFilmsCount).forEach((film) => renderFilm(filmsListContainer, film, RenderPosition.BEFOREEND));
 
     if (showingFilmsCount >= generatedFilms.length) {
-      showMoreBtn.remove();
+      filmComponent.removeShowMoreButton();
     }
   });
 };

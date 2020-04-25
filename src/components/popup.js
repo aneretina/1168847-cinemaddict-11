@@ -160,6 +160,14 @@ export default class Popup extends AbstractComponent {
     this._film = film;
   }
 
+  setClickPopupCloseBtnHandler(handler) {
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, handler);
+  }
+
+  removeClickPopupCloseBtnHandler(handler) {
+    this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, handler);
+  }
+
   getTemplate() {
     return createPopupTemplate(this._film);
   }
