@@ -1,21 +1,20 @@
 import AbstractComponent from "./abstractComponent.js";
 
-const createFilmTemplate = (title, isTitleVisible) => {
+const createFilmTemplate = (noFilmsExist) => {
   return (
     `<section class="films">
       <section class="films-list">
-        <h2 class="films-list__title ${isTitleVisible ? `` : `visually-hidden`}">${title}</h2>
-        <div class="films-list__container"></div>
+        <h2 class="films-list__title ${noFilmsExist ? `` : `visually-hidden`}">${noFilmsExist ? `There are no movies in our database` : `All movies. Upcoming`}</h2>
+        <div class="films-list__container" ${noFilmsExist ? `visually-hidden` : ``}></div>
       </section>
     </section>`
   );
 };
 
 export default class Film extends AbstractComponent {
-  constructor(title, isTitleVisible) {
+  constructor(noFilmsExist) {
     super();
-    this._title = title;
-    this._isTitleVisible = isTitleVisible;
+    this.noFilmsExist = noFilmsExist;
     this._showMoreButton = this.getElement().querySelector(`.films-list__show-more`);
   }
 
@@ -28,6 +27,6 @@ export default class Film extends AbstractComponent {
   }
 
   getTemplate() {
-    return createFilmTemplate(this._title, this._isTitleVisible);
+    return createFilmTemplate(this.noFilmsExist);
   }
 }

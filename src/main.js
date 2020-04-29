@@ -20,7 +20,7 @@ render(main, new MenuComponent(menu), RenderPosition.BEFOREEND);
 render(main, new SortingComponent(), RenderPosition.BEFOREEND);
 render(footerStatistics, new StatisticsComponent(), RenderPosition.BEFOREEND);
 
-const filmComponent = new FilmComponent(`All movies. Upcoming`, false);
+const filmComponent = new FilmComponent(generatedFilms.length === 0);
 render(main, filmComponent, RenderPosition.BEFOREEND);
 
 const pageController = new PageControllerComponent(filmComponent);
