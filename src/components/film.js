@@ -1,37 +1,32 @@
-import {createElement} from "../utils.js";
+import AbstractComponent from "./abstractComponent.js";
 
-const createFilmTemplate = (title, isTitleVisible) => {
+const createFilmTemplate = (noFilmsExist) => {
   return (
     `<section class="films">
       <section class="films-list">
-        <h2 class="films-list__title ${isTitleVisible ? `` : `visually-hidden`}">${title}</h2>
-        <div class="films-list__container"></div>
-        <button class="films-list__show-more ${isTitleVisible ? `visually-hidden` : ``}">Show more</button>
+        <h2 class="films-list__title ${noFilmsExist ? `` : `visually-hidden`}">${noFilmsExist ? `There are no movies in our database` : `All movies. Upcoming`}</h2>
+        <div class="films-list__container" ${noFilmsExist ? `visually-hidden` : ``}></div>
       </section>
     </section>`
   );
 };
 
-export default class Film {
-  constructor(title, isTitleVisible) {
-    this._title = title;
-    this._isTitleVisible = isTitleVisible;
-    this._element = null;
+export default class Film extends AbstractComponent {
+  constructor(noFilmsExist) {
+    super();
+    this.noFilmsExist = noFilmsExist;
+    this._showMoreButton = this.getElement().querySelector(`.films-list__show-more`);
+  }
+
+  setClickShowMoreBtnHandler(handler) {
+    this._showMoreButton.addEventListener(`click`, handler);
+  }
+
+  removeShowMoreBtn() {
+    this._showMoreButton.remove();
   }
 
   getTemplate() {
-    return createFilmTemplate(this._title, this._isTitleVisible);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+    return createFilmTemplate(this.noFilmsExist);
   }
 }

@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import AbstractComponent from "./abstractComponent.js";
 
 const createControlsTemplate = (control) => {
   const {addToWatchList, markAsWatched, favorite} = control;
@@ -31,25 +31,27 @@ const createFilmCardTemplate = (film) => {
   );
 };
 
-export default class FilmCard {
+export default class FilmCard extends AbstractComponent {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
   }
+
+  setClickPopupShowElementsHandler(handler) {
+    const poster = this.getElement().querySelector(`.film-card__poster`);
+    const title = this.getElement().querySelector(`.film-card__title`);
+    const comments = this.getElement().querySelector(`.film-card__comments`);
+    const popupShowElements = [poster, title, comments];
+
+    popupShowElements.forEach((element) => {
+      element.addEventListener(`click`, () => {
+        handler(this._film);
+      });
+    });
+  }
+
 
   getTemplate() {
     return createFilmCardTemplate(this._film);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
