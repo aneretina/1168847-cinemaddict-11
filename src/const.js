@@ -12,6 +12,13 @@ export const COUNTRY = `USA`;
 
 export const ESC_KEY = `Escape`;
 
+export const SortType = {
+  DEFAULT: `default`,
+  DATE: `date`,
+  RATING: `rating`,
+};
+
+
 export const EMOJIS = [
   `angry`,
   `puke`,
