@@ -4,7 +4,8 @@ const createFilmTemplate = (noFilmsExist) => {
   return (
     `<section class="films">
       <section class="films-list">
-        <h2 class="films-list__title ${noFilmsExist ? `` : `visually-hidden`}">${noFilmsExist ? `There are no movies in our database` : `All movies. Upcoming`}</h2>
+        <h2 class="films-list__title ${noFilmsExist ? `` : `visually-hidden`}">
+        ${noFilmsExist ? `There are no movies in our database` : `All movies. Upcoming`}</h2>
         <div class="films-list__container" ${noFilmsExist ? `visually-hidden` : ``}></div>
       </section>
     </section>`

@@ -33,7 +33,12 @@ export default class Sorting extends AbstractComponent {
         return;
       }
 
+
+      this.getElement().querySelector(`.sort__button--active`).classList.remove(`sort__button--active`);
+
       const sortType = evt.target.dataset.sortType;
+
+      evt.target.classList.add(`sort__button--active`);
 
       if (this._currenSortType === sortType) {
         return;
