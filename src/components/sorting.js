@@ -33,7 +33,6 @@ export default class Sorting extends AbstractComponent {
         return;
       }
 
-
       this.getElement().querySelector(`.sort__button--active`).classList.remove(`sort__button--active`);
 
       const sortType = evt.target.dataset.sortType;

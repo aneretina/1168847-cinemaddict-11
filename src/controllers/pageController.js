@@ -6,9 +6,9 @@ import {EXTRA_FILM_CARDS, FILM_CARDS_PER_ROW, FILM_CARDS_BY_BUTTON, SortType} fr
 import {render, RenderPosition} from "../utils/render";
 import FilmController from "./filmController";
 
-const renderFilms = (filmsContainer, films, onDataChange) => {
+const renderFilms = (filmsContainer, films, onDataChange, onViewChange) => {
   return films.map((film) => {
-    const filmController = new FilmController(filmsContainer, onDataChange);
+    const filmController = new FilmController(filmsContainer, onDataChange, onViewChange);
 
     filmController.render(film);
 
@@ -51,6 +51,7 @@ export default class PageController {
     this._showingFilmsCount = FILM_CARDS_PER_ROW;
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
+    this._onViewChange = this._onViewChange.bind(this);
     this._sortingComponent.setSortTypeChangeHandler(this._onSortTypeChange);
   }
 
@@ -64,7 +65,7 @@ export default class PageController {
 
     render(container, this._sortingComponent, RenderPosition.BEFOREBEGIN);
 
-    const newFilms = renderFilms(this._filmsListContainer, films.slice(0, this._showingFilmsCount), this._onDataChange);
+    const newFilms = renderFilms(this._filmsListContainer, films.slice(0, this._showingFilmsCount), this._onDataChange, this._onViewChange);
     this._showedFilmsControllers = this._showedFilmsControllers.concat(newFilms);
 
     this._renderShowMoreButton();
@@ -79,7 +80,7 @@ export default class PageController {
 
     renderFilms(topRatedFilmsContainer, topRatedFilms.slice(0, EXTRA_FILM_CARDS), this._onDataChange);
 
-    renderFilms(mostCommentedFilmsContainer, mostCommentedFilms.slice(0, EXTRA_FILM_CARDS), this._onDataChange);
+    renderFilms(mostCommentedFilmsContainer, mostCommentedFilms.slice(0, EXTRA_FILM_CARDS), this._onDataChange, this._onViewChange);
   }
 
   _renderShowMoreButton() {
@@ -115,6 +116,10 @@ export default class PageController {
     filmController.render(this._films[index]);
   }
 
+  _onViewChange() {
+    this._showedFilmsControllers.forEach((it) => it.setDefaultView());
+  }
+
 
   _onSortTypeChange(sortType) {
 
@@ -122,7 +127,7 @@ export default class PageController {
 
     this._filmsListContainer.innerHTML = ``;
 
-    const newFilms = renderFilms(this._filmsListContainer, sortedFilms, this._onDataChange);
+    const newFilms = renderFilms(this._filmsListContainer, sortedFilms, this._onDataChange, this._onViewChange);
     this._showedFilmsControllers = this._showedTaskControllers.concat(newFilms);
 
     this._renderShowMoreButton();

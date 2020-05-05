@@ -1,5 +1,4 @@
 import AbstractSmartComponent from "./abstractSmartComponent.js";
-
 import {EMOJIS} from "../const.js";
 
 const createCommentsTemplate = (comments) => {
@@ -164,9 +163,7 @@ export default class Popup extends AbstractSmartComponent {
     super();
     this._film = film;
 
-    this._watchlistHandler = null;
-    this._watchedHandler = null;
-    this._favoriteHandler = null;
+    this._controlButtonsChangeHandler = null;
 
     this._emoji = null;
     this._setCommentsEmoji();
@@ -181,33 +178,21 @@ export default class Popup extends AbstractSmartComponent {
   }
 
   recoveryListeners() {
-    this.setAddToWatchListButtonClickHandler(this._watchlistHandler);
-    this.setMarkAsWatchButtonClickHandler(this._watchedHandler);
-    this.setFavoriteButtonClickHandler(this._favoriteHandler);
+    this.setControlButtonsChangeHandler(this._controlButtonsChangeHandler);
     this.setPopupCloseButtonClickHandler(this._handler);
     this.removePopupCloseButtonClickHandler(this._handler);
     this._setCommentsEmoji();
   }
 
-  setAddToWatchListButtonClickHandler(handler) {
-    this._element.querySelector(`.film-details__control-label--watchlist`)
-    .addEventListener(`click`, handler);
-
-    this._watchlistHandler = handler;
+  setControlButtonsChangeHandler(handler) {
+    this.getElement().querySelector(`.film-details__controls`).addEventListener(`click`, (evt) => {
+      handler(evt.target.name);
+    });
+    this._controlButtonsChangeHandler = handler;
   }
 
-  setMarkAsWatchButtonClickHandler(handler) {
-    this._element.querySelector(`.film-details__control-label--watched`)
-    .addEventListener(`click`, handler);
-
-    this._watchedHandler = handler;
-  }
-
-  setFavoriteButtonClickHandler(handler) {
-    this._element.querySelector(`.film-details__control-label--favorite`)
-    .addEventListener(`click`, handler);
-
-    this._favoriteHandler = handler;
+  clearPopupCommentsContainer() {
+    this.getElement().querySelector(`.film-details__comments-list`).innerHTML = ``;
   }
 
   setPopupCloseButtonClickHandler(handler) {
@@ -239,7 +224,7 @@ export default class Popup extends AbstractSmartComponent {
           emojiPlace.replaceChild(selectedEmoji, emojiPlace.querySelector(`img`));
         }
       }
-      
+
     });
   }
 }
