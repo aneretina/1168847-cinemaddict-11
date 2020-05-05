@@ -29,7 +29,6 @@ export const Mode = {
   POPUP: `opened`,
 };
 
-
 export const EMOJIS = [
   `angry`,
   `puke`,

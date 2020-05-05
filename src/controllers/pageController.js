@@ -78,7 +78,7 @@ export default class PageController {
     render(container, this._topRatedComponent, RenderPosition.BEFOREEND);
     render(container, this._mostCommentedComponent, RenderPosition.BEFOREEND);
 
-    renderFilms(topRatedFilmsContainer, topRatedFilms.slice(0, EXTRA_FILM_CARDS), this._onDataChange);
+    renderFilms(topRatedFilmsContainer, topRatedFilms.slice(0, EXTRA_FILM_CARDS), this._onDataChange, this._onViewChange);
 
     renderFilms(mostCommentedFilmsContainer, mostCommentedFilms.slice(0, EXTRA_FILM_CARDS), this._onDataChange, this._onViewChange);
   }
@@ -128,7 +128,7 @@ export default class PageController {
     this._filmsListContainer.innerHTML = ``;
 
     const newFilms = renderFilms(this._filmsListContainer, sortedFilms, this._onDataChange, this._onViewChange);
-    this._showedFilmsControllers = this._showedTaskControllers.concat(newFilms);
+    this._showedFilmsControllers = this._showedFilmsControllers.concat(newFilms);
 
     this._renderShowMoreButton();
   }

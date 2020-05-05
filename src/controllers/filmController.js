@@ -42,7 +42,7 @@ export default class FilmController {
     this._filmCardComponent.setAddToWatchListButtonClickHandler((evt) => {
       evt.preventDefault();
       this._onDataChange(this, film, Object.assign({}, film, {
-        addedtoWatchList: !film.addedtoWatchList,
+        addedToWatchList: !film.addedToWatchList,
       }));
     });
 
@@ -63,7 +63,7 @@ export default class FilmController {
     this._popupComponent.setControlButtonsChangeHandler((button) => {
       if (button === ControlButton.WATCHLIST) {
         this._createButtonClickHandler(film, {
-          addedtoWatchList: !film.addedtoWatchList,
+          addedToWatchList: !film.addedToWatchList,
         });
       }
 
@@ -74,7 +74,6 @@ export default class FilmController {
       }
 
       if (button === ControlButton.FAVORITE) {
-
         this._createButtonClickHandler(film, {
           isFavorite: !film.isFavorite,
         });

@@ -3,9 +3,9 @@ import AbstractComponent from "./abstractComponent.js";
 
 const createControlsTemplate = (control) => {
   const {addedToWatchList, markedAsWatched, isFavorite} = control;
-  const selectedWatchList = addedToWatchList ? `active` : ``;
-  const selectedWatched = markedAsWatched ? `active` : ``;
-  const selectedFavorite = isFavorite ? `active` : ``;
+  const selectedWatchList = addedToWatchList ? `film-card__controls-item--active` : ``;
+  const selectedWatched = markedAsWatched ? `film-card__controls-item--active` : ``;
+  const selectedFavorite = isFavorite ? `film-card__controls-item--active` : ``;
   return (
     `<button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${selectedWatchList}">Add to watchlist</button>
      <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${selectedWatched}">Mark as watched</button>
