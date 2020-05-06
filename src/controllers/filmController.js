@@ -62,21 +62,21 @@ export default class FilmController {
 
     this._popupComponent.setControlButtonsChangeHandler((button) => {
       if (button === ControlButton.WATCHLIST) {
-        this._createButtonClickHandler(film, {
+        this._onDataChange(this, film, Object.assign({}, film, {
           addedToWatchList: !film.addedToWatchList,
-        });
+        }));
       }
 
       if (button === ControlButton.WATCHED) {
-        this._createButtonClickHandler(film, {
+        this._onDataChange(this, film, Object.assign({}, film, {
           markedAsWatched: !film.markedAsWatched,
-        });
+        }));
       }
 
       if (button === ControlButton.FAVORITE) {
-        this._createButtonClickHandler(film, {
+        this._onDataChange(this, film, Object.assign({}, film, {
           isFavorite: !film.isFavorite,
-        });
+        }));
       }
     });
 
@@ -93,20 +93,20 @@ export default class FilmController {
     }
   }
 
-  _onEscKeyDown(evt) {
-    if (evt.key === ESC_KEY) {
-      this._closePopup();
-    }
-  }
-
   _closePopup() {
-    remove(this._popupComponent);
     this._mode = Mode.DEFAULT;
+    this._popupComponent.getElement().remove();
     this._popupComponent.clearPopupCommentsContainer();
     this._popupComponent.removePopupCloseButtonClickHandler(() => {
       this._closePopup();
     });
-    document.removeEventListener(`keydown`, this._onEscKeyDown);
+  }
+
+  _onEscKeyDown(evt) {
+    if (evt.key === ESC_KEY) {
+      this._closePopup();
+      document.removeEventListener(`keydown`, this._onEscKeyDown);
+    }
   }
 
   setDefaultView() {
@@ -114,12 +114,5 @@ export default class FilmController {
       this._closePopup();
       this._mode = Mode.DEFAULT;
     }
-  }
-
-  _createButtonClickHandler(film, changedCard) {
-    return (evt) => {
-      evt.preventDefault();
-      this._onDataChange(this, film, Object.assign({}, film, changedCard));
-    };
   }
 }
