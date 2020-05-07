@@ -1,6 +1,6 @@
 import FilmCardComponent from "../components/filmCard";
 import PopupComponent from "../components/popup.js";
-import {render, RenderPosition, replace, remove} from "../utils/render.js";
+import {render, RenderPosition, replace} from "../utils/render.js";
 import {ESC_KEY, ControlButton, Mode} from "../const.js";
 
 const body = document.querySelector(`body`);
@@ -33,10 +33,6 @@ export default class FilmController {
     const renderPopup = () => {
       body.appendChild(popupElement);
       this._mode = Mode.POPUP;
-      this._popupComponent.setPopupCloseButtonClickHandler(() => {
-        this._closePopup();
-      });
-      document.addEventListener(`keydown`, this._onEscKeyDown);
     };
 
     this._filmCardComponent.setAddToWatchListButtonClickHandler((evt) => {
@@ -59,6 +55,11 @@ export default class FilmController {
         isFavorite: !film.isFavorite,
       }));
     });
+
+    this._popupComponent.setPopupCloseButtonClickHandler(() => {
+      this._closePopup();
+    });
+    document.addEventListener(`keydown`, this._onEscKeyDown);
 
     this._popupComponent.setControlButtonsChangeHandler((button) => {
       if (button === ControlButton.WATCHLIST) {
@@ -97,7 +98,7 @@ export default class FilmController {
     this._mode = Mode.DEFAULT;
     this._popupComponent.getElement().remove();
     this._popupComponent.clearPopupCommentsContainer();
-    this._popupComponent.removePopupCloseButtonClickHandler(() => {
+    this._popupComponent.removePopupCloseButton(() => {
       this._closePopup();
     });
   }

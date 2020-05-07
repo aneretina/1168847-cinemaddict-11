@@ -65,8 +65,8 @@ export default class PageController {
 
     render(container, this._sortingComponent, RenderPosition.BEFOREBEGIN);
 
-    const newFilms = renderFilms(this._filmsListContainer, films.slice(0, this._showingFilmsCount), this._onDataChange, this._onViewChange);
-    this._showedFilmsControllers = this._showedFilmsControllers.concat(newFilms);
+    const newFilmsControllers = renderFilms(this._filmsListContainer, films.slice(0, this._showingFilmsCount), this._onDataChange, this._onViewChange);
+    this._showedFilmsControllers = this._showedFilmsControllers.concat(newFilmsControllers);
 
     this._renderShowMoreButton();
 
@@ -95,14 +95,13 @@ export default class PageController {
       this._showingFilmsCount = this._showingFilmsCount + FILM_CARDS_BY_BUTTON;
 
       const sortedFilms = getSortedFilms(this._films, this._sortingComponent.getSortType(), prevFilmsCount, this._showingFilmsCount);
-      const newFilms = renderFilms(this._filmsListContainer, sortedFilms, this._onDataChange, this._onViewChange);
-      this._showedFilmsControllers = this._showedFilmsControllers.concat(newFilms);
+      const newFilmsControllers = renderFilms(this._filmsListContainer, sortedFilms, this._onDataChange, this._onViewChange);
+      this._showedFilmsControllers = this._showedFilmsControllers.concat(newFilmsControllers);
 
       if (this._showingFilmsCount >= this._films.length) {
         this._showMoreButtonComponent.removeShowMoreBtn();
       }
     });
-    console.log(this._sortedFilms)
   }
 
   _onDataChange(filmController, oldData, newData) {
@@ -123,14 +122,12 @@ export default class PageController {
 
 
   _onSortTypeChange(sortType) {
-
     const sortedFilms = getSortedFilms(this._films, sortType, 0, this._showingFilmsCount);
 
     this._filmsListContainer.innerHTML = ``;
 
-    const newFilms = renderFilms(this._filmsListContainer, sortedFilms, this._onDataChange, this._onViewChange);
-    this._showedFilmsControllers = newFilms;
+    const newFilmsControllers = renderFilms(this._filmsListContainer, sortedFilms, this._onDataChange, this._onViewChange);
 
-    this._renderShowMoreButton();
+    this._showedFilmsControllers = newFilmsControllers;
   }
 }
