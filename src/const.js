@@ -18,6 +18,16 @@ export const SortType = {
   RATING: `rating`,
 };
 
+export const ControlButton = {
+  WATCHLIST: `watchlist`,
+  WATCHED: `watched`,
+  FAVORITE: `favorite`,
+};
+
+export const Mode = {
+  DEFAULT: `default`,
+  POPUP: `opened`,
+};
 
 export const EMOJIS = [
   `angry`,
