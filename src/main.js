@@ -13,7 +13,7 @@ const main = document.querySelector(`.main`);
 const footer = document.querySelector(`.footer`);
 const footerStatistics = footer.querySelector(`.footer__statistics`);
 
-export const generatedFilms = generateFilms(TOTAL_NUMBER_OF_CARDS);
+const generatedFilms = generateFilms(TOTAL_NUMBER_OF_CARDS);
 
 const menu = generateMenu(generatedFilms);
 render(header, new ProfileComponent(), RenderPosition.BEFOREEND);

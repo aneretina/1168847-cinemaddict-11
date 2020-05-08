@@ -1,6 +1,5 @@
 import AbstractComponent from "./abstractComponent.js";
 
-
 const createControlsTemplate = (control) => {
   const {addedToWatchList, markedAsWatched, isFavorite} = control;
   const selectedWatchList = addedToWatchList ? `film-card__controls-item--active` : ``;

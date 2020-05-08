@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const MINUTES_IN_HOUR = 60;
 
 export const getRandomNumber = (min, max) => {
@@ -20,4 +22,8 @@ export const getRandomDate = (start, end) => {
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 };
 
+export const formatCommentDate = (date) => {
+  return moment(date).format(`DD/MM/YY hh:mm`);
+  // return moment(date).fromNow();
+};
 

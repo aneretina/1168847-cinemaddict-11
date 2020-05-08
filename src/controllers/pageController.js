@@ -120,8 +120,8 @@ export default class PageController {
     this._showedFilmsControllers.forEach((it) => it.setDefaultView());
   }
 
-
   _onSortTypeChange(sortType) {
+
     const sortedFilms = getSortedFilms(this._films, sortType, 0, this._showingFilmsCount);
 
     this._filmsListContainer.innerHTML = ``;
@@ -129,5 +129,6 @@ export default class PageController {
     const newFilmsControllers = renderFilms(this._filmsListContainer, sortedFilms, this._onDataChange, this._onViewChange);
 
     this._showedFilmsControllers = newFilmsControllers;
+
   }
 }

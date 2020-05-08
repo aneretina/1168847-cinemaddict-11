@@ -61,20 +61,20 @@ export default class FilmController {
     });
     document.addEventListener(`keydown`, this._onEscKeyDown);
 
-    this._popupComponent.setControlButtonsChangeHandler((button) => {
-      if (button === ControlButton.WATCHLIST) {
+    this._popupComponent.setControlButtonsChangeHandler((buttonName) => {
+      if (buttonName === ControlButton.WATCHLIST) {
         this._onDataChange(this, film, Object.assign({}, film, {
           addedToWatchList: !film.addedToWatchList,
         }));
       }
 
-      if (button === ControlButton.WATCHED) {
+      if (buttonName === ControlButton.WATCHED) {
         this._onDataChange(this, film, Object.assign({}, film, {
           markedAsWatched: !film.markedAsWatched,
         }));
       }
 
-      if (button === ControlButton.FAVORITE) {
+      if (buttonName === ControlButton.FAVORITE) {
         this._onDataChange(this, film, Object.assign({}, film, {
           isFavorite: !film.isFavorite,
         }));
@@ -89,15 +89,15 @@ export default class FilmController {
     if (oldFilmCardComponent && oldPopupComponent) {
       replace(this._filmCardComponent, oldFilmCardComponent);
       replace(this._popupComponent, oldPopupComponent);
-    } else {
-      render(container, this._filmCardComponent, RenderPosition.BEFOREEND);
+      return;
     }
+    render(container, this._filmCardComponent, RenderPosition.BEFOREEND);
   }
 
   _closePopup() {
     this._mode = Mode.DEFAULT;
     this._popupComponent.getElement().remove();
-    this._popupComponent.clearPopupCommentsContainer();
+    this._popupComponent.clearPopupEmojiContainer();
     this._popupComponent.removePopupCloseButton(() => {
       this._closePopup();
     });
@@ -106,8 +106,8 @@ export default class FilmController {
   _onEscKeyDown(evt) {
     if (evt.key === ESC_KEY) {
       this._closePopup();
-      document.removeEventListener(`keydown`, this._onEscKeyDown);
     }
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
 
   setDefaultView() {

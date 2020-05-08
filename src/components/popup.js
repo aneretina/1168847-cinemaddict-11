@@ -191,8 +191,8 @@ export default class Popup extends AbstractSmartComponent {
     this._controlButtonsChangeHandler = handler;
   }
 
-  clearPopupCommentsContainer() {
-    this.getElement().querySelector(`.film-details__comments-list`).innerHTML = ``;
+  clearPopupEmojiContainer() {
+    this.getElement().querySelector(`.film-details__add-emoji-label`).innerHTML = ``;
   }
 
   setPopupCloseButtonClickHandler(handler) {
