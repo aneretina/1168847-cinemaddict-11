@@ -33,6 +33,7 @@ export default class FilmController {
     const renderPopup = () => {
       body.appendChild(popupElement);
       this._mode = Mode.POPUP;
+      document.addEventListener(`keydown`, this._onEscKeyDown);
     };
 
     this._filmCardComponent.setAddToWatchListButtonClickHandler((evt) => {
@@ -59,7 +60,6 @@ export default class FilmController {
     this._popupComponent.setPopupCloseButtonClickHandler(() => {
       this._closePopup();
     });
-    document.addEventListener(`keydown`, this._onEscKeyDown);
 
     this._popupComponent.setControlButtonsChangeHandler((buttonName) => {
       if (buttonName === ControlButton.WATCHLIST) {

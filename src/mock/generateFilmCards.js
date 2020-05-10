@@ -15,7 +15,7 @@ export const generateFilm = () => {
     releaseDate: RELEASE_DATE,
     country: COUNTRY,
     description: getRandomItem(DESCRIPTIONS),
-    year: moment(getRandomDate(new Date(2010), new Date())).format(`DD MMMM YYYY`),
+    year: moment(getRandomDate(new Date(2010), new Date())),
     genre: getRandomItem(GENRES),
     rating: Math.floor(Math.random() * 10),
     duration: moment(getRandomDuration(getRandomNumber(30, 300)), `h mm`).format(`h[h] mm[m]`),

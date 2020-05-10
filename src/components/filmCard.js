@@ -22,7 +22,7 @@ const createFilmCardTemplate = (film) => {
         <h3 class="film-card__title">${title}</h3>
         <p class="film-card__rating">${rating}</p>
         <p class="film-card__info">
-          <span class="film-card__year">${year}</span>
+          <span class="film-card__year">${year.format(`DD MMMM YYYY`)}</span>
           <span class="film-card__duration">${duration}</span>
           <span class="film-card__genre">${genre}</span>
         </p>
