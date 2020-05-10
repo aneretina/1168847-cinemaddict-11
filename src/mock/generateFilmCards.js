@@ -1,6 +1,8 @@
 import {FILM_TITLES, POSTERS, DESCRIPTIONS, GENRES, ORIGINAL_TITLE, DIRECTOR, WRITERS, ACTORS, RELEASE_DATE, COUNTRY} from "../const.js";
-import {getRandomItem, getRandomNumber, getRandomDuration} from "../utils/common.js";
+import {getRandomItem, getRandomNumber, getRandomDuration, getRandomDate} from "../utils/common.js";
 import {generateComments} from "./generateComments.js";
+import moment from "moment";
+
 
 export const generateFilm = () => {
   return {
@@ -13,10 +15,10 @@ export const generateFilm = () => {
     releaseDate: RELEASE_DATE,
     country: COUNTRY,
     description: getRandomItem(DESCRIPTIONS),
-    year: getRandomNumber(1920, 2020),
+    year: moment(getRandomDate(new Date(2010), new Date())),
     genre: getRandomItem(GENRES),
     rating: Math.floor(Math.random() * 10),
-    duration: getRandomDuration(115),
+    duration: moment(getRandomDuration(getRandomNumber(30, 300)), `h mm`).format(`h[h] mm[m]`),
     comments: generateComments(),
     addedToWatchList: (Math.floor(Math.random() * 2) === 0),
     markedAsWatched: (Math.floor(Math.random() * 2) === 0),

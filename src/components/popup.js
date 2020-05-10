@@ -55,7 +55,7 @@ const createControlsTemplate = (control) => {
 
 
 const createPopupTemplate = (film, createdEmojis) => {
-  const {poster, title, description, rating, duration, genre, comments, originalTitle, director, writers, actors, releaseDate, country} = film;
+  const {poster, title, description, rating, duration, genre, comments, originalTitle, director, writers, actors, year, country} = film;
   const createComments = createCommentsTemplate(comments);
   const controls = createControlsTemplate(film);
   createdEmojis = createEmojiMarkup(EMOJIS);
@@ -103,7 +103,7 @@ const createPopupTemplate = (film, createdEmojis) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">${releaseDate}</td>
+                  <td class="film-details__cell">${year.format(`DD MMMM YYYY`)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
@@ -191,8 +191,8 @@ export default class Popup extends AbstractSmartComponent {
     this._controlButtonsChangeHandler = handler;
   }
 
-  clearPopupCommentsContainer() {
-    this.getElement().querySelector(`.film-details__comments-list`).innerHTML = ``;
+  clearPopupEmojiContainer() {
+    this.getElement().querySelector(`.film-details__add-emoji-label`).innerHTML = ``;
   }
 
   setPopupCloseButtonClickHandler(handler) {
