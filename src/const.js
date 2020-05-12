@@ -12,6 +12,13 @@ export const COUNTRY = `USA`;
 
 export const ESC_KEY = `Escape`;
 
+export const FilterType = {
+  ALL: `All`,
+  WATCHLIST: `Watchlist`,
+  HISTORY: `History`,
+  FAVORITES: `Favorites`
+};
+
 export const SortType = {
   DEFAULT: `default`,
   DATE: `date`,
