@@ -1,6 +1,6 @@
 import FilmCardComponent from "../components/filmCard";
 import PopupComponent from "../components/popup.js";
-import {render, RenderPosition, replace} from "../utils/render.js";
+import {render, RenderPosition, replace, remove} from "../utils/render.js";
 import {ESC_KEY, ControlButton, Mode} from "../const.js";
 
 const body = document.querySelector(`body`);
@@ -106,8 +106,8 @@ export default class FilmController {
   _onEscKeyDown(evt) {
     if (evt.key === ESC_KEY) {
       this._closePopup();
+      document.removeEventListener(`keydown`, this._onEscKeyDown);
     }
-    document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
 
   setDefaultView() {
@@ -115,5 +115,11 @@ export default class FilmController {
       this._closePopup();
       this._mode = Mode.DEFAULT;
     }
+  }
+
+  destroy() {
+    remove(this._filmCardComponent);
+    remove(this._popupComponent);
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
 }

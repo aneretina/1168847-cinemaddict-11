@@ -43,13 +43,6 @@ export const EMOJIS = [
   `smile`
 ];
 
-export const MENU_OPTIONS = [
-  `All`,
-  `Watchlist`,
-  `History`,
-  `Favorites`
-];
-
 export const FILM_TITLES = [
   `The Dance of Life`,
   `The Man with the Golden Arm`,
