@@ -1,7 +1,8 @@
 import FilmCardComponent from "../components/filmCard";
 import PopupComponent from "../components/popup.js";
 import {render, RenderPosition, replace, remove} from "../utils/render.js";
-import {ESC_KEY, ControlButton, Mode} from "../const.js";
+import {ESC_KEY, ControlButton, Mode, ENTER_KEY} from "../const.js";
+import {generateComment} from "../mock/generateComments";
 
 const body = document.querySelector(`body`);
 
@@ -29,12 +30,33 @@ export default class FilmController {
     this._popupComponent = new PopupComponent(film);
     const popupElement = this._popupComponent.getElement();
 
-
     const renderPopup = () => {
       body.appendChild(popupElement);
       this._mode = Mode.POPUP;
       document.addEventListener(`keydown`, this._onEscKeyDown);
     };
+
+    this._popupComponent.setCommentsDeleteButtonClickHandler((evt) => {
+      evt.preventDefault();
+      const deleteCommentButton = evt.target;
+      const commentElement = deleteCommentButton.closest(`.film-details__comment`);
+      const deleteCommentId = commentElement.id;
+      const comments = film.comments.filter((comment) => comment.id !== deleteCommentId);
+      this._onDataChange(this, film, Object.assign(film, {comments}));
+    });
+
+    this._popupComponent.setSendCommentHandler((evt) => {
+      if (evt.key === ENTER_KEY) {
+        const comment = generateComment();
+
+        if (!comment) {
+          return;
+        }
+
+        const newComments = film.comments.concat(comment);
+        this._onDataChange(this, film, Object.assign(film, {comments: newComments}));
+      }
+    });
 
     this._filmCardComponent.setAddToWatchListButtonClickHandler((evt) => {
       evt.preventDefault();

@@ -3,7 +3,7 @@ import MostCommentedComponent from "../components/mostCommented.js";
 import SortingComponent from '../components/sorting.js';
 import ShowMoreButtonComponent from "../components/showMoreButton.js";
 import {EXTRA_FILM_CARDS, FILM_CARDS_PER_ROW, FILM_CARDS_BY_BUTTON, SortType} from "../const.js";
-import {render, RenderPosition} from "../utils/render";
+import {render, RenderPosition, remove} from "../utils/render";
 import FilmController from "./filmController";
 
 const renderFilms = (filmsContainer, films, onDataChange, onViewChange) => {
@@ -158,7 +158,8 @@ export default class PageController {
   _updateFilms(count) {
     this._removeFilms();
     this._renderFilms(this._filmsModel.getFilms().slice(0, count));
-    this._refreshShowMoreButton();
+    remove(this._showMoreButtonComponent);
+    this._renderShowMoreButton();
   }
 
   _onFilterChange() {

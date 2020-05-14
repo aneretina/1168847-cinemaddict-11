@@ -11,6 +11,7 @@ export const RELEASE_DATE = `30 March 1945`;
 export const COUNTRY = `USA`;
 
 export const ESC_KEY = `Escape`;
+export const ENTER_KEY = `Enter`;
 
 export const FilterType = {
   ALL: `All`,

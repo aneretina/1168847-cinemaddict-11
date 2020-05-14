@@ -1,38 +1,5 @@
 import AbstractSmartComponent from "./abstractSmartComponent.js";
-import {EMOJIS} from "../const.js";
-
-const createCommentsTemplate = (comments) => {
-  return comments
-    .map((comment) => {
-      return (
-        `<li class="film-details__comment">
-      <span class="film-details__comment-emoji">
-      <img src=${comment.emoji} width="55" height="55" alt="emoji-smile">
-    </span>
-    <div>
-      <p class="film-details__comment-text">${comment.text}</p>
-      <p class="film-details__comment-info">
-        <span class="film-details__comment-author">${comment.author}</span>
-        <span class="film-details__comment-day">${comment.date}</span>
-        <button class="film-details__comment-delete">Delete</button>
-      </p>
-    </div>
-  </li>`
-      );
-    }).join(`\n`);
-};
-
-const createEmojiMarkup = (emojis) => {
-  return emojis
-    .map((emoji) => {
-      return (
-        `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emoji}" value="${emoji}">
-         <label class="film-details__emoji-label" for="emoji-${emoji}">
-          <img src="./images/emoji/${emoji}.png" width="30" height="30" alt="emoji">
-         </label>`
-      );
-    }).join(`\n`);
-};
+import CommentComponent from "./comment.js";
 
 
 const createControlsTemplate = (control) => {
@@ -54,11 +21,10 @@ const createControlsTemplate = (control) => {
 };
 
 
-const createPopupTemplate = (film, createdEmojis) => {
+const createPopupTemplate = (film) => {
   const {poster, title, description, rating, duration, genre, comments, originalTitle, director, writers, actors, year, country} = film;
-  const createComments = createCommentsTemplate(comments);
   const controls = createControlsTemplate(film);
-  createdEmojis = createEmojiMarkup(EMOJIS);
+  const commentComponent = new CommentComponent(comments).getTemplate();
 
   return (
     `<section class="film-details">
@@ -121,38 +87,16 @@ const createPopupTemplate = (film, createdEmojis) => {
                     <span class="film-details__genre">${genre}</span></td>
                 </tr>
               </table>
-    
+           
               <p class="film-details__film-description">${description}</p>
             </div>
           </div>
           </div>
-    
           <section class="film-details__controls">
             ${controls}
           </section>
         </div>
-    
-        <div class="form-details__bottom-container">
-          <section class="film-details__comments-wrap">
-            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
-
-             <ul class="film-details__comments-list">
-             ${createComments}
-              </ul>
-
-            <div class="film-details__new-comment">
-              <div for="add-emoji" class="film-details__add-emoji-label"></div>
-    
-              <label class="film-details__comment-label">
-                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
-              </label>
-    
-              <div class="film-details__emoji-list">
-                ${createdEmojis}
-              </div>
-            </div>
-          </section>
-        </div>
+        ${commentComponent}
       </form>
     </section>`
   );
@@ -164,8 +108,6 @@ export default class Popup extends AbstractSmartComponent {
     this._film = film;
 
     this._controlButtonsChangeHandler = null;
-
-    this._emoji = null;
     this._setCommentsEmoji();
   }
 
@@ -181,6 +123,8 @@ export default class Popup extends AbstractSmartComponent {
     this.setControlButtonsChangeHandler(this._controlButtonsChangeHandler);
     this.setPopupCloseButtonClickHandler(this.popupCloseButtonClickHandler);
     this.removePopupCloseButtonClickHandler(this._removeButtonHandler);
+    this.setCommentsDeleteButtonClickHandler(this._deleteCommentsButtonClickHandler);
+    this.setSendCommentHandler(this._sendCommentHandler);
     this._setCommentsEmoji();
   }
 
@@ -189,10 +133,6 @@ export default class Popup extends AbstractSmartComponent {
       handler(evt.target.name);
     });
     this._controlButtonsChangeHandler = handler;
-  }
-
-  clearPopupEmojiContainer() {
-    this.getElement().querySelector(`.film-details__add-emoji-label`).innerHTML = ``;
   }
 
   setPopupCloseButtonClickHandler(handler) {
@@ -205,6 +145,10 @@ export default class Popup extends AbstractSmartComponent {
     this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, handler);
 
     this.removeButtonHandler = handler;
+  }
+
+  clearPopupEmojiContainer() {
+    this.getElement().querySelector(`.film-details__add-emoji-label`).innerHTML = ``;
   }
 
   _setCommentsEmoji() {
@@ -228,7 +172,18 @@ export default class Popup extends AbstractSmartComponent {
           emojiPlace.replaceChild(selectedEmoji, emojiPlace.querySelector(`img`));
         }
       }
-
     });
+  }
+
+  setCommentsDeleteButtonClickHandler(handler) {
+    this.getElement().querySelectorAll(`.film-details__comment-delete`)
+      .forEach((button) => button.addEventListener(`click`, handler));
+    this._deleteCommentsButtonClickHandler = handler;
+  }
+
+  setSendCommentHandler(handler) {
+    const commentInputs = this.getElement().querySelector(`.film-details__comment-input`);
+    commentInputs.addEventListener(`keydown`, handler);
+    this._sendCommentHandler = handler;
   }
 }
