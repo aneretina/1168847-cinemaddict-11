@@ -13,12 +13,12 @@ const createControlsTemplate = (control) => {
 };
 
 const createFilmCardTemplate = (film) => {
-  const {title, poster, description, comments, rating, year, duration, genre} = film;
+  const {id, title, poster, description, comments, rating, year, duration, genre} = film;
   const controls = createControlsTemplate(film);
 
 
   return (
-    `<article class="film-card">
+    `<article class="film-card" id = "${id}">
         <h3 class="film-card__title">${title}</h3>
         <p class="film-card__rating">${rating}</p>
         <p class="film-card__info">

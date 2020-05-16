@@ -7,7 +7,7 @@ export const createCommentsMarkup = (comments) => {
       return (
         `<li class="film-details__comment" id="${comment.id}">
       <span class="film-details__comment-emoji">
-      <img src=${comment.emoji} width="55" height="55" alt="emoji-smile">
+      <img src="./images/emoji/${comment.emoji}.png" width="55" height="55" alt="emoji-smile">
     </span>
     <div>
       <p class="film-details__comment-text">${comment.text}</p>
@@ -28,7 +28,7 @@ const createEmojiMarkup = (emojis) => {
         return (
           `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emoji}" value="${emoji}">
            <label class="film-details__emoji-label" for="emoji-${emoji}">
-            <img src="./images/emoji/${emoji}.png" width="30" height="30" alt="emoji">
+            <img src="./images/emoji/${emoji}.png" data-emoji=${emoji} width="30" height="30" alt="emoji">
            </label>`
         );
       }).join(`\n`);

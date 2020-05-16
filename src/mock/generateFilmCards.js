@@ -6,6 +6,7 @@ import moment from "moment";
 
 export const generateFilm = () => {
   return {
+    id: String(new Date() + Math.random()),
     poster: getRandomItem(POSTERS),
     title: getRandomItem(FILM_TITLES),
     originalTitle: ORIGINAL_TITLE,

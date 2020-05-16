@@ -86,13 +86,6 @@ export const GENRES = [
   `Horror`,
 ];
 
-export const COMMENTS_EMOJIS = [
-  `images/emoji/angry.png`,
-  `images/emoji/puke.png`,
-  `images/emoji/sleeping.png`,
-  `images/emoji/smile.png`,
-];
-
 export const COMMENTS_AUTHORS = [
   `Stuart Little`,
   `Max Banny`,

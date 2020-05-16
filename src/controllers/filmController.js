@@ -2,7 +2,8 @@ import FilmCardComponent from "../components/filmCard";
 import PopupComponent from "../components/popup.js";
 import {render, RenderPosition, replace, remove} from "../utils/render.js";
 import {ESC_KEY, ControlButton, Mode, ENTER_KEY} from "../const.js";
-import {generateComment} from "../mock/generateComments";
+import {formatCommentDate, getRandomDate} from "../utils/common";
+import {encode} from "he";
 
 const body = document.querySelector(`body`);
 
@@ -15,6 +16,7 @@ export default class FilmController {
     this._popupComponent = null;
     this._filmCardComponent = null;
 
+    this._id = null;
     this._mode = Mode.DEFAULT;
     this._onViewChange = onViewChange;
     this._onEscKeyDown = this._onEscKeyDown.bind(this);
@@ -31,6 +33,7 @@ export default class FilmController {
     const popupElement = this._popupComponent.getElement();
 
     const renderPopup = () => {
+      this._popupComponent.reset();
       body.appendChild(popupElement);
       this._mode = Mode.POPUP;
       document.addEventListener(`keydown`, this._onEscKeyDown);
@@ -46,8 +49,14 @@ export default class FilmController {
     });
 
     this._popupComponent.setSendCommentHandler((evt) => {
-      if (evt.key === ENTER_KEY) {
-        const comment = generateComment();
+      if (evt.key === ENTER_KEY && (evt.ctrlKey || evt.metaKey)) {
+        const comment = {
+          id: String(new Date() + Math.random()),
+          emoji: this._popupComponent.getCurrentEmoji(),
+          text: encode(evt.target.value),
+          date: formatCommentDate(getRandomDate(new Date(2015, 0, 1), new Date())),
+
+        };
 
         if (!comment) {
           return;
@@ -143,5 +152,9 @@ export default class FilmController {
     remove(this._filmCardComponent);
     remove(this._popupComponent);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
+  }
+
+  getId() {
+    return this._id;
   }
 }

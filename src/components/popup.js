@@ -106,13 +106,15 @@ export default class Popup extends AbstractSmartComponent {
   constructor(film) {
     super();
     this._film = film;
-
+    this._currentEmoji = null;
     this._controlButtonsChangeHandler = null;
     this._setCommentsEmoji();
+
+    this._commentInputs = this.getElement().querySelector(`.film-details__comment-input`);
   }
 
   getTemplate() {
-    return createPopupTemplate(this._film, this._emogi);
+    return createPopupTemplate(this._film);
   }
 
   rerender() {
@@ -157,8 +159,8 @@ export default class Popup extends AbstractSmartComponent {
 
     emojiList.addEventListener(`click`, (evt) => {
       const emojiLabel = evt.target.closest(`.film-details__emoji-label img`);
-
       if (emojiLabel) {
+        this._currentEmoji = emojiLabel.dataset.emoji;
         const selectedEmoji = emojiLabel.cloneNode(true);
         selectedEmoji.style.width = `55px`;
         selectedEmoji.style.height = `55px`;
@@ -176,14 +178,21 @@ export default class Popup extends AbstractSmartComponent {
   }
 
   setCommentsDeleteButtonClickHandler(handler) {
-    this.getElement().querySelectorAll(`.film-details__comment-delete`)
-      .forEach((button) => button.addEventListener(`click`, handler));
+    const deleteButtons = this.getElement().querySelectorAll(`.film-details__comment-delete`);
+    deleteButtons.forEach((button) => button.addEventListener(`click`, handler));
     this._deleteCommentsButtonClickHandler = handler;
   }
 
   setSendCommentHandler(handler) {
-    const commentInputs = this.getElement().querySelector(`.film-details__comment-input`);
-    commentInputs.addEventListener(`keydown`, handler);
+    this._commentInputs.addEventListener(`keydown`, handler);
     this._sendCommentHandler = handler;
+  }
+
+  getCurrentEmoji() {
+    return this._currentEmoji;
+  }
+
+  reset() {
+    this._commentInputs.value = ``;
   }
 }

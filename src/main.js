@@ -1,5 +1,4 @@
 import ProfileComponent from "./components/profile.js";
-import MenuComponent from "./components/menu.js";
 import StatisticsComponent from "./components/statistics.js";
 import {generateFilms} from "./mock/generateFilmCards";
 import {render, RenderPosition} from "./utils/render";

@@ -38,7 +38,11 @@ const getSortedFilms = (films, sortType, from, to) => {
 export default class PageController {
   constructor(container, filmsModel) {
     this._filmsModel = filmsModel;
+
     this._showedFilmsControllers = [];
+    this._topRatedFilmsControllers = [];
+    this._mostCommentedFilmsControllers = [];
+
     this._container = container;
     this._filmsList = this._container.getElement().querySelector(`.films-list`);
     this._filmsListContainer = this._filmsList.querySelector(`.films-list__container`);
@@ -80,9 +84,9 @@ export default class PageController {
     render(container, this._topRatedComponent, RenderPosition.BEFOREEND);
     render(container, this._mostCommentedComponent, RenderPosition.BEFOREEND);
 
-    renderFilms(topRatedFilmsContainer, topRatedFilms.slice(0, EXTRA_FILM_CARDS), this._onDataChange, this._onViewChange);
+    this._topRatedFilmsControllers = renderFilms(topRatedFilmsContainer, topRatedFilms.slice(0, EXTRA_FILM_CARDS), this._onDataChange, this._onViewChange);
 
-    renderFilms(mostCommentedFilmsContainer, mostCommentedFilms.slice(0, EXTRA_FILM_CARDS), this._onDataChange, this._onViewChange);
+    this._mostCommentedFilmsControllers = renderFilms(mostCommentedFilmsContainer, mostCommentedFilms.slice(0, EXTRA_FILM_CARDS), this._onDataChange, this._onViewChange);
   }
 
   _renderFilms(films) {
@@ -130,6 +134,15 @@ export default class PageController {
 
     if (isSuccess) {
       filmController.render(newData);
+      // let allMovies = [].concat(this._topRatedFilmsControllers, this._mostCommentedFilmsControllers, this._showedFilmsControllers)
+      // .filter((movieController) => {
+      // return filmController.getId() === movieController.getId();
+      // });
+
+      // allMovies.forEach((controller) => {
+      // controller.render(newData);
+      //  });
+
     }
   }
 
@@ -163,6 +176,12 @@ export default class PageController {
   }
 
   _onFilterChange() {
+    this._showingFilmsCount = FILM_CARDS_BY_BUTTON;
     this._updateFilms(this._showingFilmsCount);
+
+    if (this._showMoreButtonExists === false) {
+      this._refreshShowMoreButton();
+      this._showMoreButtonExists = true;
+    }
   }
 }
