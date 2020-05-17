@@ -1,13 +1,14 @@
 
-import {COMMENTS_EMOJIS, COMMENTS_TEXTS, COMMENTS_AUTHORS} from "../const.js";
+import {EMOJIS, COMMENTS_TEXTS, COMMENTS_AUTHORS} from "../const.js";
 import {getRandomItem, formatCommentDate, getRandomNumber, getRandomDate} from "../utils/common";
 
-const generateComment = () => {
+export const generateComment = () => {
   return {
-    emoji: getRandomItem(COMMENTS_EMOJIS),
+    id: String(new Date().getTime() + Math.random()),
+    emoji: getRandomItem(EMOJIS),
     author: getRandomItem(COMMENTS_AUTHORS),
     text: getRandomItem(COMMENTS_TEXTS),
-    date: formatCommentDate(getRandomDate(new Date(2015, 0, 1), new Date())),
+    date: formatCommentDate(getRandomDate(new Date(2015, 0, 1), new Date()))
   };
 };
 

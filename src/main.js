@@ -1,11 +1,11 @@
 import ProfileComponent from "./components/profile.js";
-import MenuComponent from "./components/menu.js";
 import StatisticsComponent from "./components/statistics.js";
 import {generateFilms} from "./mock/generateFilmCards";
-import {generateMenu} from "./mock/generateMenu";
 import {render, RenderPosition} from "./utils/render";
 import PageControllerComponent from "./controllers/pageController";
+import FilmsModel from "./models/films";
 import FilmComponent from "./components/film.js";
+import FilterController from "./controllers/filterController";
 import {TOTAL_NUMBER_OF_CARDS} from "./const.js";
 
 const header = document.querySelector(`.header`);
@@ -15,15 +15,19 @@ const footerStatistics = footer.querySelector(`.footer__statistics`);
 
 const generatedFilms = generateFilms(TOTAL_NUMBER_OF_CARDS);
 
-const menu = generateMenu(generatedFilms);
+const filmsModel = new FilmsModel();
+filmsModel.setFilms(generatedFilms);
+
 render(header, new ProfileComponent(), RenderPosition.BEFOREEND);
-render(main, new MenuComponent(menu), RenderPosition.BEFOREEND);
 render(footerStatistics, new StatisticsComponent(), RenderPosition.BEFOREEND);
+
+const filterController = new FilterController(main, filmsModel);
+filterController.render();
 
 const filmComponent = new FilmComponent(generatedFilms.length === 0);
 render(main, filmComponent, RenderPosition.BEFOREEND);
 
-const pageController = new PageControllerComponent(filmComponent);
+const pageController = new PageControllerComponent(filmComponent, filmsModel);
 
 pageController.render(generatedFilms);
 

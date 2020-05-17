@@ -1,4 +1,4 @@
-import {MENU_OPTIONS} from "../const.js";
+// import {MENU_OPTIONS} from "../const.js";
 
 export const generateMenu = (generatedFilms) => {
   let filteredFilms = [0, 0, 0, 0];

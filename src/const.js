@@ -11,6 +11,14 @@ export const RELEASE_DATE = `30 March 1945`;
 export const COUNTRY = `USA`;
 
 export const ESC_KEY = `Escape`;
+export const ENTER_KEY = `Enter`;
+
+export const FilterType = {
+  ALL: `All`,
+  WATCHLIST: `Watchlist`,
+  HISTORY: `History`,
+  FAVORITES: `Favorites`
+};
 
 export const SortType = {
   DEFAULT: `default`,
@@ -34,13 +42,6 @@ export const EMOJIS = [
   `puke`,
   `sleeping`,
   `smile`
-];
-
-export const MENU_OPTIONS = [
-  `All`,
-  `Watchlist`,
-  `History`,
-  `Favorites`
 ];
 
 export const FILM_TITLES = [
@@ -83,13 +84,6 @@ export const GENRES = [
   `Comedy`,
   `Mystery`,
   `Horror`,
-];
-
-export const COMMENTS_EMOJIS = [
-  `images/emoji/angry.png`,
-  `images/emoji/puke.png`,
-  `images/emoji/sleeping.png`,
-  `images/emoji/smile.png`,
 ];
 
 export const COMMENTS_AUTHORS = [

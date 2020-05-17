@@ -1,7 +1,9 @@
 import FilmCardComponent from "../components/filmCard";
 import PopupComponent from "../components/popup.js";
-import {render, RenderPosition, replace} from "../utils/render.js";
-import {ESC_KEY, ControlButton, Mode} from "../const.js";
+import {render, RenderPosition, replace, remove} from "../utils/render.js";
+import {ESC_KEY, ControlButton, Mode, ENTER_KEY} from "../const.js";
+import {formatCommentDate, getRandomDate} from "../utils/common";
+import {encode} from "he";
 
 const body = document.querySelector(`body`);
 
@@ -14,6 +16,7 @@ export default class FilmController {
     this._popupComponent = null;
     this._filmCardComponent = null;
 
+    this._id = null;
     this._mode = Mode.DEFAULT;
     this._onViewChange = onViewChange;
     this._onEscKeyDown = this._onEscKeyDown.bind(this);
@@ -21,7 +24,7 @@ export default class FilmController {
 
   render(film) {
     const container = this._container;
-
+    this._id = film.id;
     const oldFilmCardComponent = this._filmCardComponent;
     const oldPopupComponent = this._popupComponent;
 
@@ -29,12 +32,40 @@ export default class FilmController {
     this._popupComponent = new PopupComponent(film);
     const popupElement = this._popupComponent.getElement();
 
-
     const renderPopup = () => {
+      this._popupComponent.reset();
       body.appendChild(popupElement);
       this._mode = Mode.POPUP;
       document.addEventListener(`keydown`, this._onEscKeyDown);
     };
+
+    this._popupComponent.setCommentsDeleteButtonClickHandler((evt) => {
+      evt.preventDefault();
+      const deleteCommentButton = evt.target;
+      const commentElement = deleteCommentButton.closest(`.film-details__comment`);
+      const deleteCommentId = commentElement.id;
+      const comments = film.comments.filter((comment) => comment.id !== deleteCommentId);
+      this._onDataChange(this, film, Object.assign(film, {comments}));
+    });
+
+    this._popupComponent.setSendCommentHandler((evt) => {
+      if (evt.key === ENTER_KEY && (evt.ctrlKey || evt.metaKey)) {
+        const comment = {
+          id: String(new Date().getTime() + Math.random()),
+          emoji: this._popupComponent.getCurrentEmoji(),
+          text: encode(evt.target.value),
+          date: formatCommentDate(getRandomDate(new Date(2015, 0, 1), new Date())),
+
+        };
+
+        if (!comment) {
+          return;
+        }
+
+        const newComments = film.comments.concat(comment);
+        this._onDataChange(this, film, Object.assign(film, {comments: newComments}));
+      }
+    });
 
     this._filmCardComponent.setAddToWatchListButtonClickHandler((evt) => {
       evt.preventDefault();
@@ -106,8 +137,8 @@ export default class FilmController {
   _onEscKeyDown(evt) {
     if (evt.key === ESC_KEY) {
       this._closePopup();
+      document.removeEventListener(`keydown`, this._onEscKeyDown);
     }
-    document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
 
   setDefaultView() {
@@ -115,5 +146,15 @@ export default class FilmController {
       this._closePopup();
       this._mode = Mode.DEFAULT;
     }
+  }
+
+  destroy() {
+    remove(this._filmCardComponent);
+    remove(this._popupComponent);
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
+  }
+
+  getId() {
+    return this._id;
   }
 }
