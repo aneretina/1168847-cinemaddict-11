@@ -133,15 +133,14 @@ export default class PageController {
     const isSuccess = this._filmsModel.updateFilms(oldData.id, newData);
 
     if (isSuccess) {
-      filmController.render(newData);
-      // let allMovies = [].concat(this._topRatedFilmsControllers, this._mostCommentedFilmsControllers, this._showedFilmsControllers)
-      // .filter((movieController) => {
-      // return filmController.getId() === movieController.getId();
-      // });
+      let allMovies = [].concat(this._topRatedFilmsControllers, this._mostCommentedFilmsControllers, this._showedFilmsControllers)
+      .filter((movieController) => {
+        return filmController.getId() === movieController.getId();
+      });
 
-      // allMovies.forEach((controller) => {
-      // controller.render(newData);
-      //  });
+      allMovies.forEach((controller) => {
+        controller.render(newData);
+      });
 
     }
   }

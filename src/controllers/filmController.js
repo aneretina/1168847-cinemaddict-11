@@ -24,7 +24,7 @@ export default class FilmController {
 
   render(film) {
     const container = this._container;
-
+    this._id = film.id;
     const oldFilmCardComponent = this._filmCardComponent;
     const oldPopupComponent = this._popupComponent;
 
@@ -51,7 +51,7 @@ export default class FilmController {
     this._popupComponent.setSendCommentHandler((evt) => {
       if (evt.key === ENTER_KEY && (evt.ctrlKey || evt.metaKey)) {
         const comment = {
-          id: String(new Date() + Math.random()),
+          id: String(new Date().getTime() + Math.random()),
           emoji: this._popupComponent.getCurrentEmoji(),
           text: encode(evt.target.value),
           date: formatCommentDate(getRandomDate(new Date(2015, 0, 1), new Date())),

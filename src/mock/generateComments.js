@@ -4,7 +4,7 @@ import {getRandomItem, formatCommentDate, getRandomNumber, getRandomDate} from "
 
 export const generateComment = () => {
   return {
-    id: String(new Date() + Math.random()),
+    id: String(new Date().getTime() + Math.random()),
     emoji: getRandomItem(EMOJIS),
     author: getRandomItem(COMMENTS_AUTHORS),
     text: getRandomItem(COMMENTS_TEXTS),
