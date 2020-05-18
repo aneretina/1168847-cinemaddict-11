@@ -20,6 +20,14 @@ export const FilterType = {
   FAVORITES: `Favorites`
 };
 
+export const StatsSortType = {
+  ALL: `All time`,
+  TODAY: `Today`,
+  WEEK: `Week`,
+  MONTH: `Month`,
+  YEAR: `Year`,
+};
+
 export const SortType = {
   DEFAULT: `default`,
   DATE: `date`,

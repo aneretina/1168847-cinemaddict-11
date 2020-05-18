@@ -1,5 +1,6 @@
 import ProfileComponent from "./components/profile.js";
 import StatisticsComponent from "./components/statistics.js";
+import StatsComponent from "./components/stats.js";
 import {generateFilms} from "./mock/generateFilmCards";
 import {render, RenderPosition} from "./utils/render";
 import PageControllerComponent from "./controllers/pageController";
@@ -19,6 +20,12 @@ const filmsModel = new FilmsModel();
 filmsModel.setFilms(generatedFilms);
 
 render(header, new ProfileComponent(), RenderPosition.BEFOREEND);
+
+const statsComponent = new StatsComponent();
+render(main, statsComponent, RenderPosition.BEFOREBEEND);
+statsComponent.show();
+
+
 render(footerStatistics, new StatisticsComponent(), RenderPosition.BEFOREEND);
 
 const filterController = new FilterController(main, filmsModel);

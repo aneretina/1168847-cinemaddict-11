@@ -183,4 +183,14 @@ export default class PageController {
       this._showMoreButtonExists = true;
     }
   }
+
+  hide() {
+    this._container.hide();
+    this._sortingComponent.hide();
+  }
+
+  show() {
+    this._container.show();
+    this._sortingComponent.show();
+  }
 }

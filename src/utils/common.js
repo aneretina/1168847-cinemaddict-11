@@ -27,3 +27,15 @@ export const formatCommentDate = (date) => {
   // return moment(date).fromNow();
 };
 
+export const formatRank = (watchedFilmsNumber) => {
+  if (!watchedFilmsNumber) {
+    return ``;
+  } else if (watchedFilmsNumber <= 10) {
+    return `Novice`;
+  } else if (watchedFilmsNumber > 10 && watchedFilmsNumber <= 20) {
+    return `Fan`;
+  } else {
+    return `Movie Buff`;
+  }
+};
+

@@ -53,4 +53,5 @@ export default class Films {
   _callHandlers(handlers) {
     handlers.forEach((handler) => handler());
   }
+
 }
