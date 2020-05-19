@@ -1,6 +1,14 @@
 import AbstractSmartComponent from "./abstractSmartComponent.js";
 import CommentComponent from "./comment.js";
 
+const createGenreMarkup = (genres) => {
+  return genres
+    .map((genre) => {
+      return (
+        `<span class="film-details__genre">${genre}</span>`
+      );
+    }).join(`\n`);
+};
 
 const createControlsTemplate = (control) => {
   const {addedToWatchList, markedAsWatched, isFavorite} = control;
@@ -25,6 +33,7 @@ const createPopupTemplate = (film) => {
   const {poster, title, description, rating, duration, genre, comments, originalTitle, director, writers, actors, year, country} = film;
   const controls = createControlsTemplate(film);
   const commentComponent = new CommentComponent(comments).getTemplate();
+  const genreMarkup = createGenreMarkup(genre);
 
   return (
     `<section class="film-details">
@@ -80,11 +89,9 @@ const createPopupTemplate = (film) => {
                   <td class="film-details__cell">${country}</td>
                 </tr>
                 <tr class="film-details__row">
-                  <td class="film-details__term">Genres</td>
+                  <td class="film-details__term">${genre.length > 1 ? `Genres` : `Genre`}</td>
                   <td class="film-details__cell">
-                    <span class="film-details__genre">${genre}</span>
-                    <span class="film-details__genre">${genre}</span>
-                    <span class="film-details__genre">${genre}</span></td>
+                  ${genreMarkup}
                 </tr>
               </table>
            

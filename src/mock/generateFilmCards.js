@@ -3,6 +3,14 @@ import {getRandomItem, getRandomNumber, getRandomDuration, getRandomDate} from "
 import {generateComments} from "./generateComments.js";
 import moment from "moment";
 
+const generateGenre = () => {
+  const genreList = [];
+  const countGenre = getRandomNumber(1, GENRES.length);
+  for (let i = 0; i < countGenre; i++) {
+    genreList.push(getRandomItem(GENRES));
+  }
+  return genreList;
+};
 
 export const generateFilm = () => {
   return {
@@ -17,13 +25,14 @@ export const generateFilm = () => {
     country: COUNTRY,
     description: getRandomItem(DESCRIPTIONS),
     year: moment(getRandomDate(new Date(2010), new Date())),
-    genre: getRandomItem(GENRES),
+    genre: generateGenre(),
     rating: Math.floor(Math.random() * 10),
     duration: moment(getRandomDuration(getRandomNumber(30, 300)), `h mm`).format(`h[h] mm[m]`),
     comments: generateComments(),
     addedToWatchList: (Math.floor(Math.random() * 2) === 0),
     markedAsWatched: (Math.floor(Math.random() * 2) === 0),
-    isFavorite: (Math.floor(Math.random() * 2) === 0)
+    isFavorite: (Math.floor(Math.random() * 2) === 0),
+    watchedDate: getRandomDate(new Date(2010), new Date())
   };
 };
 

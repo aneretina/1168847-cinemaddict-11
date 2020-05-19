@@ -56,4 +56,8 @@ export default class Menu extends AbstractComponent {
       handler(filterName);
     });
   }
+
+  setStatsClickHandler(handler) {
+    this.getElement().querySelector(`.main-navigation__additional`).addEventListener(`click`, handler);
+  }
 }

@@ -16,15 +16,14 @@ const footerStatistics = footer.querySelector(`.footer__statistics`);
 
 const generatedFilms = generateFilms(TOTAL_NUMBER_OF_CARDS);
 
+
 const filmsModel = new FilmsModel();
 filmsModel.setFilms(generatedFilms);
 
 render(header, new ProfileComponent(), RenderPosition.BEFOREEND);
 
-const statsComponent = new StatsComponent();
-render(main, statsComponent, RenderPosition.BEFOREBEEND);
-statsComponent.show();
-
+const statsComponent = new StatsComponent(generatedFilms);
+render(main, statsComponent, RenderPosition.BEFOREEND);
 
 render(footerStatistics, new StatisticsComponent(), RenderPosition.BEFOREEND);
 
