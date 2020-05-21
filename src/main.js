@@ -8,6 +8,7 @@ import FilmsModel from "./models/films";
 import FilmComponent from "./components/film.js";
 import FilterController from "./controllers/filterController";
 import {TOTAL_NUMBER_OF_CARDS} from "./const.js";
+import {getWatchedFilms} from "./utils/filter";
 
 const header = document.querySelector(`.header`);
 const main = document.querySelector(`.main`);
@@ -20,9 +21,12 @@ const generatedFilms = generateFilms(TOTAL_NUMBER_OF_CARDS);
 const filmsModel = new FilmsModel();
 filmsModel.setFilms(generatedFilms);
 
+
+const watchedFilms = getWatchedFilms(filmsModel.getFilms());
+
 render(header, new ProfileComponent(), RenderPosition.BEFOREEND);
 
-const statsComponent = new StatsComponent(generatedFilms);
+const statsComponent = new StatsComponent(watchedFilms);
 render(main, statsComponent, RenderPosition.BEFOREEND);
 
 render(footerStatistics, new StatisticsComponent(), RenderPosition.BEFOREEND);

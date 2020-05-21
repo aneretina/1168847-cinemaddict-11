@@ -1,7 +1,6 @@
 import moment from "moment";
 import {StatsSortType, BAR_HEIGHT} from "../const.js";
 import {formatRank} from "../utils/common.js";
-import {getWatchedFilms} from "../utils/filter";
 import AbstractSmartComponent from "./abstractSmartComponent.js";
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -110,47 +109,73 @@ const renderChart = (statsCtx, watchedFilms) => {
   });
 };
 
-const createStatsTemplate = (films, filterType) => {
-  const watchedFilms = getWatchedFilms(films);
-  const watchedFilmsCount = watchedFilms.length;
+const getFilmsByPeriods = (films, period) => {
+  let dateFrom;
+  const today = new Date();
+
+  switch (period) {
+    case StatsSortType.TODAY:
+      dateFrom = new Date(today.setDate(today.getDate() - 1));
+      break;
+    case StatsSortType.WEEK:
+      dateFrom = new Date(today.setDate(today.getDate() - 7));
+      break;
+    case StatsSortType.MONTH:
+      dateFrom = new Date(today.setMonth(today.getMonth() - 1));
+      break;
+    case StatsSortType.YEAR:
+      dateFrom = new Date(today.setFullYear(today.getFullYear() - 1));
+      break;
+    default:
+      dateFrom = null;
+  }
+
+  return films.filter((film) => {
+    const watchedDate = film.watchedDate;
+
+    return dateFrom ? watchedDate >= dateFrom && watchedDate <= new Date() : film;
+  });
+};
+
+const createStatsTemplate = (watchedFilms, period) => {
   const rank = formatRank(watchedFilms.length);
+
   const rankMarkup = rank ? createRankMarkup(rank) : ``;
 
-  const totalDuration = watchedFilms.reduce((prev, cur) => {
-    prev += cur.duration;
+  const filmsByPeriods = getFilmsByPeriods(watchedFilms, period);
+
+  const totalDuration = filmsByPeriods.reduce((prev, cur) => {
+    prev.add(cur.duration);
     return prev;
-  }, 0);
+  }, moment.duration());
 
-  const hours = moment.utc(moment.duration(totalDuration, `minutes`).asMilliseconds()).format(`H`);
-  const minutes = moment.utc(moment.duration(totalDuration, `minutes`).asMilliseconds()).format(`m`);
-
-  const topGenre = getTopGenre(watchedFilms);
+  const topGenre = getTopGenre(filmsByPeriods);
 
   return (
     `<section class="statistic">
     ${rankMarkup}
   <form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
     <p class="statistic__filters-description">Show stats:</p>
-    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-all-time" value="all-time" ${filterType === StatsSortType.ALL ? `checked` : ``}>
+    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-all-time" value="all-time" ${period === StatsSortType.ALL ? `checked` : ``}>
     <label for="statistic-all-time" class="statistic__filters-label">All time</label>
-    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-today" value="today" ${filterType === StatsSortType.TODAY ? `checked` : ``}>
+    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-today" value="today" ${period === StatsSortType.TODAY ? `checked` : ``}>
     <label for="statistic-today" class="statistic__filters-label">Today</label>
-    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-week" value="week" ${filterType === StatsSortType.WEEK ? `checked` : ``}>
+    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-week" value="week" ${period === StatsSortType.WEEK ? `checked` : ``}>
     <label for="statistic-week" class="statistic__filters-label">Week</label>
-    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-month" value="month" ${filterType === StatsSortType.MONTH ? `checked` : ``}>
+    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-month" value="month" ${period === StatsSortType.MONTH ? `checked` : ``}>
     <label for="statistic-month" class="statistic__filters-label">Month</label>
-    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-year" value="year" ${filterType === StatsSortType.YEAR ? `checked` : ``}>
+    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-year" value="year" ${period === StatsSortType.YEAR ? `checked` : ``}>
     <label for="statistic-year" class="statistic__filters-label">Year</label>
   </form>
 
   <ul class="statistic__text-list">
     <li class="statistic__text-item">
       <h4 class="statistic__item-title">You watched</h4>
-      <p class="statistic__item-text">${watchedFilmsCount}<span class="statistic__item-description">movies</span></p>
+      <p class="statistic__item-text">${filmsByPeriods.length}<span class="statistic__item-description">movies</span></p>
     </li>
     <li class="statistic__text-item">
       <h4 class="statistic__item-title">Total duration</h4>
-      <p class="statistic__item-text">${hours}<span class="statistic__item-description">h</span>${minutes} <span class="statistic__item-description">m</span></p>
+      <p class="statistic__item-text">${totalDuration.hours()}<span class="statistic__item-description">h</span>${totalDuration.minutes()} <span class="statistic__item-description">m</span></p>
     </li>
     <li class="statistic__text-item">
       <h4 class="statistic__item-title">Top genre</h4>
@@ -169,44 +194,45 @@ export default class Stats extends AbstractSmartComponent {
   constructor(films) {
     super();
     this._films = films;
-    this._watchedFilms = getWatchedFilms(this._films);
-    this._activeSortType = StatsSortType.ALL;
+    this._currentPeriod = StatsSortType.ALL;
 
-
-    this._chart = null;
+    this._chart = this._renderChart();
+    this.setPeriodChangeHandler();
   }
 
   rerender() {
     this._renderChart();
   }
 
-  show() {
-    super.show();
-  }
-
   recoveryListeners() {
-    this.setFilterInputHandler(this.filterInputhandler);
+    this.setPeriodChangeHandler();
   }
 
 
   getTemplate() {
-    return createStatsTemplate(this._films, this._activeSortType);
+    return createStatsTemplate(this._films, this._currentPeriod);
   }
 
   _renderChart() {
-    const statsCtx = this.getElement().querySelector(`.statistic__chart`);
-    if (this._watchedFilms.length !== 0) {
-      this._chart = renderChart(statsCtx, this._watchedFilms);
+    const statsCtx = this.getElement().querySelector(`.statistic__chart`).getContext(`2d`);
+    if (this._films.length !== 0) {
+      renderChart(statsCtx, this._films);
+    }
+    return;
+  }
+
+  _resetChart() {
+    if (this._chart) {
+      this._chart.destroy();
+      this._chart = null;
     }
   }
 
-  setFilterInputHandler(handler) {
-    this.getElement().querySelectorAll(`.statistic__filters-input`)
-        .forEach((input) => {
-          input.addEventListener(`change`, (evt) => {
-            handler(evt.target.value);
-          });
-        });
-    this.filterInputhandler = handler;
+  setPeriodChangeHandler() {
+    this.getElement().querySelector(`.statistic__filters`).addEventListener(`change`, (evt) => {
+      this._activeSortType = evt.target.value;
+      this.rerender();
+    });
   }
+
 }

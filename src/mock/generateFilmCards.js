@@ -27,7 +27,7 @@ export const generateFilm = () => {
     year: moment(getRandomDate(new Date(2010), new Date())),
     genre: generateGenre(),
     rating: Math.floor(Math.random() * 10),
-    duration: moment(getRandomDuration(getRandomNumber(30, 300)), `h mm`).format(`h[h] mm[m]`),
+    duration: moment(getRandomDuration(getRandomNumber(30, 300)), `h mm`),
     comments: generateComments(),
     addedToWatchList: (Math.floor(Math.random() * 2) === 0),
     markedAsWatched: (Math.floor(Math.random() * 2) === 0),
