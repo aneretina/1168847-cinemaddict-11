@@ -24,7 +24,7 @@ export const generateFilm = () => {
     releaseDate: RELEASE_DATE,
     country: COUNTRY,
     description: getRandomItem(DESCRIPTIONS),
-    year: moment(getRandomDate(new Date(2010), new Date())),
+    year: moment(getRandomDate(new Date(`01.01.2010`), new Date())),
     genre: generateGenre(),
     rating: Math.floor(Math.random() * 10),
     duration: moment(getRandomDuration(getRandomNumber(30, 300)), `h mm`),
@@ -32,7 +32,7 @@ export const generateFilm = () => {
     addedToWatchList: (Math.floor(Math.random() * 2) === 0),
     markedAsWatched: (Math.floor(Math.random() * 2) === 0),
     isFavorite: (Math.floor(Math.random() * 2) === 0),
-    watchedDate: getRandomDate(new Date(2010), new Date())
+    watchedDate: moment(getRandomDate(new Date(`05.10.2020`), new Date()))
   };
 };
 

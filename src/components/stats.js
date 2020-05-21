@@ -47,17 +47,20 @@ const getTopGenre = (watchedFilms) => {
   return topGenre;
 };
 
-const renderChart = (statsCtx, watchedFilms) => {
-  const genresCounts = getGenres(watchedFilms);
-  statsCtx.height = BAR_HEIGHT * genresCounts.length;
+const renderChart = (statsCtx, genres) => {
+  if (Object.keys(genres).length === 0) {
+    return null;
+  }
+
+  statsCtx.height = BAR_HEIGHT * Object.keys(genres).length;
 
   return new Chart(statsCtx, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
     data: {
-      labels: Object.keys(genresCounts),
+      labels: Object.keys(genres),
       datasets: [{
-        data: Object.values(genresCounts),
+        data: Object.values(genres),
         backgroundColor: `#ffe800`,
         hoverBackgroundColor: `#ffe800`,
         anchor: `start`,
@@ -115,26 +118,31 @@ const getFilmsByPeriods = (films, period) => {
 
   switch (period) {
     case StatsSortType.TODAY:
-      dateFrom = new Date(today.setDate(today.getDate() - 1));
+      dateFrom = moment(today.setDate(today.getDate() - 1));
       break;
     case StatsSortType.WEEK:
-      dateFrom = new Date(today.setDate(today.getDate() - 7));
+      dateFrom = moment(today.setDate(today.getDate() - 7));
       break;
     case StatsSortType.MONTH:
-      dateFrom = new Date(today.setMonth(today.getMonth() - 1));
+      dateFrom = moment(today.setMonth(today.getMonth() - 1));
       break;
     case StatsSortType.YEAR:
-      dateFrom = new Date(today.setFullYear(today.getFullYear() - 1));
+      dateFrom = moment(today.setFullYear(today.getFullYear() - 1));
       break;
     default:
       dateFrom = null;
   }
 
-  return films.filter((film) => {
+  let abc = films.filter((film) => {
     const watchedDate = film.watchedDate;
 
-    return dateFrom ? watchedDate >= dateFrom && watchedDate <= new Date() : film;
+    if (!dateFrom) {
+      return true;
+    }
+    return watchedDate.diff(dateFrom) > 0;
   });
+  console.log(abc)
+  return abc;
 };
 
 const createStatsTemplate = (watchedFilms, period) => {
@@ -142,14 +150,12 @@ const createStatsTemplate = (watchedFilms, period) => {
 
   const rankMarkup = rank ? createRankMarkup(rank) : ``;
 
-  const filmsByPeriods = getFilmsByPeriods(watchedFilms, period);
-
-  const totalDuration = filmsByPeriods.reduce((prev, cur) => {
+  const totalDuration = watchedFilms.reduce((prev, cur) => {
     prev.add(cur.duration);
     return prev;
   }, moment.duration());
 
-  const topGenre = getTopGenre(filmsByPeriods);
+  const topGenre = getTopGenre(watchedFilms);
 
   return (
     `<section class="statistic">
@@ -171,7 +177,7 @@ const createStatsTemplate = (watchedFilms, period) => {
   <ul class="statistic__text-list">
     <li class="statistic__text-item">
       <h4 class="statistic__item-title">You watched</h4>
-      <p class="statistic__item-text">${filmsByPeriods.length}<span class="statistic__item-description">movies</span></p>
+      <p class="statistic__item-text">${watchedFilms.length}<span class="statistic__item-description">movies</span></p>
     </li>
     <li class="statistic__text-item">
       <h4 class="statistic__item-title">Total duration</h4>
@@ -196,7 +202,9 @@ export default class Stats extends AbstractSmartComponent {
     this._films = films;
     this._currentPeriod = StatsSortType.ALL;
 
-    this._chart = this._renderChart();
+    this._chart = null;
+    this._renderChart();
+
     this.setPeriodChangeHandler();
   }
 
@@ -214,11 +222,11 @@ export default class Stats extends AbstractSmartComponent {
   }
 
   _renderChart() {
-    const statsCtx = this.getElement().querySelector(`.statistic__chart`).getContext(`2d`);
+    const statsCtx = this.getElement().querySelector(`.statistic__chart`);
+    this._resetChart();
     if (this._films.length !== 0) {
-      renderChart(statsCtx, this._films);
+      this._chart = renderChart(statsCtx, getGenres(getFilmsByPeriods(this._films, this._currentPeriod)));
     }
-    return;
   }
 
   _resetChart() {
@@ -229,8 +237,8 @@ export default class Stats extends AbstractSmartComponent {
   }
 
   setPeriodChangeHandler() {
-    this.getElement().querySelector(`.statistic__filters`).addEventListener(`change`, (evt) => {
-      this._activeSortType = evt.target.value;
+    this.getElement().querySelector(`.statistic__filters`).addEventListener(`click`, (evt) => {
+      this._currentPeriod = evt.target.value;
       this.rerender();
     });
   }

@@ -23,11 +23,11 @@ export const FilterType = {
 };
 
 export const StatsSortType = {
-  ALL: `All time`,
-  TODAY: `Today`,
-  WEEK: `Week`,
-  MONTH: `Month`,
-  YEAR: `Year`,
+  ALL: `all-time`,
+  TODAY: `today`,
+  WEEK: `week`,
+  MONTH: `month`,
+  YEAR: `year`,
 };
 
 export const SortType = {
