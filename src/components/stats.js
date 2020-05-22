@@ -148,12 +148,12 @@ const createStatsTemplate = (watchedFilms, filmsByPeriods, period) => {
 
   const rankMarkup = rank ? createRankMarkup(rank) : ``;
 
-  const totalDuration = watchedFilms.reduce((prev, cur) => {
+  const totalDuration = filmsByPeriods.reduce((prev, cur) => {
     prev.add(cur.duration);
     return prev;
   }, moment.duration());
 
-  const topGenre = getTopGenre((getFilmsByPeriods(watchedFilms, period)));
+  const topGenre = getTopGenre(filmsByPeriods);
 
   return (
     `<section class="statistic">
@@ -161,25 +161,25 @@ const createStatsTemplate = (watchedFilms, filmsByPeriods, period) => {
   <form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
     <p class="statistic__filters-description">Show stats:</p>
     <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-all-time" value="all-time" ${period === StatsSortType.ALL ? `checked` : ``}>
-    <label for="statistic-all-time" class="statistic__filters-label">All time</label>
+    <label for="statistic-all-time" data-period = "all-time" class="statistic__filters-label">All time</label>
     <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-today" value="today" ${period === StatsSortType.TODAY ? `checked` : ``}>
-    <label for="statistic-today" class="statistic__filters-label">Today</label>
+    <label for="statistic-today" data-period = "today" class="statistic__filters-label">Today</label>
     <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-week" value="week" ${period === StatsSortType.WEEK ? `checked` : ``}>
-    <label for="statistic-week" class="statistic__filters-label">Week</label>
+    <label for="statistic-week" data-period = "week" class="statistic__filters-label">Week</label>
     <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-month" value="month" ${period === StatsSortType.MONTH ? `checked` : ``}>
-    <label for="statistic-month" class="statistic__filters-label">Month</label>
+    <label for="statistic-month" data-period = "month" class="statistic__filters-label">Month</label>
     <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-year" value="year" ${period === StatsSortType.YEAR ? `checked` : ``}>
-    <label for="statistic-year" class="statistic__filters-label">Year</label>
+    <label for="statistic-year" data-period = "year" class="statistic__filters-label">Year</label>
   </form>
 
   <ul class="statistic__text-list">
     <li class="statistic__text-item">
       <h4 class="statistic__item-title">You watched</h4>
-      <p class="statistic__item-text">${watchedFilms.length}<span class="statistic__item-description">movies</span></p>
+      <p class="statistic__item-text">${filmsByPeriods.length}<span class="statistic__item-description">movies</span></p>
     </li>
     <li class="statistic__text-item">
       <h4 class="statistic__item-title">Total duration</h4>
-      <p class="statistic__item-text">${totalDuration.hours()}<span class="statistic__item-description">h</span>${totalDuration.minutes()} <span class="statistic__item-description">m</span></p>
+      <p class="statistic__item-text">${Math.floor(totalDuration.asHours())}<span class="statistic__item-description">h</span>${totalDuration.minutes()} <span class="statistic__item-description">m</span></p>
     </li>
     <li class="statistic__text-item">
       <h4 class="statistic__item-title">Top genre</h4>
@@ -199,6 +199,7 @@ export default class Stats extends AbstractSmartComponent {
     super();
     this._films = films;
     this._currentPeriod = StatsSortType.ALL;
+    this._filmsByPeriods = getFilmsByPeriods(this._films, this._currentPeriod);
     this._chart = null;
     this._renderChart();
 
@@ -206,6 +207,7 @@ export default class Stats extends AbstractSmartComponent {
   }
 
   rerender() {
+    super.rerender();
     this._renderChart();
   }
 
@@ -215,7 +217,7 @@ export default class Stats extends AbstractSmartComponent {
 
 
   getTemplate() {
-    return createStatsTemplate(this._films, this._currentPeriod);
+    return createStatsTemplate(this._films, this._filmsByPeriods, this._currentPeriod);
   }
 
   _renderChart() {
@@ -235,7 +237,8 @@ export default class Stats extends AbstractSmartComponent {
 
   setPeriodChangeHandler() {
     this.getElement().querySelector(`.statistic__filters`).addEventListener(`click`, (evt) => {
-      this._currentPeriod = evt.target.value;
+      this._currentPeriod = evt.target.dataset.period;
+      this._filmsByPeriods = getFilmsByPeriods(this._films, this._currentPeriod);
       this.rerender();
     });
   }

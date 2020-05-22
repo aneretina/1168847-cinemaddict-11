@@ -15,7 +15,7 @@ export const getRandomDuration = (duration) => {
   const hours = `${Math.floor(duration / MINUTES_IN_HOUR)}`;
   const minutes = `${duration % MINUTES_IN_HOUR}`;
 
-  return `${hours}h ${minutes}m`;
+  return (hours * MINUTES_IN_HOUR * 60 + minutes * 60) * 1000;
 };
 
 export const getRandomDate = (start, end) => {

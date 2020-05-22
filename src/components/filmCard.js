@@ -15,7 +15,7 @@ const createControlsTemplate = (control) => {
 const createFilmCardTemplate = (film) => {
   const {id, title, poster, description, comments, rating, year, duration, genre} = film;
   const controls = createControlsTemplate(film);
-
+  
 
   return (
     `<article class="film-card" id = "${id}">

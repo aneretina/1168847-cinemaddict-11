@@ -19,7 +19,7 @@ const createMenuTemplate = (filters) => {
       <div class="main-navigation__items">
       ${menuFilterItem}
       </div>
-     <a href="#stats" class="main-navigation__additional">Stats</a>
+     <a href="#stats" data-filter-name="stats" class="main-navigation__additional">Stats</a>
     </nav>`
   );
 };

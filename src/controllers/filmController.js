@@ -78,7 +78,6 @@ export default class FilmController {
       evt.preventDefault();
       this._onDataChange(this, film, Object.assign({}, film, {
         markedAsWatched: !film.markedAsWatched,
-        watchedDate: new Date()
       }));
     });
 
@@ -103,7 +102,6 @@ export default class FilmController {
       if (buttonName === ControlButton.WATCHED) {
         this._onDataChange(this, film, Object.assign({}, film, {
           markedAsWatched: !film.markedAsWatched,
-          watchedDate: new Date()
         }));
       }
 
