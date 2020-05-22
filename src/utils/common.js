@@ -15,7 +15,7 @@ export const getRandomDuration = (duration) => {
   const hours = `${Math.floor(duration / MINUTES_IN_HOUR)}`;
   const minutes = `${duration % MINUTES_IN_HOUR}`;
 
-  return `${hours}h ${minutes}m`;
+  return (hours * MINUTES_IN_HOUR * 60 + minutes * 60) * 1000;
 };
 
 export const getRandomDate = (start, end) => {
@@ -25,5 +25,17 @@ export const getRandomDate = (start, end) => {
 export const formatCommentDate = (date) => {
   return moment(date).format(`DD/MM/YY hh:mm`);
   // return moment(date).fromNow();
+};
+
+export const formatRank = (watchedFilmsNumber) => {
+  if (!watchedFilmsNumber) {
+    return ``;
+  } else if (watchedFilmsNumber <= 10) {
+    return `Novice`;
+  } else if (watchedFilmsNumber > 10 && watchedFilmsNumber <= 20) {
+    return `Fan`;
+  } else {
+    return `Movie Buff`;
+  }
 };
 

@@ -1,12 +1,17 @@
 import MenuComponent from "../components/menu.js";
 import {FilterType} from "../const.js";
 import {render, replace, RenderPosition} from "../utils/render.js";
-import {getFilmsByFilter} from "../utils/filter.js";
+import {getFilmsByFilter, getWatchedFilms} from "../utils/filter.js";
+import StatsComponent from "../components/stats.js";
+
 
 export default class FilterController {
-  constructor(container, filmsModel) {
+  constructor(container, filmsModel, pageController) {
     this._container = container;
+
     this._filmsModel = filmsModel;
+    this._pageController = pageController;
+    this._statsComponent = null;
 
     this._activeFilterType = FilterType.ALL;
     this._menuComponent = null;
@@ -37,17 +42,31 @@ export default class FilterController {
     if (oldComponent) {
       replace(this._filterComponent, oldComponent);
     } else {
-      render(container, this._filterComponent, RenderPosition.BEFOREEND);
+      render(container, this._filterComponent, RenderPosition.AFTERBEGIN);
     }
+
+    const watchedFilms = getWatchedFilms(this._filmsModel.getFilms());
+    this._statsComponent = new StatsComponent(watchedFilms);
+    render(this._container, this._statsComponent, RenderPosition.BEFOREEND);
+    this._statsComponent.hide();
   }
 
+
   _onFilterChange(filterType) {
-    this._filmsModel.setFilter(filterType);
-    this._activeFilterType = filterType;
+    if (filterType === `stats`) {
+      this._pageController.hide();
+      this._statsComponent.show();
+    } else {
+      this._pageController.show();
+      this._statsComponent.hide();
+      this._filmsModel.setFilter(filterType);
+      this._activeFilterType = filterType;
+    }
   }
 
   _onDataChange() {
     this.render();
   }
+
 }
 

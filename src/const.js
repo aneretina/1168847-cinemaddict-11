@@ -13,11 +13,21 @@ export const COUNTRY = `USA`;
 export const ESC_KEY = `Escape`;
 export const ENTER_KEY = `Enter`;
 
+export const BAR_HEIGHT = 50;
+
 export const FilterType = {
   ALL: `All`,
   WATCHLIST: `Watchlist`,
   HISTORY: `History`,
   FAVORITES: `Favorites`
+};
+
+export const StatsSortType = {
+  ALL: `all-time`,
+  TODAY: `today`,
+  WEEK: `week`,
+  MONTH: `month`,
+  YEAR: `year`,
 };
 
 export const SortType = {

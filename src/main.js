@@ -15,20 +15,20 @@ const footerStatistics = footer.querySelector(`.footer__statistics`);
 
 const generatedFilms = generateFilms(TOTAL_NUMBER_OF_CARDS);
 
+
 const filmsModel = new FilmsModel();
 filmsModel.setFilms(generatedFilms);
 
 render(header, new ProfileComponent(), RenderPosition.BEFOREEND);
-render(footerStatistics, new StatisticsComponent(), RenderPosition.BEFOREEND);
 
-const filterController = new FilterController(main, filmsModel);
-filterController.render();
+render(footerStatistics, new StatisticsComponent(), RenderPosition.BEFOREEND);
 
 const filmComponent = new FilmComponent(generatedFilms.length === 0);
 render(main, filmComponent, RenderPosition.BEFOREEND);
 
 const pageController = new PageControllerComponent(filmComponent, filmsModel);
-
 pageController.render(generatedFilms);
 
+const filterController = new FilterController(main, filmsModel, pageController);
+filterController.render();
 
