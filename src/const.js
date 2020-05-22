@@ -15,6 +15,12 @@ export const ENTER_KEY = `Enter`;
 
 export const BAR_HEIGHT = 50;
 
+export const DurationTime = {
+  MINUTES_IN_HOUR: 60,
+  SECONDS_IN_MINUTE: 60,
+  MILESECS_IN_SECOND: 1000
+};
+
 export const FilterType = {
   ALL: `All`,
   WATCHLIST: `Watchlist`,

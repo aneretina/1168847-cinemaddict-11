@@ -1,6 +1,5 @@
 import moment from "moment";
-
-export const MINUTES_IN_HOUR = 60;
+import {DurationTime} from "../const.js";
 
 export const getRandomNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
@@ -12,10 +11,10 @@ export const getRandomItem = (arr) => {
 };
 
 export const getRandomDuration = (duration) => {
-  const hours = `${Math.floor(duration / MINUTES_IN_HOUR)}`;
-  const minutes = `${duration % MINUTES_IN_HOUR}`;
+  const hours = `${Math.floor(duration / DurationTime.MINUTES_IN_HOUR)}`;
+  const minutes = `${duration % DurationTime.MINUTES_IN_HOUR}`;
 
-  return (hours * MINUTES_IN_HOUR * 60 + minutes * 60) * 1000;
+  return (hours * DurationTime.MINUTES_IN_HOUR * DurationTime.SECONDS_IN_MINUTE + minutes * DurationTime.MINUTES_IN_HOUR) * DurationTime.MILESECS_IN_SECOND;
 };
 
 export const getRandomDate = (start, end) => {

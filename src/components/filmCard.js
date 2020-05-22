@@ -15,7 +15,7 @@ const createControlsTemplate = (control) => {
 const createFilmCardTemplate = (film) => {
   const {id, title, poster, description, comments, rating, year, duration, genre} = film;
   const controls = createControlsTemplate(film);
-  
+  const formatedDuration = `${duration.hours()}h ${duration.minutes()}m`;
 
   return (
     `<article class="film-card" id = "${id}">
@@ -23,7 +23,7 @@ const createFilmCardTemplate = (film) => {
         <p class="film-card__rating">${rating}</p>
         <p class="film-card__info">
           <span class="film-card__year">${year.format(`DD MMMM YYYY`)}</span>
-          <span class="film-card__duration">${duration}</span>
+          <span class="film-card__duration">${formatedDuration}</span>
           <span class="film-card__genre">${genre}</span>
         </p>
         <img src=${poster} alt="${title}" class="film-card__poster">
