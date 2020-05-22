@@ -2,7 +2,7 @@ import TopRatedComponent from "../components/topRated.js";
 import MostCommentedComponent from "../components/mostCommented.js";
 import SortingComponent from '../components/sorting.js';
 import ShowMoreButtonComponent from "../components/showMoreButton.js";
-import {EXTRA_FILM_CARDS, FILM_CARDS_PER_ROW, FILM_CARDS_BY_BUTTON, SortType} from "../const.js";
+import {EXTRA_FILM_CARDS, FILM_CARDS_PER_ROW, FILM_CARDS_BY_BUTTON, SortType, Mode} from "../const.js";
 import {render, RenderPosition, remove} from "../utils/render";
 import FilmController from "./filmController";
 
@@ -38,6 +38,7 @@ const getSortedFilms = (films, sortType, from, to) => {
 export default class PageController {
   constructor(container, filmsModel) {
     this._filmsModel = filmsModel;
+    this._mode = Mode.MAIN;
 
     this._showedFilmsControllers = [];
     this._topRatedFilmsControllers = [];
@@ -192,5 +193,6 @@ export default class PageController {
   show() {
     this._container.show();
     this._sortingComponent.show();
+    this._onSortTypeChange(SortType.DEFAULT);
   }
 }

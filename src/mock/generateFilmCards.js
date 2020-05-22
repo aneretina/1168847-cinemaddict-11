@@ -5,7 +5,7 @@ import moment from "moment";
 
 const generateGenre = () => {
   const genreList = [];
-  const countGenre = getRandomNumber(1, GENRES.length);
+  const countGenre = getRandomNumber(1, 3);
   for (let i = 0; i < countGenre; i++) {
     genreList.push(getRandomItem(GENRES));
   }

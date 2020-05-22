@@ -26,12 +26,12 @@ const watchedFilms = getWatchedFilms(filmsModel.getFilms());
 
 render(header, new ProfileComponent(), RenderPosition.BEFOREEND);
 
-const statsComponent = new StatsComponent(watchedFilms);
-render(main, statsComponent, RenderPosition.BEFOREEND);
-
 render(footerStatistics, new StatisticsComponent(), RenderPosition.BEFOREEND);
 
-const filterController = new FilterController(main, filmsModel);
+const filterController = new FilterController(main, filmsModel, () => {
+  statsComponent.show();
+  pageController.hide();
+});
 filterController.render();
 
 const filmComponent = new FilmComponent(generatedFilms.length === 0);
@@ -41,4 +41,11 @@ const pageController = new PageControllerComponent(filmComponent, filmsModel);
 
 pageController.render(generatedFilms);
 
+const statsComponent = new StatsComponent(watchedFilms);
+render(main, statsComponent, RenderPosition.BEFOREEND);
+statsComponent.hide();
 
+filterController.setOnStatsClick(() => {
+  statsComponent.show();
+  pageController.hide();
+});

@@ -133,7 +133,7 @@ const getFilmsByPeriods = (films, period) => {
       dateFrom = null;
   }
 
-  let abc = films.filter((film) => {
+  return films.filter((film) => {
     const watchedDate = film.watchedDate;
 
     if (!dateFrom) {
@@ -141,11 +141,9 @@ const getFilmsByPeriods = (films, period) => {
     }
     return watchedDate.diff(dateFrom) > 0;
   });
-  console.log(abc)
-  return abc;
 };
 
-const createStatsTemplate = (watchedFilms, period) => {
+const createStatsTemplate = (watchedFilms, filmsByPeriods, period) => {
   const rank = formatRank(watchedFilms.length);
 
   const rankMarkup = rank ? createRankMarkup(rank) : ``;
@@ -155,7 +153,7 @@ const createStatsTemplate = (watchedFilms, period) => {
     return prev;
   }, moment.duration());
 
-  const topGenre = getTopGenre(watchedFilms);
+  const topGenre = getTopGenre((getFilmsByPeriods(watchedFilms, period)));
 
   return (
     `<section class="statistic">
@@ -201,7 +199,6 @@ export default class Stats extends AbstractSmartComponent {
     super();
     this._films = films;
     this._currentPeriod = StatsSortType.ALL;
-
     this._chart = null;
     this._renderChart();
 
