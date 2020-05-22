@@ -183,6 +183,8 @@ export default class PageController {
       this._refreshShowMoreButton();
       this._showMoreButtonExists = true;
     }
+
+    this._sortingComponent.setDefaultSortType();
   }
 
   hide() {
