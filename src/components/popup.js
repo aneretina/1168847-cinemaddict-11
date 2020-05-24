@@ -1,5 +1,7 @@
 import AbstractSmartComponent from "./abstractSmartComponent.js";
 import CommentComponent from "./comment.js";
+import moment from "moment";
+import {formaDuration} from "../utils/common.js";
 
 const createGenreMarkup = (genres) => {
   return genres
@@ -34,6 +36,8 @@ const createPopupTemplate = (film) => {
   const controls = createControlsTemplate(film);
   const commentComponent = new CommentComponent(comments).getTemplate();
   const genreMarkup = createGenreMarkup(genre);
+  const filmYear = moment(year).format(`DD MMMM YYYY`);
+  const filmDuration = formaDuration(duration);
 
   return (
     `<section class="film-details">
@@ -78,11 +82,11 @@ const createPopupTemplate = (film) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">${year.format(`DD MMMM YYYY`)}</td>
+                  <td class="film-details__cell">${filmYear}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
-                  <td class="film-details__cell">${duration}</td>
+                  <td class="film-details__cell">${filmDuration}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>

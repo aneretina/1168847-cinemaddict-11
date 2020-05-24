@@ -1,9 +1,11 @@
-import FilmCardComponent from "../components/filmCard";
+import FilmCardComponent from "../components/filmCard.js";
 import PopupComponent from "../components/popup.js";
 import {render, RenderPosition, replace, remove} from "../utils/render.js";
 import {ESC_KEY, ControlButton, Mode, ENTER_KEY} from "../const.js";
-import {formatCommentDate, getRandomDate} from "../utils/common";
+import {formatCommentDate, getRandomDate} from "../utils/common.js";
 import {encode} from "he";
+import CommentsModel from "../models/comment.js";
+import FilmModel from "../models/film";
 
 const body = document.querySelector(`body`);
 

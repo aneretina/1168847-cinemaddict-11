@@ -5,6 +5,7 @@ import ShowMoreButtonComponent from "../components/showMoreButton.js";
 import {EXTRA_FILM_CARDS, FILM_CARDS_PER_ROW, FILM_CARDS_BY_BUTTON, SortType, Mode} from "../const.js";
 import {render, RenderPosition, remove} from "../utils/render";
 import FilmController from "./filmController";
+import LoadingComponent from "./../components/load.js";
 
 const renderFilms = (filmsContainer, films, onDataChange, onViewChange) => {
   return films.map((film) => {
@@ -36,9 +37,10 @@ const getSortedFilms = (films, sortType, from, to) => {
 };
 
 export default class PageController {
-  constructor(container, filmsModel) {
+  constructor(container, filmsModel, api) {
     this._filmsModel = filmsModel;
     this._mode = Mode.MAIN;
+    this._api = api;
 
     this._showedFilmsControllers = [];
     this._topRatedFilmsControllers = [];
@@ -53,6 +55,7 @@ export default class PageController {
     this._mostCommentedComponent = new MostCommentedComponent();
     this._showMoreButtonComponent = new ShowMoreButtonComponent();
     this._sortingComponent = new SortingComponent();
+    this._loadingComponent = new LoadingComponent();
 
     this._showingFilmsCount = FILM_CARDS_PER_ROW;
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
@@ -131,19 +134,20 @@ export default class PageController {
   }
 
   _onDataChange(filmController, oldData, newData) {
-    const isSuccess = this._filmsModel.updateFilms(oldData.id, newData);
+    this._api.updateFilm(oldData.id, newData)
+    .then((filmModel) => {
+      const isSuccess = this._filmssModel.updateFilm(oldData.id, filmModel);
 
-    if (isSuccess) {
-      let allMovies = [].concat(this._topRatedFilmsControllers, this._mostCommentedFilmsControllers, this._showedFilmsControllers)
+      if (isSuccess) {
+        let allMovies = [].concat(this._topRatedFilmsControllers, this._mostCommentedFilmsControllers, this._showedFilmsControllers)
       .filter((movieController) => {
         return filmController.getId() === movieController.getId();
       });
-
-      allMovies.forEach((controller) => {
-        controller.render(newData);
-      });
-
-    }
+        allMovies.forEach((controller) => {
+          controller.render(newData);
+        });
+      }
+    });
   }
 
   _onViewChange() {

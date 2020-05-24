@@ -1,5 +1,6 @@
 import moment from "moment";
-import {DurationTime} from "../const.js";
+import { DurationTime } from "../const";
+
 
 export const getRandomNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
@@ -10,15 +11,23 @@ export const getRandomItem = (arr) => {
   return arr[randomIndex];
 };
 
-export const getRandomDuration = (duration) => {
-  const hours = `${Math.floor(duration / DurationTime.MINUTES_IN_HOUR)}`;
-  const minutes = `${duration % DurationTime.MINUTES_IN_HOUR}`;
 
-  return (hours * DurationTime.MINUTES_IN_HOUR * DurationTime.SECONDS_IN_MINUTE + minutes * DurationTime.MINUTES_IN_HOUR) * DurationTime.MILESECS_IN_SECOND;
+export const formaDuration = (duration) => {
+  const hours = moment.duration(duration, `minutes`).hours();
+  const minutes = moment.duration(duration, `minutes`).minutes();
+
+  return hours ? `${hours}h ${minutes}m` : `${minutes}m`;
 };
 
 export const getRandomDate = (start, end) => {
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+};
+
+export const getHours = (duration) => {
+  return Math.floor(duration / DurationTime.MINUTES_IN_HOUR);
+};
+export const getMinutes = (duration) => {
+  return duration % DurationTime.MINUTES_IN_HOUR;
 };
 
 export const formatCommentDate = (date) => {
