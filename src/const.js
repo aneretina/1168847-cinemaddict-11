@@ -15,6 +15,8 @@ export const ENTER_KEY = `Enter`;
 
 export const BAR_HEIGHT = 50;
 
+export const MAX_SIMBOLS_DESCRIPTION = 140;
+
 export const DurationTime = {
   MINUTES_IN_HOUR: 60,
   SECONDS_IN_MINUTE: 60,
@@ -59,6 +61,13 @@ export const EMOJIS = [
   `sleeping`,
   `smile`
 ];
+
+export const RankType = {
+  DEFAULT: ``,
+  NOVICE: `Novice`,
+  FAN: `Fan`,
+  MOVIE_BUFF: `Movie Buff`
+};
 
 export const FILM_TITLES = [
   `The Dance of Life`,

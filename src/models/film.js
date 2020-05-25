@@ -3,7 +3,6 @@ import moment from "moment";
 export default class FilmModel {
   constructor(data) {
     this.id = data.id;
-    this.comments = data.comments;
     this.title = data.film_info.title;
     this.originalTitle = data.film_info.alternative_title;
     this.poster = data.film_info.poster;
@@ -17,13 +16,15 @@ export default class FilmModel {
     this.country = data.film_info.release.release_country;
     this.genre = data.film_info.genre;
     this.ageLimit = data.film_info.age_rating;
-    this.addedToWatchList = data.user_details.watchlist;
-    this.markedAsWatched = data.user_details.already_watched;
-    this.isFavorite = data.user_details.favorite;
+    this.addedToWatchList = Boolean(data.user_details.watchlist);
+    this.markedAsWatched = Boolean(data.user_details.already_watched);
+    this.isFavorite = Boolean(data.user_details.favorite);
     this.watchedDate = moment(data.user_details.watching_date);
+    this.comments = data.comments;
   }
 
   toRAW() {
+
     return {
       "id": this.id,
       "comments": this.comments,
@@ -34,21 +35,21 @@ export default class FilmModel {
         "director": this.director,
         "writers": this.writers,
         "release": {
-          "date": this.releaseDate.toISOString(),
+          "date": this.year,
           "release_country": this.country,
         },
-        "runtime": this.runtime,
+        "runtime": this.duration,
         "actors": this.actors,
         "description": this.description,
         "total_rating": this.rating,
-        "genre": this.genres,
+        "genre": this.genre,
         "age_rating": this.ageLimit,
       },
       "user_details": {
-        "watchlist": this.isAddedToWatchlist,
-        "already_watched": this.isMarkAsWatched,
-        "favorite": this.isMarkAsFavorite,
-        "watching_date": this.watchingDate.toISOString(),
+        "watchlist": this.addedToWatchList,
+        "already_watched": this.markedAsWatched,
+        "favorite": this.isFavorite,
+        "watching_date": this.watchedDate,
       }
     };
   }

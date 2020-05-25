@@ -1,10 +1,10 @@
 import moment from "moment";
 import {StatsSortType, BAR_HEIGHT} from "../const.js";
-import {formatRank} from "../utils/common.js";
+import {formatRank, getHours, getMinutes} from "../utils/common.js";
 import AbstractSmartComponent from "./abstractSmartComponent.js";
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import {getHours, getMinutes} from "../utils/common.js";
+
 
 const createRankMarkup = (rank) => {
   return (

@@ -29,6 +29,7 @@ const filmComponent = new FilmComponent(filmsCount === 0);
 render(main, filmComponent, RenderPosition.BEFOREEND);
 
 const pageController = new PageControllerComponent(filmComponent, filmsModel, api);
+pageController.onLoading();
 
 const filterController = new FilterController(main, filmsModel, pageController);
 filterController.render();
