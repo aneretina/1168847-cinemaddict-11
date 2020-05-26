@@ -1,5 +1,5 @@
 import FilmModel from "./models/film.js";
-// import CommentModel from "./models/comment.js";
+import CommentsModel from "./models/comments.js";
 
 const Method = {
   GET: `GET`,
@@ -33,7 +33,7 @@ const API = class {
     return this._load({
       url: `movies/${id}`,
       method: Method.PUT,
-      body: JSON.stringify(data.toRaw()),
+      body: JSON.stringify(data.toRAW()),
       headers: new Headers({"Content-Type": `application/json`}),
     })
       .then((response) => response.json())
@@ -53,7 +53,7 @@ const API = class {
   getComments(id) {
     return this._load({url: `comments/${id}`})
       .then((response) => response.json())
-      .then(CommentModel.parseComments);
+      .then(CommentsModel.parseComments);
   }
 };
 export default API;

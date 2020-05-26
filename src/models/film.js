@@ -49,7 +49,7 @@ export default class FilmModel {
         "watchlist": this.addedToWatchList,
         "already_watched": this.markedAsWatched,
         "favorite": this.isFavorite,
-        "watching_date": this.watchedDate,
+        "watching_date": this.watchedDate.toISOString(),
       }
     };
   }

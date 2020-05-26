@@ -6,10 +6,12 @@ import {EXTRA_FILM_CARDS, FILM_CARDS_PER_ROW, FILM_CARDS_BY_BUTTON, SortType} fr
 import {render, RenderPosition, remove} from "../utils/render";
 import FilmController from "./filmController";
 import LoadingComponent from "./../components/load.js";
+import moment from "moment";
 
-const renderFilms = (filmsContainer, films, onDataChange, onViewChange) => {
+
+const renderFilms = (filmsContainer, films, onDataChange, onViewChange, api) => {
   return films.map((film) => {
-    const filmController = new FilmController(filmsContainer, onDataChange, onViewChange);
+    const filmController = new FilmController(filmsContainer, onDataChange, onViewChange, api);
 
     filmController.render(film);
 
@@ -23,7 +25,7 @@ const getSortedFilms = (films, sortType, from, to) => {
 
   switch (sortType) {
     case SortType.DATE:
-      sortedFilms = showingFilms.sort((a, b) => b.year - a.year);
+      sortedFilms = showingFilms.sort((a, b) => moment(b.year) - moment(a.year));
       break;
     case SortType.RATING:
       sortedFilms = showingFilms.sort((a, b) => b.rating - a.rating);
@@ -37,9 +39,10 @@ const getSortedFilms = (films, sortType, from, to) => {
 };
 
 export default class PageController {
-  constructor(container, filmsModel, api) {
+  constructor(container, filmsModel, commentsModel, api) {
     this._filmsModel = filmsModel;
     this._api = api;
+    this._commentsModel = commentsModel;
 
     this._showedFilmsControllers = [];
     this._topRatedFilmsControllers = [];
@@ -92,13 +95,13 @@ export default class PageController {
     render(container, this._topRatedComponent, RenderPosition.BEFOREEND);
     render(container, this._mostCommentedComponent, RenderPosition.BEFOREEND);
 
-    this._topRatedFilmsControllers = renderFilms(topRatedFilmsContainer, topRatedFilms.slice(0, EXTRA_FILM_CARDS), this._onDataChange, this._onViewChange);
+    this._topRatedFilmsControllers = renderFilms(topRatedFilmsContainer, topRatedFilms.slice(0, EXTRA_FILM_CARDS), this._onDataChange, this._onViewChange, this._api);
 
-    this._mostCommentedFilmsControllers = renderFilms(mostCommentedFilmsContainer, mostCommentedFilms.slice(0, EXTRA_FILM_CARDS), this._onDataChange, this._onViewChange);
+    this._mostCommentedFilmsControllers = renderFilms(mostCommentedFilmsContainer, mostCommentedFilms.slice(0, EXTRA_FILM_CARDS), this._onDataChange, this._onViewChange, this._api);
   }
 
   _renderFilms(films) {
-    const newFilmsControllers = renderFilms(this._filmsListContainer, films.slice(0, this._showingFilmsCount), this._onDataChange, this._onViewChange);
+    const newFilmsControllers = renderFilms(this._filmsListContainer, films.slice(0, this._showingFilmsCount), this._onDataChange, this._onViewChange, this._api);
     this._showedFilmsControllers = this._showedFilmsControllers.concat(newFilmsControllers);
   }
 
@@ -118,7 +121,7 @@ export default class PageController {
       this._showingFilmsCount = this._showingFilmsCount + FILM_CARDS_BY_BUTTON;
 
       const sortedFilms = getSortedFilms(films, this._sortingComponent.getSortType(), prevFilmsCount, this._showingFilmsCount);
-      const newFilmsControllers = renderFilms(this._filmsListContainer, sortedFilms, this._onDataChange, this._onViewChange);
+      const newFilmsControllers = renderFilms(this._filmsListContainer, sortedFilms, this._onDataChange, this._onViewChange, this._api);
       this._showedFilmsControllers = this._showedFilmsControllers.concat(newFilmsControllers);
 
       if (this._showingFilmsCount >= films.length) {
@@ -140,7 +143,7 @@ export default class PageController {
   _onDataChange(filmController, oldData, newData) {
     this._api.updateFilm(oldData.id, newData)
     .then((filmModel) => {
-      const isSuccess = this._filmssModel.updateFilm(oldData.id, filmModel);
+      const isSuccess = this._filmsModel.updateFilms(oldData.id, filmModel);
 
       if (isSuccess) {
         let allMovies = [].concat(this._topRatedFilmsControllers, this._mostCommentedFilmsControllers, this._showedFilmsControllers)
@@ -166,7 +169,7 @@ export default class PageController {
 
     this._filmsListContainer.innerHTML = ``;
 
-    const newFilmsControllers = renderFilms(this._filmsListContainer, sortedFilms, this._onDataChange, this._onViewChange);
+    const newFilmsControllers = renderFilms(this._filmsListContainer, sortedFilms, this._onDataChange, this._onViewChange, this._api);
 
     this._showedFilmsControllers = newFilmsControllers;
 
