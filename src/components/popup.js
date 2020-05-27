@@ -104,7 +104,7 @@ const createPopupTemplate = (film) => {
           <section class="film-details__controls">
             ${controls}
           </section>
-         <div class="form-details__bottom-container>
+         <div class="form-details__bottom-container">
         </div>
         </div>
       </form>

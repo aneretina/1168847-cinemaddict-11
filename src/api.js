@@ -55,5 +55,6 @@ const API = class {
       .then((response) => response.json())
       .then(CommentsModel.parseComments);
   }
+
 };
 export default API;

@@ -66,7 +66,7 @@ export default class Comment extends AbstractSmartComponent {
 
     this._currentEmoji = null;
 
-   // this._commentInputs = this.getElement().querySelector(`.film-details__comment-input`);
+    // this._commentInputs = this.getElement().querySelector(`.film-details__comment-input`);
   }
 
   getTemplate() {
@@ -101,4 +101,5 @@ export default class Comment extends AbstractSmartComponent {
   reset() {
     this._commentInputs.value = ``;
   }
+
 }

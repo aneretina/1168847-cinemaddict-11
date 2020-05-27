@@ -6,10 +6,8 @@ import {formatCommentDate, getRandomDate} from "../utils/common.js";
 import {encode} from "he";
 import FilmModel from "../models/film";
 import CommentComponent from "../components/comment.js";
-import API from "../api.js";
 
 const body = document.querySelector(`body`);
-
 
 export default class FilmController {
   constructor(container, onDataChange, onViewChange, api) {
@@ -28,6 +26,7 @@ export default class FilmController {
   }
 
   render(film) {
+    this._film = film;
     const container = this._container;
     this._id = film.id;
     const oldFilmCardComponent = this._filmCardComponent;
@@ -48,7 +47,14 @@ export default class FilmController {
       body.appendChild(this._popupComponent.getElement());
       this._mode = Mode.POPUP;
       document.addEventListener(`keydown`, this._onEscKeyDown);
-      this._getComments();
+
+      this._api.getComments(this._film.id)
+      .then((data) => {
+        console.log(this._api)
+        this._commentComponent = new CommentComponent(data);
+        const commentsContainer = this._popupComponent.getElement().querySelector(`.form-details__bottom-container`);
+        commentsContainer.appendChild(this._commentComponent.getElement());
+      });
     };
 
     this._popupComponent.setPopupCloseButtonClickHandler(() => {
@@ -100,15 +106,6 @@ export default class FilmController {
       newFilm.isFavorite = !newFilm.isFavorite;
       this._onDataChange(this, film, newFilm);
     });
-  }
-
-  _getComments() {
-    this._api.getComments(this._id)
-      .then((data) => {
-        this._commentComponent = new CommentComponent(data);
-        //this._popupComponent.getElement().querySelector(`.form-details__bottom-container`).append(this._commentComponent.getElement());
-        console.log(this._popupComponent.getElement())
-      });
   }
 
 
