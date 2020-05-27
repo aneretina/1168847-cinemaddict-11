@@ -39,10 +39,9 @@ const getSortedFilms = (films, sortType, from, to) => {
 };
 
 export default class PageController {
-  constructor(container, filmsModel, commentsModel, api) {
+  constructor(container, filmsModel, api) {
     this._filmsModel = filmsModel;
     this._api = api;
-    this._commentsModel = commentsModel;
 
     this._showedFilmsControllers = [];
     this._topRatedFilmsControllers = [];

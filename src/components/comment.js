@@ -1,4 +1,4 @@
-import AbstractComponent from "./abstractComponent.js";
+import AbstractSmartComponent from "./abstractComponent.js";
 import {EMOJIS} from "../const.js";
 
 export const createCommentsMarkup = (comments) => {
@@ -40,34 +40,65 @@ const createCommentsTemplate = (comments) => {
   const emojiMarkup = createEmojiMarkup(EMOJIS);
 
   return (
-    `<div class="form-details__bottom-container">
-            <section class="film-details__comments-wrap">
-              <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
-              <ul class="film-details__comments-list">
-                ${commentMarkup}
-              </ul>
-              <div class="film-details__new-comment">
-             <div for="add-emoji" class="film-details__add-emoji-label"></div>
+    ` <section class="film-details__comments-wrap">
+        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
+          <ul class="film-details__comments-list">
+              ${commentMarkup}
+            </ul>
+            <div class="film-details__new-comment">
+              <div for="add-emoji" class="film-details__add-emoji-label"></div>
                 <label class="film-details__comment-label">
                   <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
                 </label>
-                <div class="film-details__emoji-list">
+              <div class="film-details__emoji-list">
                   ${emojiMarkup}
-                </div>
-              </div>
-            </section>
-          </div>`
+             </div>
+            </div>
+       </section>`
   );
 };
 
 
-export default class Comment extends AbstractComponent {
+export default class Comment extends AbstractSmartComponent {
   constructor(comments) {
     super();
     this._comments = comments;
+
+    this._currentEmoji = null;
+
+   // this._commentInputs = this.getElement().querySelector(`.film-details__comment-input`);
   }
 
   getTemplate() {
     return createCommentsTemplate(this._comments);
+  }
+
+  rerender() {
+    super.rerender();
+  }
+
+  recoveryListeners() {
+
+    this.setCommentsDeleteButtonClickHandler(this._deleteCommentsButtonClickHandler);
+    this.setSendCommentHandler(this._sendCommentHandler);
+  }
+
+  setCommentsDeleteButtonClickHandler(handler) {
+    const deleteButtons = this.getElement().querySelectorAll(`.film-details__comment-delete`);
+    deleteButtons.forEach((button) => button.addEventListener(`click`, handler));
+    this._deleteCommentsButtonClickHandler = handler;
+  }
+
+  setSendCommentHandler(handler) {
+    this._commentInputs.addEventListener(`keydown`, handler);
+    this._sendCommentHandler = handler;
+  }
+
+  clearPopupEmojiContainer() {
+    this.getElement().querySelector(`.film-details__add-emoji-label`).innerHTML = ``;
+  }
+
+  reset() {
+    this._commentInputs.value = ``;
   }
 }
