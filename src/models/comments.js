@@ -1,17 +1,58 @@
 export default class CommentsModel {
-  constructor(data) {
-    this.id = data.id;
-    this.emoji = data.emotion;
-    this.date = data.date ? new Date(data.date) : null;
-    this.userName = data.author;
-    this.text = data.comment;
+  constructor() {
+    this._comments = [];
+
+    this._dataChangeHandlers = [];
   }
 
-  static parseComment(data) {
-    return new CommentsModel(data);
+  static parseComments(commentsData) {
+    const parsedComments = commentsData.map((comment) => {
+      return {
+        id: comment[`id`],
+        emoji: comment[`emoji`],
+        text: comment[`comment`],
+        userName: comment[`author`],
+        date: new Date(comment[`date`]),
+      };
+    });
+    return parsedComments;
   }
 
-  static parseComments(data) {
-    return data.map(CommentsModel.parseComment);
+  getComments() {
+    return this._comments;
+  }
+
+  setComments(comments) {
+    this._comments = Array.from(comments);
+    this._callHandlers(this._dataChangeHandlers);
+  }
+
+  removeComment(id) {
+    const index = this._comments.findIndex((it) => it.id === id);
+
+    if (index === -1) {
+      return false;
+    }
+
+    this._comments = [].concat(this._comments.slice(0, index), this._comments.slice(index + 1));
+
+    this._callHandlers(this._dataChangeHandlers);
+
+    return true;
+  }
+
+  addComment(comment) {
+    this._comments = [].concat(this._comments, comment);
+    this._callHandlers(this._dataChangeHandlers);
+
+    return true;
+  }
+
+  setDataChangeHandler(handler) {
+    this._dataChangeHandlers.push(handler);
+  }
+
+  _callHandlers(handlers) {
+    handlers.forEach((handler) => handler());
   }
 }

@@ -1,5 +1,5 @@
 import moment from "moment";
-import { DurationTime } from "../const";
+import {DurationTime} from "../const";
 
 
 export const getRandomNumber = (min, max) => {

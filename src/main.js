@@ -18,12 +18,11 @@ const footerStatistics = footer.querySelector(`.footer__statistics`);
 const api = new API(END_POINT, AUTHORIZATION);
 
 const filmsModel = new FilmsModel();
-
 const filmsCount = api.getFilms().length;
 
 render(header, new ProfileComponent(), RenderPosition.BEFOREEND);
 
-render(footerStatistics, new StatisticsComponent(), RenderPosition.BEFOREEND);
+render(footerStatistics, new StatisticsComponent(filmsModel), RenderPosition.BEFOREEND);
 
 const filmComponent = new FilmComponent(filmsCount === 0);
 render(main, filmComponent, RenderPosition.BEFOREEND);

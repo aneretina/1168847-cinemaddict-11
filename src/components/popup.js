@@ -31,10 +31,10 @@ const createControlsTemplate = (control) => {
 };
 
 
-const createPopupTemplate = (film) => {
-  const {poster, title, description, rating, duration, genre, comments, originalTitle, director, writers, actors, year, country} = film;
+const createPopupTemplate = (film, filmComments) => {
+  const {poster, title, description, rating, duration, genre, originalTitle, director, writers, actors, year, country} = film;
   const controls = createControlsTemplate(film);
-  const commentComponent = new CommentComponent(comments).getTemplate();
+  const commentComponent = new CommentComponent(filmComments).getTemplate();
   const genreMarkup = createGenreMarkup(genre);
   const filmYear = moment(year).format(`DD MMMM YYYY`);
   const filmDuration = formaDuration(duration);
@@ -114,10 +114,11 @@ const createPopupTemplate = (film) => {
 };
 
 export default class Popup extends AbstractSmartComponent {
-  constructor(film) {
+  constructor(film, comments) {
     super();
     this._film = film;
     this._currentEmoji = null;
+    this._comments = comments;
     this._controlButtonsChangeHandler = null;
     this._setCommentsEmoji();
 
@@ -125,7 +126,7 @@ export default class Popup extends AbstractSmartComponent {
   }
 
   getTemplate() {
-    return createPopupTemplate(this._film);
+    return createPopupTemplate(this._film, this._comments);
   }
 
   rerender() {
@@ -205,5 +206,11 @@ export default class Popup extends AbstractSmartComponent {
 
   reset() {
     this._commentInputs.value = ``;
+  }
+
+  setComments(commentsModel) {
+    this._comments = commentsModel;
+    this.rerender();
+
   }
 }

@@ -10,10 +10,11 @@ const body = document.querySelector(`body`);
 
 
 export default class FilmController {
-  constructor(container, onDataChange, onViewChange) {
+  constructor(container, onDataChange, onViewChange, api) {
     this._container = container;
     this._onDataChange = onDataChange;
 
+    this._api = api;
     this._popupComponent = null;
     this._filmCardComponent = null;
 
@@ -30,6 +31,8 @@ export default class FilmController {
     const oldPopupComponent = this._popupComponent;
 
     this._filmCardComponent = new FilmCardComponent(film);
+
+    this._api.getComments(film.id).then(comments)
     this._popupComponent = new PopupComponent(film);
     const popupElement = this._popupComponent.getElement();
 
