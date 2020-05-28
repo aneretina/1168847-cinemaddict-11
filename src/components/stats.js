@@ -1,9 +1,10 @@
 import moment from "moment";
 import {StatsSortType, BAR_HEIGHT} from "../const.js";
-import {formatRank} from "../utils/common.js";
+import {formatRank, getHours, getMinutes} from "../utils/common.js";
 import AbstractSmartComponent from "./abstractSmartComponent.js";
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+
 
 const createRankMarkup = (rank) => {
   return (
@@ -153,6 +154,10 @@ const createStatsTemplate = (watchedFilms, filmsByPeriods, period) => {
     return prev;
   }, moment.duration());
 
+  const hours = getHours(totalDuration);
+  const minutes = getMinutes(totalDuration);
+
+
   const topGenre = getTopGenre(filmsByPeriods);
 
   return (
@@ -179,7 +184,7 @@ const createStatsTemplate = (watchedFilms, filmsByPeriods, period) => {
     </li>
     <li class="statistic__text-item">
       <h4 class="statistic__item-title">Total duration</h4>
-      <p class="statistic__item-text">${Math.floor(totalDuration.asHours())}<span class="statistic__item-description">h</span>${totalDuration.minutes()} <span class="statistic__item-description">m</span></p>
+      <p class="statistic__item-text">${hours}<span class="statistic__item-description">h</span>${minutes} <span class="statistic__item-description">m</span></p>
     </li>
     <li class="statistic__text-item">
       <h4 class="statistic__item-title">Top genre</h4>

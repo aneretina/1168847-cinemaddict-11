@@ -67,6 +67,5 @@ export default class FilterController {
   _onDataChange() {
     this.render();
   }
-
 }
 
