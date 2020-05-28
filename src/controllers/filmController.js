@@ -35,25 +35,44 @@ export default class FilmController {
     this._filmCardComponent = new FilmCardComponent(film);
     this._popupComponent = new PopupComponent(film);
 
-    if (oldFilmCardComponent && oldPopupComponent) {
-      replace(this._filmCardComponent, oldFilmCardComponent);
-      replace(this._popupComponent, oldPopupComponent);
-      return;
-    }
-    render(container, this._filmCardComponent, RenderPosition.BEFOREEND);
-
     const renderPopup = () => {
-      // this._popupComponent.reset();
       body.appendChild(this._popupComponent.getElement());
       this._mode = Mode.POPUP;
       document.addEventListener(`keydown`, this._onEscKeyDown);
 
       this._api.getComments(this._film.id)
       .then((data) => {
-        console.log(this._api)
         this._commentComponent = new CommentComponent(data);
         const commentsContainer = this._popupComponent.getElement().querySelector(`.form-details__bottom-container`);
         commentsContainer.appendChild(this._commentComponent.getElement());
+        this._commentComponent._setCommentsEmoji();
+
+        this._commentComponent.setCommentsDeleteButtonClickHandler((evt) => {
+          evt.preventDefault();
+          const deleteCommentButton = evt.target;
+          const commentElement = deleteCommentButton.closest(`.film-details__comment`);
+          const deleteCommentId = commentElement.id;
+          const deleteComments = this._film.comments.filter((comment) => comment.id !== deleteCommentId);
+          this._onDataChange(this, this._film, Object.assign(this._film, {comments: deleteComments}));
+        });
+
+        this._commentComponent.setSendCommentHandler((evt) => {
+          if (evt.key === ENTER_KEY && (evt.ctrlKey || evt.metaKey)) {
+            const comment = {
+              id: String(new Date().getTime() + Math.random()),
+              emoji: this._commentComponent.getCurrentEmoji(),
+              text: encode(evt.target.value),
+              date: formatCommentDate(getRandomDate(new Date(2015, 0, 1), new Date())),
+            };
+
+            if (!comment) {
+              return;
+            }
+
+            const newComments = film.comments.concat(comment);
+            this._onDataChange(this, film, Object.assign(film, {comments: newComments}));
+          }
+        });
       });
     };
 
@@ -106,13 +125,20 @@ export default class FilmController {
       newFilm.isFavorite = !newFilm.isFavorite;
       this._onDataChange(this, film, newFilm);
     });
+
+    if (oldFilmCardComponent && oldPopupComponent) {
+      replace(this._filmCardComponent, oldFilmCardComponent);
+      replace(this._popupComponent, oldPopupComponent);
+      return;
+    }
+    render(container, this._filmCardComponent, RenderPosition.BEFOREEND);
   }
 
 
   _closePopup() {
     this._mode = Mode.DEFAULT;
     this._popupComponent.getElement().remove();
-    this._popupComponent.clearPopupEmojiContainer();
+    // this._popupComponent.clearPopupEmojiContainer();
     this._popupComponent.removePopupCloseButton(() => {
       this._closePopup();
     });

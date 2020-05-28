@@ -37,8 +37,26 @@ const API = class {
       headers: new Headers({"Content-Type": `application/json`}),
     })
       .then((response) => response.json())
-      .then(FilmModel.parse);
+      .then(FilmModel.parseFilm);
   }
+
+  getComments(id) {
+    return this._load({url: `comments/${id}`})
+      .then((response) => response.json())
+      .then(CommentsModel.parseComments);
+  }
+
+  createComment(id, data) {
+    return this._load({
+      url: `comments/${id}`,
+      method: Method.POST,
+      body: JSON.stringify(data.toRAW()),
+      headers: new Headers({"Content-Type": `application/json`})
+    })
+      .then((response) => response.json())
+      .then(CommentsModel.parseComments);
+  }
+
 
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {
     headers.append(`Authorization`, this._authorization);
@@ -49,12 +67,5 @@ const API = class {
         throw err;
       });
   }
-
-  getComments(id) {
-    return this._load({url: `comments/${id}`})
-      .then((response) => response.json())
-      .then(CommentsModel.parseComments);
-  }
-
 };
 export default API;
