@@ -57,7 +57,6 @@ const API = class {
       .then(CommentsModel.parseComments);
   }
 
-
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {
     headers.append(`Authorization`, this._authorization);
 
