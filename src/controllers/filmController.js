@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable max-nested-callbacks */
 import FilmCardComponent from "../components/filmCard.js";
 import PopupComponent from "../components/popup.js";
 import {render, RenderPosition, replace, remove} from "../utils/render.js";
@@ -6,6 +8,7 @@ import {formatCommentDate, getRandomDate} from "../utils/common.js";
 import {encode} from "he";
 import FilmModel from "../models/film";
 import CommentComponent from "../components/comment.js";
+import CommentsModel from "../models/comments.js";
 
 const body = document.querySelector(`body`);
 
@@ -18,6 +21,7 @@ export default class FilmController {
     this._popupComponent = null;
     this._filmCardComponent = null;
     this._commentComponent = null;
+    this._commentsModel = new CommentsModel(this._api);
 
     this._id = null;
     this._mode = Mode.DEFAULT;
@@ -29,22 +33,25 @@ export default class FilmController {
     this._film = film;
     const container = this._container;
     this._id = film.id;
+
     const oldFilmCardComponent = this._filmCardComponent;
     const oldPopupComponent = this._popupComponent;
 
     this._filmCardComponent = new FilmCardComponent(film);
     this._popupComponent = new PopupComponent(film);
+    const commentsContainer = this._popupComponent.getElement().querySelector(`.form-details__bottom-container`);
 
     const renderPopup = () => {
       body.appendChild(this._popupComponent.getElement());
       this._mode = Mode.POPUP;
       document.addEventListener(`keydown`, this._onEscKeyDown);
 
+
       this._api.getComments(this._film.id)
       .then((data) => {
-        this._commentComponent = new CommentComponent(data);
-        const commentsContainer = this._popupComponent.getElement().querySelector(`.form-details__bottom-container`);
-        commentsContainer.appendChild(this._commentComponent.getElement());
+        this._commentsModel.setComments(data);
+        this._commentComponent = new CommentComponent(this._commentsModel.getComments());
+        render(commentsContainer, this._commentComponent, RenderPosition.BEFOREEND);
         this._commentComponent._setCommentsEmoji();
 
         this._commentComponent.setCommentsDeleteButtonClickHandler((evt) => {
@@ -52,25 +59,39 @@ export default class FilmController {
           const deleteCommentButton = evt.target;
           const commentElement = deleteCommentButton.closest(`.film-details__comment`);
           const deleteCommentId = commentElement.id;
-          const deleteComments = this._film.comments.filter((comment) => comment.id !== deleteCommentId);
-          this._onDataChange(this, this._film, Object.assign(this._film, {comments: deleteComments}));
+          this._commentsModel.deleteComment(deleteCommentId)
+          .then(() => {
+            const newFilm = FilmModel.clone(film);
+            newFilm.comments = this._film.comments.filter((commentId) => {
+              return commentId !== deleteCommentId;
+            });
+            // let comments = this._commentsModel.getComments();
+            // this._commentsModel.setComments(comments.filter((comment) => {
+            // comment.id !== deleteCommentId;
+            // }));
+            this._onDataChange(this, film, newFilm);
+          });
         });
 
         this._commentComponent.setSendCommentHandler((evt) => {
           if (evt.key === ENTER_KEY && (evt.ctrlKey || evt.metaKey)) {
-            const comment = {
+            const newComment = {
               id: String(new Date().getTime() + Math.random()),
               emoji: this._commentComponent.getCurrentEmoji(),
               text: encode(evt.target.value),
               date: formatCommentDate(getRandomDate(new Date(2015, 0, 1), new Date())),
             };
 
-            if (!comment) {
+            if (!newComment) {
               return;
             }
 
-            const newComments = film.comments.concat(comment);
-            this._onDataChange(this, film, Object.assign(film, {comments: newComments}));
+            this._commentsModel.addComment(newComment, film.id)
+            .then(() => {
+              const newFilm = FilmModel.clone(film);
+              newFilm.comments = newFilm.comments.concat(newComment);
+              this._onDataChange(this, film, newFilm);
+            });
           }
         });
       });

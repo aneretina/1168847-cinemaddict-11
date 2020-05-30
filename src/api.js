@@ -47,14 +47,15 @@ const API = class {
   }
 
 
-  createComment(id, comment) {
+  createComment(comment, filmId) {
     return this._load({
-      url: `comments/${id}`,
+      url: `comments/${filmId}`,
       method: Method.POST,
       body: JSON.stringify(comment),
-      headers: new Headers({"Content-Type": `application/json`})
+      headers: new Headers({"Content-type": `application/json`})
     })
-      .then((response) => response.json());
+    .then((response) => response.json())
+    .then((CommentModel.parseUpdatedComments));
   }
 
   deleteComment(id) {

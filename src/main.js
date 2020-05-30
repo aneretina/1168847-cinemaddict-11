@@ -7,7 +7,7 @@ import FilmsModel from "./models/films";
 import FilmComponent from "./components/film.js";
 import FilterController from "./controllers/filterController";
 
-const AUTHORIZATION = `Basic hiehf999u2uuwknkfhwi`;
+const AUTHORIZATION = `Basic hiehjjvljvllwi`;
 const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 const header = document.querySelector(`.header`);
