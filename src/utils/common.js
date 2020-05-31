@@ -1,16 +1,5 @@
 import moment from "moment";
-import {DurationTime} from "../const";
-
-
-export const getRandomNumber = (min, max) => {
-  return min + Math.floor(Math.random() * (max - min));
-};
-
-export const getRandomItem = (arr) => {
-  const randomIndex = getRandomNumber(0, arr.length);
-  return arr[randomIndex];
-};
-
+import {DurationTime, RankType} from "../const";
 
 export const formaDuration = (duration) => {
   const hours = moment.duration(duration, `minutes`).hours();
@@ -31,19 +20,28 @@ export const getMinutes = (duration) => {
 };
 
 export const formatCommentDate = (date) => {
-  return moment(date).format(`DD/MM/YY hh:mm`);
-  // return moment(date).fromNow();
+  return moment(date).fromNow();
 };
 
-export const formatRank = (watchedFilmsNumber) => {
-  if (!watchedFilmsNumber) {
-    return ``;
-  } else if (watchedFilmsNumber <= 10) {
-    return `Novice`;
-  } else if (watchedFilmsNumber > 10 && watchedFilmsNumber <= 20) {
-    return `Fan`;
-  } else {
-    return `Movie Buff`;
+export const getRankType = (watchedFilmsNumber) => {
+  switch (true) {
+    case (watchedFilmsNumber >= RankType.NOVICE.from && watchedFilmsNumber <= RankType.FAN.from - 1):
+      return RankType.NOVICE.rank;
+    case (watchedFilmsNumber > RankType.FAN.from && watchedFilmsNumber <= RankType.MOVIE_BUFF.from - 1):
+      return RankType.FAN.rank;
+    case (watchedFilmsNumber > RankType.MOVIE_BUFF.from - 1):
+      return RankType.MOVIE_BUFF.rank;
+    default:
+      return ``;
   }
 };
+
+export const shake = (element, timeout) => {
+  element.style.animation = `shake ${timeout / 1000}s`;
+
+  setTimeout(() => {
+    element.style.animation = ``;
+  }, timeout);
+};
+
 

@@ -131,7 +131,6 @@ export default class Popup extends AbstractSmartComponent {
   recoveryListeners() {
     this.setControlButtonsChangeHandler(this._controlButtonsChangeHandler);
     this.setPopupCloseButtonClickHandler(this.popupCloseButtonClickHandler);
-    this.removePopupCloseButtonClickHandler(this._removeButtonHandler);
   }
 
   setControlButtonsChangeHandler(handler) {
@@ -145,11 +144,5 @@ export default class Popup extends AbstractSmartComponent {
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, handler);
 
     this.popupCloseButtonClickHandler = handler;
-  }
-
-  removePopupCloseButton(handler) {
-    this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, handler);
-
-    this.removeButtonHandler = handler;
   }
 }

@@ -10,9 +10,9 @@
     "start": "webpack-dev-server --open"
   },
   "devDependencies": {
-    "eslint": "^6.1.0",
+    "eslint": "6.1.0",
     "eslint-config-htmlacademy": "0.5.2",
-    "he": "^1.2.0",
+    "he": "1.2.0",
     "moment": "2.25.3",
     "moment-locales-webpack-plugin": "1.2.0",
     "webpack": "4.42.1",
@@ -23,9 +23,9 @@
     "node": "10"
   },
   "dependencies": {
-    "chart.js": "^2.9.3",
-    "chartjs-plugin-datalabels": "^0.7.0",
+    "chart.js": "2.9.3",
+    "chartjs-plugin-datalabels": "0.7.0",
     "moment": "2.25.3",
-    "moment-duration-format": "^2.3.2"
+    "moment-duration-format": "2.3.2"
   }
 }

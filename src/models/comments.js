@@ -1,17 +1,22 @@
-export default class Comment {
-  constructor(data) {
-    this.id = data[`id`];
-    this.text = data[`comment`];
-    this.userName = data[`author`];
-    this.date = data[`date`];
-    this.emoji = data[`emotion`];
+export default class Comments {
+  constructor(api) {
+    this._comments = [];
+    this._api = api;
   }
 
-  static parseComment(data) {
-    return new Comment(data);
+  getComments() {
+    return this._comments;
   }
 
-  static parseComments(data) {
-    return data.map(Comment.parseComment);
+  setComments(data) {
+    this._comments = data;
+  }
+
+  deleteComment(id) {
+    return this._api.deleteComment(id);
+  }
+
+  addComment(data, id) {
+    return this._api.createComment(data, id);
   }
 }
