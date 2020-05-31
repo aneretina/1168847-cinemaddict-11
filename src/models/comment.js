@@ -14,7 +14,7 @@ export default class Comment {
       "comment": this.text,
       "date": moment(this.date).toISOString(),
       "emotion": this.emoji
-    }
+    };
   }
   static parseComment(data) {
     return new Comment(data);
