@@ -17,6 +17,9 @@ export const BAR_HEIGHT = 50;
 
 export const MAX_SIMBOLS_DESCRIPTION = 140;
 
+export const TIMEOUT_DURATION = 500;
+export const SHAKE_ANIMATION_TIMEOUT = 1000;
+
 export const DurationTime = {
   MINUTES_IN_HOUR: 60,
   SECONDS_IN_MINUTE: 60,
@@ -63,10 +66,18 @@ export const EMOJIS = [
 ];
 
 export const RankType = {
-  DEFAULT: ``,
-  NOVICE: `Novice`,
-  FAN: `Fan`,
-  MOVIE_BUFF: `Movie Buff`
+  NOVICE: {
+    rank: `Novice`,
+    from: 0,
+  },
+  FAN: {
+    rank: `Fan`,
+    from: 11
+  },
+  MOVIE_BUFF: {
+    rank: `Movie Buff`,
+    from: 21
+  }
 };
 
 export const FILM_TITLES = [

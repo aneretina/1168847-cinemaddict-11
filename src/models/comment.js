@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export default class Comment {
   constructor(data) {
     this.id = data[`id`];
@@ -7,6 +9,13 @@ export default class Comment {
     this.emoji = data[`emotion`];
   }
 
+  toRaw() {
+    return {
+      "comment": this.text,
+      "date": moment(this.date).toISOString(),
+      "emotion": this.emoji
+    }
+  }
   static parseComment(data) {
     return new Comment(data);
   }

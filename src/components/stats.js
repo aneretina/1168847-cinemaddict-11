@@ -1,6 +1,6 @@
 import moment from "moment";
 import {StatsSortType, BAR_HEIGHT} from "../const.js";
-import {formatRank, getHours, getMinutes} from "../utils/common.js";
+import {getHours, getMinutes, getRankType} from "../utils/common.js";
 import AbstractSmartComponent from "./abstractSmartComponent.js";
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -145,8 +145,7 @@ const getFilmsByPeriods = (films, period) => {
 };
 
 const createStatsTemplate = (watchedFilms, filmsByPeriods, period) => {
-  const rank = formatRank(watchedFilms.length);
-
+  const rank = getRankType(watchedFilms.length);
   const rankMarkup = rank ? createRankMarkup(rank) : ``;
 
   const totalDuration = filmsByPeriods.reduce((prev, cur) => {
@@ -242,6 +241,11 @@ export default class Stats extends AbstractSmartComponent {
 
   setPeriodChangeHandler() {
     this.getElement().querySelector(`.statistic__filters`).addEventListener(`click`, (evt) => {
+
+      if (evt.target.tagName === `P`) {
+        return;
+      }
+
       this._currentPeriod = evt.target.dataset.period;
       this._filmsByPeriods = getFilmsByPeriods(this._films, this._currentPeriod);
       this.rerender();

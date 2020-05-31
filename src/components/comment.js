@@ -130,4 +130,12 @@ export default class Comment extends AbstractSmartComponent {
   getCurrentEmoji() {
     return this._currentEmoji;
   }
+
+  showErrorBorder() {
+    this.getElement().querySelector(`.film-details__comment-input`).style.border = `4px solid red`;
+  }
+
+  showNormalBorder() {
+    this.getElement().querySelector(`.film-details__comment-input`).style.border = `none`;
+  }
 }

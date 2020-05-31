@@ -1,7 +1,7 @@
 import AbstractComponent from "./abstractComponent.js";
 
 const createStatisticTemplate = (films) => {
-  const counter = films.getFilms().length;
+  const counter = films.getFilmsAll().length;
 
   return (
     `<p>${counter} movies inside</p>`

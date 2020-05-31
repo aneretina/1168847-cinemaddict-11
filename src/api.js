@@ -51,11 +51,10 @@ const API = class {
     return this._load({
       url: `comments/${filmId}`,
       method: Method.POST,
-      body: JSON.stringify(comment),
+      body: JSON.stringify(comment.toRaw()),
       headers: new Headers({"Content-type": `application/json`})
     })
-    .then((response) => response.json())
-    .then((CommentModel.parseUpdatedComments));
+    .then((response) => response.json());
   }
 
   deleteComment(id) {
