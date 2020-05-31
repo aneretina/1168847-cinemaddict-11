@@ -7,6 +7,7 @@ import {render, RenderPosition, remove} from "../utils/render";
 import FilmController from "./filmController";
 import LoadingComponent from "./../components/load.js";
 import moment from "moment";
+import StatisticsComponent from "../components/statistics.js";
 
 
 const renderFilms = (filmsContainer, films, onDataChange, onViewChange, api, filmsModel) => {
@@ -80,6 +81,10 @@ export default class PageController {
       return;
     }
 
+    const footer = document.querySelector(`.footer`);
+    const footerStatistics = footer.querySelector(`.footer__statistics`);
+
+    render(footerStatistics, new StatisticsComponent(films.length), RenderPosition.BEFOREEND);
     render(container, this._sortingComponent, RenderPosition.BEFOREBEGIN);
 
     this._renderFilms(films.slice(0, this._showingFilmsCount));

@@ -11,7 +11,7 @@ export const createUserRankHeaderProfileTemplate = (watchedFilms) => {
   );
 };
 
-export default class UserRankHeaderProfile extends AbstractComponent {
+export default class Profile extends AbstractComponent {
   constructor(filmsModel) {
     super();
     this._filmsModel = filmsModel;

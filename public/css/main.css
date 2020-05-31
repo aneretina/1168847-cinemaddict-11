@@ -872,6 +872,11 @@ button {
   text-decoration: underline;
   border: none;
 }
+
+.film-details__comment-delete:disabled:hover {
+  opacity: 1;
+}
+
 .film-details__comment-delete:hover {
   opacity: 0.7;
 }

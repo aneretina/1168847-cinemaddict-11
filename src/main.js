@@ -1,6 +1,5 @@
 import API from "./api.js";
 import ProfileComponent from "./components/profile.js";
-import StatisticsComponent from "./components/statistics.js";
 import {render, RenderPosition} from "./utils/render";
 import PageControllerComponent from "./controllers/pageController";
 import FilmsModel from "./models/films";
@@ -13,17 +12,13 @@ const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 const header = document.querySelector(`.header`);
 const main = document.querySelector(`.main`);
-const footer = document.querySelector(`.footer`);
-const footerStatistics = footer.querySelector(`.footer__statistics`);
 
 const api = new API(END_POINT, AUTHORIZATION);
 const filmsModel = new FilmsModel();
 const filmsCount = api.getFilms().length;
-const watchedFilms = getWatchedFilms(filmsModel.getFilmsAll());
 
-render(header, new ProfileComponent(watchedFilms), RenderPosition.BEFOREEND);
-
-render(footerStatistics, new StatisticsComponent(filmsModel), RenderPosition.BEFOREEND);
+// const watchedFilms = getWatchedFilms(filmsModel.getFilmsAll());
+// render(header, new ProfileComponent(watchedFilms), RenderPosition.BEFOREEND);
 
 const filmComponent = new FilmComponent(filmsCount === 0);
 render(main, filmComponent, RenderPosition.BEFOREEND);

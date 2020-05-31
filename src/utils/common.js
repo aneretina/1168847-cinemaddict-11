@@ -1,17 +1,6 @@
 import moment from "moment";
 import {DurationTime, RankType} from "../const";
 
-
-export const getRandomNumber = (min, max) => {
-  return min + Math.floor(Math.random() * (max - min));
-};
-
-export const getRandomItem = (arr) => {
-  const randomIndex = getRandomNumber(0, arr.length);
-  return arr[randomIndex];
-};
-
-
 export const formaDuration = (duration) => {
   const hours = moment.duration(duration, `minutes`).hours();
   const minutes = moment.duration(duration, `minutes`).minutes();
@@ -31,8 +20,7 @@ export const getMinutes = (duration) => {
 };
 
 export const formatCommentDate = (date) => {
-  return moment(date).format(`DD/MM/YY hh:mm`);
-  // return moment(date).fromNow();
+  return moment(date).fromNow();
 };
 
 export const getRankType = (watchedFilmsNumber) => {
