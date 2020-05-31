@@ -1,4 +1,4 @@
-import AbstractComponent from "./abstractComponent.js";
+import AbstractSmartComponent from "./abstractSmartComponent.js";
 
 const createFilmTemplate = (noFilmsExist) => {
   return (
@@ -12,11 +12,18 @@ const createFilmTemplate = (noFilmsExist) => {
   );
 };
 
-export default class Film extends AbstractComponent {
-  constructor(noFilmsExist) {
+export default class Film extends AbstractSmartComponent {
+  constructor() {
     super();
-    this.noFilmsExist = noFilmsExist;
+    this.noFilmsExist = null;
     this._showMoreButton = this.getElement().querySelector(`.films-list__show-more`);
+  }
+
+  getTemplate() {
+    return createFilmTemplate(this.noFilmsExist);
+  }
+
+  recoveryListeners() {
   }
 
   setClickShowMoreBtnHandler(handler) {
@@ -27,7 +34,9 @@ export default class Film extends AbstractComponent {
     this._showMoreButton.remove();
   }
 
-  getTemplate() {
-    return createFilmTemplate(this.noFilmsExist);
+  renderNoFilm() {
+    this._noFilmsExist = true;
+    this.rerender();
   }
+
 }

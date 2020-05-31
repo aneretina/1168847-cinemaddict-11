@@ -3,7 +3,6 @@ import {FilterType} from "../const.js";
 import {render, replace, RenderPosition} from "../utils/render.js";
 import {getFilmsByFilter, getWatchedFilms} from "../utils/filter.js";
 import StatsComponent from "../components/stats.js";
-import ProfileComponent from "../components/profile.js";
 
 export default class FilterController {
   constructor(container, filmsModel, pageController) {
@@ -50,8 +49,6 @@ export default class FilterController {
     this._statsComponent = new StatsComponent(watchedFilms);
     render(this._container, this._statsComponent, RenderPosition.BEFOREEND);
     this._statsComponent.hide();
-    // const header = document.querySelector(`.header`);
-    // render(header, new ProfileComponent(watchedFilms), RenderPosition.BEFOREEND);
   }
 
 

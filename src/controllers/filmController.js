@@ -172,7 +172,9 @@ export default class FilmController {
     if (oldFilmCardComponent && oldPopupComponent) {
       replace(this._filmCardComponent, oldFilmCardComponent);
       remove(oldPopupComponent);
-      renderPopup();
+      if (this._mode === Mode.POPUP) {
+        renderPopup();
+      }
       return;
     }
     render(container, this._filmCardComponent, RenderPosition.BEFOREEND);
@@ -210,14 +212,6 @@ export default class FilmController {
 
   getId() {
     return this._id;
-  }
-
-  shake() {
-    this._commentComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 500}s`;
-
-    setTimeout(() => {
-      this._popUpFilmDetailsComponent.getElement().style.animation = ``;
-    }, SHAKE_ANIMATION_TIMEOUT);
   }
 
   _disableFormElements(elements) {
