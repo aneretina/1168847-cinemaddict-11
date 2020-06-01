@@ -1,10 +1,10 @@
-import FilmCardComponent from "../components/filmCard.js";
+import FilmCardComponent from "../components/film-card.js";
 import PopupComponent from "../components/popup.js";
 import {render, RenderPosition, replace, remove} from "../utils/render.js";
 import {ESC_KEY, ControlButton, Mode, ENTER_KEY, SHAKE_ANIMATION_TIMEOUT} from "../const.js";
 import {getRandomDate, shake} from "../utils/common.js";
 import {encode} from "he";
-import FilmModel from "../models/film";
+import FilmModel from "../models/film.js";
 import CommentComponent from "../components/comment.js";
 import CommentsModel from "../models/comments.js";
 import Comment from "../models/comment";

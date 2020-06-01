@@ -47,6 +47,7 @@ export default class FilterController {
     const watchedFilms = getWatchedFilms(this._filmsModel.getFilms());
 
     this._statsComponent = new StatsComponent(watchedFilms);
+
     render(this._container, this._statsComponent, RenderPosition.BEFOREEND);
     this._statsComponent.hide();
   }
@@ -59,6 +60,7 @@ export default class FilterController {
     } else {
       this._pageController.show();
       this._statsComponent.hide();
+      this._filterComponent.removeActiveStats();
       this._filmsModel.setFilter(filterType);
       this._activeFilterType = filterType;
     }

@@ -1,4 +1,4 @@
-import AbstractComponent from "./abstractComponent.js";
+import AbstractComponent from "./abstract-component.js";
 import {getRankType} from "../utils/common";
 
 export const createUserRankHeaderProfileTemplate = (watchedFilms) => {

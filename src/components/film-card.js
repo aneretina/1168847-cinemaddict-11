@@ -1,4 +1,4 @@
-import AbstractComponent from "./abstractComponent.js";
+import AbstractComponent from "./abstract-component.js";
 import moment from "moment";
 import {formaDuration} from "../utils/common.js";
 import {MAX_SIMBOLS_DESCRIPTION} from "../const.js";

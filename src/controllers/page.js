@@ -1,13 +1,13 @@
-import TopRatedComponent from "../components/topRated.js";
-import MostCommentedComponent from "../components/mostCommented.js";
+import TopRatedComponent from "../components/top-rated.js";
+import MostCommentedComponent from "../components/most-commented.js";
 import SortingComponent from '../components/sorting.js';
-import ShowMoreButtonComponent from "../components/showMoreButton.js";
+import ShowMoreButtonComponent from "../components/show-more-button.js";
 import {EXTRA_FILM_CARDS, FILM_CARDS_PER_ROW, FILM_CARDS_BY_BUTTON, SortType} from "../const.js";
 import {render, RenderPosition, remove} from "../utils/render";
-import FilmController from "./filmController";
-import LoadingComponent from "./../components/load.js";
+import FilmController from "./film";
+import LoadingComponent from "../components/load.js";
 import moment from "moment";
-import StatisticsComponent from "../components/statistics.js";
+import StatisticsComponent from "../components/films-amount.js";
 
 
 const renderFilms = (filmsContainer, films, onDataChange, onViewChange, api, filmsModel) => {

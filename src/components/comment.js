@@ -1,4 +1,4 @@
-import AbstractSmartComponent from "./abstractComponent.js";
+import AbstractSmartComponent from "./abstract-component.js";
 import {EMOJIS} from "../const.js";
 import {formatCommentDate} from "../utils/common.js";
 

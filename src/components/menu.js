@@ -1,4 +1,4 @@
-import AbstractComponent from "./abstractComponent.js";
+import AbstractComponent from "./abstract-component.js";
 import {FilterType} from "../const";
 
 const createMenuItemMarkup = (filter, isChecked) => {
@@ -57,17 +57,7 @@ export default class Menu extends AbstractComponent {
     });
   }
 
-  setOnStatsClick(handler) {
-    this.getElement().querySelector(`.main-navigation__additional`)
-      .addEventListener(`click`, (evt) => {
-        evt.preventDefault();
-        if (evt.target.classList.contains(`main-navigation__additional--active`)) {
-          return;
-        }
-        this.getElement().querySelector(`.main-navigation__item--active`).classList.remove(`main-navigation__item--active`);
-        evt.target.classList.add(`main-navigation__additional--active`);
-
-        handler();
-      });
+  removeActiveStats() {
+    this.getElement().querySelector(`.main-navigation__additional`).classList.remove(`main-navigation__item--active`);
   }
 }

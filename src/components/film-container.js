@@ -1,4 +1,4 @@
-import AbstractSmartComponent from "./abstractSmartComponent.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 
 const createFilmTemplate = (noFilmsExist) => {
   return (
