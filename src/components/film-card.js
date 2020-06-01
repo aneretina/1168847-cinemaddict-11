@@ -1,6 +1,6 @@
 import AbstractComponent from "./abstract-component.js";
 import moment from "moment";
-import {formaDuration} from "../utils/common.js";
+import {formatDuration} from "../utils/common.js";
 import {MAX_SIMBOLS_DESCRIPTION} from "../const.js";
 
 const createControlsTemplate = (control) => {
@@ -19,7 +19,7 @@ const createFilmCardTemplate = (film) => {
   const {id, title, poster, description, comments, rating, year, duration, genre} = film;
   const controls = createControlsTemplate(film);
   const filmYear = moment(year).format(`YYYY`);
-  const filmDuration = formaDuration(duration);
+  const filmDuration = formatDuration(duration);
   const slicedDescription = description.length >= MAX_SIMBOLS_DESCRIPTION ? `${description.substring(0, MAX_SIMBOLS_DESCRIPTION)}...` : description;
 
   return (

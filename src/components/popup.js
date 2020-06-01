@@ -1,6 +1,6 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import moment from "moment";
-import {formaDuration} from "../utils/common.js";
+import {formatDuration} from "../utils/common.js";
 
 const createGenreMarkup = (genres) => {
   return genres
@@ -35,7 +35,7 @@ const createPopupTemplate = (film) => {
   const controls = createControlsTemplate(film);
   const genreMarkup = createGenreMarkup(genre);
   const filmYear = moment(year).format(`DD MMMM YYYY`);
-  const filmDuration = formaDuration(duration);
+  const filmDuration = formatDuration(duration);
 
   return (
     `<section class="film-details">

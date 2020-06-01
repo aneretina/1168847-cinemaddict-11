@@ -2,7 +2,7 @@ import FilmCardComponent from "../components/film-card.js";
 import PopupComponent from "../components/popup.js";
 import {render, RenderPosition, replace, remove} from "../utils/render.js";
 import {ESC_KEY, ControlButton, Mode, ENTER_KEY, SHAKE_ANIMATION_TIMEOUT} from "../const.js";
-import {getRandomDate, shake} from "../utils/common.js";
+import {shake} from "../utils/common.js";
 import {encode} from "he";
 import FilmModel from "../models/film.js";
 import CommentComponent from "../components/comment.js";
@@ -12,9 +12,10 @@ import Comment from "../models/comment";
 const body = document.querySelector(`body`);
 
 export default class FilmController {
-  constructor(container, onDataChange, onViewChange, api) {
+  constructor(container, onDataChange, onViewChange, api, onCommentChange) {
     this._container = container;
     this._onDataChange = onDataChange;
+    this._onCommentChange = onCommentChange;
 
     this._api = api;
     this._popupComponent = null;
@@ -91,7 +92,7 @@ export default class FilmController {
               id: String(new Date().getTime() + Math.random()),
               emotion: this._commentComponent.getCurrentEmoji(),
               comment: encode(evt.target.value),
-              date: getRandomDate(new Date(2015, 0, 1), new Date()),
+              date: new Date(),
             });
 
             if (!newComment) {
@@ -185,6 +186,7 @@ export default class FilmController {
     this._mode = Mode.DEFAULT;
     this._popupComponent.getElement().remove();
     this._commentComponent.reset();
+    this._onCommentChange();
     this._popupComponent.setPopupCloseButtonClickHandler(() => {
       this._closePopup();
     });
