@@ -116,18 +116,7 @@ export default class FilmController {
           const commentElement = deleteCommentButton.closest(`.film-details__comment`);
           const deleteCommentId = commentElement.id;
           this._commentsModel.deleteComment(deleteCommentId)
-          .then(() => {
-            const newFilm = FilmModel.clone(film);
-            this._commentComponent.showNormalBorder();
-            newFilm.comments = this._film.comments.filter((commentId) => {
-              return commentId !== deleteCommentId;
-            });
-            const comments = this._commentsModel.getComments();
-            this._commentsModel.setComments(comments.filter((comment) => {
-              return comment.id !== deleteCommentId;
-            }));
-            this._onDataChange(this, film, newFilm);
-          })
+          .then(this._onDeleteComments(deleteCommentId, film))
           .catch(() => {
             deleteCommentButton.removeAttribute(`disabled`);
             shake(this._commentComponent.getElement().querySelectorAll(`.film-details__comment`), SHAKE_ANIMATION_TIMEOUT);
@@ -154,13 +143,7 @@ export default class FilmController {
 
             this._commentsModel.addComment(newComment, film.id)
             .then((response) => {
-              const newFilm = new FilmModel(response.movie);
-              this._onDataChange(this, film, newFilm);
-              this._commentComponent.showNormalBorder();
-              const newComments = response.comments.map((comment) => {
-                return new Comment(comment);
-              });
-              this._commentsModel.setComments(newComments);
+              this._onSendComments(response, film);
             })
             .catch(() => {
               this._activateFormElements(formElements);
@@ -198,6 +181,30 @@ export default class FilmController {
 
     return renderPopup();
   }
+
+  _onDeleteComments(deleteCommentId, film) {
+    const newFilm = FilmModel.clone(film);
+    this._commentComponent.showNormalBorder();
+    newFilm.comments = this._film.comments.filter((commentId) => {
+      return commentId !== deleteCommentId;
+    });
+    const comments = this._commentsModel.getComments();
+    this._commentsModel.setComments(comments.filter((comment) => {
+      return comment.id !== deleteCommentId;
+    }));
+    this._onDataChange(this, film, newFilm);
+  }
+
+  _onSendComments(response, film) {
+    const newFilm = new FilmModel(response.movie);
+    this._onDataChange(this, film, newFilm);
+    this._commentComponent.showNormalBorder();
+    const newComments = response.comments.map((comment) => {
+      return new Comment(comment);
+    });
+    this._commentsModel.setComments(newComments);
+  }
+
 
   _onEscKeyDown(evt) {
     if (evt.key === ESC_KEY) {
