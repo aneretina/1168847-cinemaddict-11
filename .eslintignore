@@ -1,2 +1,2 @@
 webpack.config.js
-film.js
+src/controllers/film.js
