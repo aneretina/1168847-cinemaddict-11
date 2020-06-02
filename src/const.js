@@ -3,21 +3,13 @@ export const EXTRA_FILM_CARDS = 2;
 export const TOTAL_NUMBER_OF_CARDS = 20;
 export const FILM_CARDS_BY_BUTTON = 5;
 
-export const ORIGINAL_TITLE = `The Great Flamarion`;
-export const DIRECTOR = `Anthony Mann`;
-export const WRITERS = `Anne Wigton, Heinz Herald, Richard Weil`;
-export const ACTORS = `Erich von Stroheim, Mary Beth Hughes, Dan Duryea`;
-export const RELEASE_DATE = `30 March 1945`;
-export const COUNTRY = `USA`;
-
 export const ESC_KEY = `Escape`;
 export const ENTER_KEY = `Enter`;
 
 export const BAR_HEIGHT = 50;
 
-export const MAX_SIMBOLS_DESCRIPTION = 140;
+export const MAX_SYMBOLS_DESCRIPTION = 140;
 
-export const TIMEOUT_DURATION = 500;
 export const SHAKE_ANIMATION_TIMEOUT = 1000;
 
 export const DurationTime = {

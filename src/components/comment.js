@@ -66,6 +66,7 @@ export default class Comment extends AbstractSmartComponent {
     super();
     this._comments = comments;
 
+    this._a = false;
     this._currentEmoji = null;
     this._setCommentsEmoji();
     this._commentInputs = this.getElement().querySelector(`.film-details__comment-input`);
@@ -91,7 +92,11 @@ export default class Comment extends AbstractSmartComponent {
   }
 
   setSendCommentHandler(handler) {
-    this._commentInputs.addEventListener(`keydown`, handler);
+    this._commentInputs.addEventListener(`keydown`, (evt) => {
+      evt.preventDefault();
+      this._a = true;
+      handler();
+    });
     this._sendCommentHandler = handler;
   }
 
@@ -108,6 +113,9 @@ export default class Comment extends AbstractSmartComponent {
     const emojiPlace = this.getElement().querySelector(`.film-details__add-emoji-label`);
 
     emojiList.addEventListener(`click`, (evt) => {
+      if (this._a) {
+        return;
+      }
       const emojiLabel = evt.target.closest(`.film-details__emoji-label img`);
       if (emojiLabel) {
         this._currentEmoji = emojiLabel.dataset.emoji;
@@ -125,6 +133,10 @@ export default class Comment extends AbstractSmartComponent {
         }
       }
     });
+  }
+
+  _disableEmoji() {
+    this.getElement().querySelector(`.film-details__emoji-list`).setAttribute(`disabled`, `true`);
   }
 
   getCurrentEmoji() {
