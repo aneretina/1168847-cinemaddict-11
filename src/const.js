@@ -1,6 +1,5 @@
 export const FILM_CARDS_PER_ROW = 5;
 export const EXTRA_FILM_CARDS = 2;
-export const TOTAL_NUMBER_OF_CARDS = 20;
 export const FILM_CARDS_BY_BUTTON = 5;
 
 export const ESC_KEY = `Escape`;

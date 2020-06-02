@@ -137,6 +137,11 @@ export default class FilmController {
 
         this._commentComponent.setSendCommentHandler((evt) => {
           if (evt.key === ENTER_KEY && (evt.ctrlKey || evt.metaKey)) {
+            if (!(this._commentComponent.getCurrentEmoji() && evt.target.value)) {
+              this._commentComponent.showErrorBorder();
+              shake(this._commentComponent.getElement(), SHAKE_ANIMATION_TIMEOUT);
+            }
+
             const formElements = this._popupComponent.getElement().querySelector(`form`)
             .querySelectorAll(`input, textarea, button`);
             const newComment = new Comment({
@@ -146,12 +151,7 @@ export default class FilmController {
               date: new Date(),
             });
 
-            if (!newComment) {
-              return;
-            }
-
             this._disableFormElements(formElements);
-            this._commentComponent._disableEmoji();
 
             this._commentsModel.addComment(newComment, film.id)
             .then((response) => {
