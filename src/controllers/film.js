@@ -112,7 +112,6 @@ export default class FilmController {
           const deleteCommentButton = evt.target;
           deleteCommentButton.innerHTML = `Deleting...`;
           deleteCommentButton.setAttribute(`disabled`, `true`);
-    
 
           const commentElement = deleteCommentButton.closest(`.film-details__comment`);
           const deleteCommentId = commentElement.id;
