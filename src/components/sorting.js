@@ -1,4 +1,4 @@
-import AbstractSmartComponent from "./abstractSmartComponent.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 import {SortType} from "../const.js";
 
 const createSortingTemplate = () => {

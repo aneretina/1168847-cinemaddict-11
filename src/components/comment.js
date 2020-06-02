@@ -1,5 +1,5 @@
-import AbstractSmartComponent from "./abstractComponent.js";
-import {EMOJIS} from "../const.js";
+import AbstractSmartComponent from "./abstract-component.js";
+import {EMOJIS, ENTER_KEY} from "../const.js";
 import {formatCommentDate} from "../utils/common.js";
 
 export const createCommentsMarkup = (comments) => {
@@ -66,6 +66,7 @@ export default class Comment extends AbstractSmartComponent {
     super();
     this._comments = comments;
 
+    this._isSendCommentPressed = false;
     this._currentEmoji = null;
     this._setCommentsEmoji();
     this._commentInputs = this.getElement().querySelector(`.film-details__comment-input`);
@@ -91,7 +92,12 @@ export default class Comment extends AbstractSmartComponent {
   }
 
   setSendCommentHandler(handler) {
-    this._commentInputs.addEventListener(`keydown`, handler);
+    this._commentInputs.addEventListener(`keydown`, (evt) => {
+      if (evt.key === ENTER_KEY && (evt.ctrlKey || evt.metaKey)) {
+        this._isSendCommentPressed = true;
+        handler(evt);
+      }
+    });
     this._sendCommentHandler = handler;
   }
 
@@ -108,6 +114,9 @@ export default class Comment extends AbstractSmartComponent {
     const emojiPlace = this.getElement().querySelector(`.film-details__add-emoji-label`);
 
     emojiList.addEventListener(`click`, (evt) => {
+      if (this._isSendCommentPressed) {
+        return;
+      }
       const emojiLabel = evt.target.closest(`.film-details__emoji-label img`);
       if (emojiLabel) {
         this._currentEmoji = emojiLabel.dataset.emoji;
@@ -125,6 +134,10 @@ export default class Comment extends AbstractSmartComponent {
         }
       }
     });
+  }
+
+  _disableEmoji() {
+    this.getElement().querySelector(`.film-details__emoji-list`).setAttribute(`disabled`, `true`);
   }
 
   getCurrentEmoji() {

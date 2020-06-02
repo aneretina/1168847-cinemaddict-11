@@ -1,4 +1,4 @@
-import AbstractComponent from "./abstractComponent.js";
+import AbstractComponent from "./abstract-component.js";
 
 const createLoadingTemplate = () => `<h2 class="films-list__title">Loading...</h2>`;
 

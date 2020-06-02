@@ -1,15 +1,11 @@
 import moment from "moment";
 import {DurationTime, RankType} from "../const";
 
-export const formaDuration = (duration) => {
+export const formatDuration = (duration) => {
   const hours = moment.duration(duration, `minutes`).hours();
   const minutes = moment.duration(duration, `minutes`).minutes();
 
   return hours ? `${hours}h ${minutes}m` : `${minutes}m`;
-};
-
-export const getRandomDate = (start, end) => {
-  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 };
 
 export const getHours = (duration) => {
