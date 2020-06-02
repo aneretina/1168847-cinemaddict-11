@@ -17,7 +17,7 @@ const createRankMarkup = (rank) => {
 };
 
 const getGenres = (watchedFilms) => {
-  let genresCount = {};
+  const genresCount = {};
 
   watchedFilms.map((film) => {
     film.genre.map((gen) => {
