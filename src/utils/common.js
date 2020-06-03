@@ -23,7 +23,7 @@ export const getRankType = (watchedFilmsNumber) => {
   switch (true) {
     case (watchedFilmsNumber >= RankType.NOVICE.from && watchedFilmsNumber <= RankType.FAN.from - 1):
       return RankType.NOVICE.rank;
-    case (watchedFilmsNumber > RankType.FAN.from && watchedFilmsNumber <= RankType.MOVIE_BUFF.from - 1):
+    case (watchedFilmsNumber >= RankType.FAN.from && watchedFilmsNumber <= RankType.MOVIE_BUFF.from - 1):
       return RankType.FAN.rank;
     case (watchedFilmsNumber > RankType.MOVIE_BUFF.from - 1):
       return RankType.MOVIE_BUFF.rank;
