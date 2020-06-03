@@ -169,6 +169,7 @@ export default class FilmController {
       if (buttonName === ControlButton.WATCHED) {
         const newFilm = FilmModel.clone(film);
         newFilm.markedAsWatched = !newFilm.markedAsWatched;
+        newFilm.watchedDate = moment();
         this._onDataChange(this, film, newFilm);
       }
 
