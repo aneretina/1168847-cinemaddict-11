@@ -8,6 +8,7 @@ import FilmModel from "../models/film.js";
 import CommentComponent from "../components/comment.js";
 import CommentsModel from "../models/comments.js";
 import Comment from "../models/comment";
+import moment from "moment";
 
 const body = document.querySelector(`body`);
 
@@ -58,6 +59,7 @@ export default class FilmController {
       evt.preventDefault();
       const newFilm = FilmModel.clone(film);
       newFilm.markedAsWatched = !newFilm.markedAsWatched;
+      newFilm.watchedDate = moment();
       this._onDataChange(this, film, newFilm);
     });
 
@@ -222,10 +224,6 @@ export default class FilmController {
     remove(this._filmCardComponent);
     remove(this._popupComponent);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
-  }
-
-  getId() {
-    return this._id;
   }
 
   _disableFormElements(elements) {

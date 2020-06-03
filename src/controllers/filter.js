@@ -44,7 +44,7 @@ export default class FilterController {
       render(container, this._filterComponent, RenderPosition.AFTERBEGIN);
     }
 
-    const watchedFilms = getWatchedFilms(this._filmsModel.getFilms());
+    const watchedFilms = getWatchedFilms(this._filmsModel.getFilmsAll());
 
     this._statsComponent = new StatsComponent(watchedFilms);
 
