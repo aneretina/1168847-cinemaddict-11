@@ -16,7 +16,7 @@ const checkStatus = (response) => {
   }
 };
 
-const Api = class {
+export default class Api {
   constructor(endPoint, authorization) {
     this._endPoint = endPoint;
     this._authorization = authorization;
@@ -70,5 +70,4 @@ const Api = class {
         throw err;
       });
   }
-};
-export default Api;
+}
