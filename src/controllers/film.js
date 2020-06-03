@@ -12,10 +12,9 @@ import Comment from "../models/comment";
 const body = document.querySelector(`body`);
 
 export default class FilmController {
-  constructor(container, onDataChange, onViewChange, api, onCommentChange) {
+  constructor(container, onDataChange, onViewChange, api) {
     this._container = container;
     this._onDataChange = onDataChange;
-    this._onCommentChange = onCommentChange;
 
     this._api = api;
     this._popupComponent = null;
@@ -84,7 +83,6 @@ export default class FilmController {
     this._mode = Mode.DEFAULT;
     this._popupComponent.getElement().remove();
     this._commentComponent.reset();
-    this._onCommentChange();
     this._popupComponent.setPopupCloseButtonClickHandler(() => {
       this._closePopup();
     });
