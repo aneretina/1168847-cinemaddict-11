@@ -46,10 +46,14 @@ export default class FilterController {
 
     const watchedFilms = getWatchedFilms(this._filmsModel.getFilmsAll());
 
+    const oldStats = this._statsComponent;
     this._statsComponent = new StatsComponent(watchedFilms);
-
-    render(this._container, this._statsComponent, RenderPosition.BEFOREEND);
-    this._statsComponent.hide();
+    if (oldStats) {
+      replace(this._statsComponent, oldStats);
+      this._statsComponent.hide();
+    } else {
+      render(this._container, this._statsComponent, RenderPosition.BEFOREEND);
+    }
   }
 
 

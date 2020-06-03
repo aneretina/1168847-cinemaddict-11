@@ -242,7 +242,7 @@ export default class Stats extends AbstractSmartComponent {
   setPeriodChangeHandler() {
     this.getElement().querySelector(`.statistic__filters`).addEventListener(`click`, (evt) => {
 
-      if (evt.target.tagName === `P`) {
+      if ((evt.target.tagName !== `INPUT`) && (evt.target.tagName !== `LABEL`)) {
         return;
       }
 
