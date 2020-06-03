@@ -145,7 +145,6 @@ export default class PageController {
   }
 
   _onSortTypeChange(sortType) {
-
     this._showingFilmsCount = FILM_CARDS_BY_BUTTON;
 
     const sortedFilms = getSortedFilms(this._filmsModel.getFilms(), sortType, 0, FILM_CARDS_BY_BUTTON);
